@@ -19,15 +19,18 @@ void system_selftest(uint8_t * cmd)
         if(flash_id != 0) {
             my_printf(DEBUG_USART, "flash............ok\r\n");
         } else {
-            my_printf(DEBUG_USART, "can not find TF card\r\n"); // 修改为新的错误信息
+            my_printf(DEBUG_USART, "flash............error\r\n");
         }
         
         // 测试TF卡
         sd_status = sd_init();
-        if(sd_status == SD_OK) {
+        if(sd_status == SD_OK) 
+        {
             tf_size = sd_card_capacity_get();
             my_printf(DEBUG_USART, "TF card............ok\r\n");
-        } else {
+        } 
+        else 
+        {
             my_printf(DEBUG_USART, "TF card............error\r\n"); // 修改为新的错误信息
             tf_size = 0;
         }
@@ -35,9 +38,16 @@ void system_selftest(uint8_t * cmd)
         // 获取Flash ID
         my_printf(DEBUG_USART, "flash ID:0x%X\r\n", flash_id);
         
-        // 获取TF卡容量
-        my_printf(DEBUG_USART, "TF card memory:%d KB\r\n", tf_size);
-        
+        // 显示TF卡状态信息
+        if(sd_status == SD_OK)
+        {
+            my_printf(DEBUG_USART, "TF card memory:%d KB\r\n", tf_size);
+        } 
+        else
+        {
+            my_printf(DEBUG_USART, "can not find TF card\r\n");
+        }
+
         // 获取RTC时间
         rtc_current_time_get(&rtc_time);
         my_printf(DEBUG_USART, "RTC:20%02x-%02x-%02x %02x:%02x:%02x\r\n", 

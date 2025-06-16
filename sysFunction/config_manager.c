@@ -6,10 +6,46 @@ static FATFS g_fs;          // 文件系统对象
 extern __IO uint8_t rx_flag;
 extern uint8_t uart_dma_buffer[512];
 
+// 自定义字符串转浮点数函数
+static float str_to_float(const char* str)
+{
+    float result = 0.0f;
+    float sign = 1.0f;
+    int i = 0;
+    
+    // 处理符号
+    if(str[i] == '-') {
+        sign = -1.0f;
+        i++;
+    } else if(str[i] == '+') {
+        i++;
+    }
+    
+    // 处理整数部分
+    while(str[i] >= '0' && str[i] <= '9') {
+        result = result * 10.0f + (str[i] - '0');
+        i++;
+    }
+    
+    // 处理小数部分
+    if(str[i] == '.') {
+        i++;
+        float decimal = 0.1f;
+        while(str[i] >= '0' && str[i] <= '9') {
+            result += (str[i] - '0') * decimal;
+            decimal *= 0.1f;
+            i++;
+        }
+    }
+    
+    return result * sign;
+}
+
 void read_config(uint8_t * cmd)
 {
     // 检查是否为conf命令
-    if(strncmp((char*)cmd, "conf", 4) == 0) {
+    if(strncmp((char*)cmd, "conf", 4) == 0) 
+    {
         FIL file;           // 文件对象
         FRESULT fr;         // FatFs返回值
         char buffer[256];   // 读取缓冲区
@@ -73,13 +109,25 @@ void read_config(uint8_t * cmd)
             }
             
             // 解析键值对
-            if(in_ratio_section && strncmp(line, "Ch0=", 4) == 0) {
-                strcpy(ratio_value, line + 4);
-                ratio_found = 1;
+            if(in_ratio_section && strncmp(line, "Ch0", 3) == 0) {
+                char* value_start = strchr(line, '=');
+                if(value_start) {
+                    // 跳过等号和空格
+                    value_start++;
+                    while(*value_start == ' ') value_start++;
+                    strcpy(ratio_value, value_start);
+                    ratio_found = 1;
+                }
             }
-            else if(in_limit_section && strncmp(line, "Ch0=", 4) == 0) {
-                strcpy(limit_value, line + 4);
-                limit_found = 1;
+            else if(in_limit_section && strncmp(line, "Ch0", 3) == 0) {
+                char* value_start = strchr(line, '=');
+                if(value_start) {
+                    // 跳过等号和空格
+                    value_start++;
+                    while(*value_start == ' ') value_start++;
+                    strcpy(limit_value, value_start);
+                    limit_found = 1;
+                }
             }
         }
         
@@ -98,17 +146,64 @@ void read_config(uint8_t * cmd)
             my_printf(DEBUG_USART, "Limit=%s\r\n", limit_value);
         }
         
-        if(ratio_found || limit_found) {
+        // 如果找到了比率和限制值，则保存到Flash
+        if(ratio_found && limit_found) {
             my_printf(DEBUG_USART, "config read success\r\n");
+            
+            // 保存到Flash
+            uint32_t addr = 0x000000; // Flash起始地址
+            uint8_t write_buffer[256] = {0};
+            uint16_t offset = 0;
+            
+            // 构建保存数据
+            strcpy((char*)write_buffer, "CONF"); // 标识符
+            offset += 4;
+            
+            // 使用自定义函数转换ratio值
+            float ratio_float = str_to_float(ratio_value);
+            
+            // 将浮点数转换为IEEE-754格式并存储
+            uint32_t ratio_bits;
+            memcpy(&ratio_bits, &ratio_float, sizeof(float));
+            write_buffer[offset++] = (ratio_bits >> 0) & 0xFF;
+            write_buffer[offset++] = (ratio_bits >> 8) & 0xFF;
+            write_buffer[offset++] = (ratio_bits >> 16) & 0xFF;
+            write_buffer[offset++] = (ratio_bits >> 24) & 0xFF;
+            
+            // 使用自定义函数转换limit值
+            float limit_float = str_to_float(limit_value);
+            
+            // 将浮点数转换为IEEE-754格式并存储
+            uint32_t limit_bits;
+            memcpy(&limit_bits, &limit_float, sizeof(float));
+            write_buffer[offset++] = (limit_bits >> 0) & 0xFF;
+            write_buffer[offset++] = (limit_bits >> 8) & 0xFF;
+            write_buffer[offset++] = (limit_bits >> 16) & 0xFF;
+            write_buffer[offset++] = (limit_bits >> 24) & 0xFF;
+            
+            // 擦除扇区
+            spi_flash_sector_erase(addr);
+            
+            // 等待擦除完成
+            spi_flash_wait_for_write_end();
+            
+            // 写入数据
+            spi_flash_buffer_write(write_buffer, addr, offset);
+            
+            my_printf(DEBUG_USART, "Parameters saved to flash\r\n");
         } else {
             my_printf(DEBUG_USART, "config.ini file format error\r\n");
         }
+        
+        // 确保在函数结束时重置接收标志和清空接收缓冲区
+        rx_flag = 0;
+        memset(uart_dma_buffer, 0, sizeof(uart_dma_buffer));
     }
 }
 
 // 函数原型声明
 static uint8_t is_valid_float(const char *str);
-static void config_value_set(const char *section_name, const char *cmd_name, uint8_t *cmd);
+static void config_value_set(const char *cmd_name, uint8_t *cmd);
 
 // 检查字符串是否为有效浮点数
 static uint8_t is_valid_float(const char *str)
@@ -138,90 +233,67 @@ static uint8_t is_valid_float(const char *str)
 }
 
 // 通用配置值设置函数
-static void config_value_set(const char *section_name, const char *cmd_name, uint8_t *cmd)
+static void config_value_set(const char *cmd_name, uint8_t *cmd)
 {
-    if(strncmp((char*)cmd, cmd_name, strlen(cmd_name)) == 0) {
-        FIL file;           // 文件对象
-        FRESULT fr;         // FatFs返回值
-        char buffer[256];   // 读取缓冲区
-        char line[256];     // 行缓冲区
+    if(strncmp((char*)cmd, cmd_name, strlen(cmd_name)) == 0) 
+    {
         char value[32] = "1.0";  // 默认值
-        uint8_t value_found = 0;     // 是否找到值
-        UINT br, bw;        // 读取和写入的字节数
-        char new_buffer[512]; // 新文件内容缓冲区
-        char input[32];     // 用户输入缓冲区
-        float value_float = 1.0f;    // 浮点值
+        float current_value = 1.0f;    // 当前值
         float new_value;    // 新的值
-        char section_header[32];     // 节名称，如"[Ratio]"
-        char section_line[32];       // 节行，如"Ch0="
-        char invalid_msg[32];        // 无效消息，如"ratioinvalid"
+        char input[32];     // 用户输入缓冲区
+        char invalid_msg[32];        // 无效消息，如"ratio invalid"
         char success_msg[32];        // 成功消息，如"ratio modified success"
+        char display_name[32];       // 显示名称，如"Ratio"
+        uint8_t is_ratio = (strcmp(cmd_name, "ratio") == 0); // 是否为ratio命令
+
+        // 设置显示名称（首字母大写）
+        strcpy(display_name, cmd_name);
+        if(display_name[0] >= 'a' && display_name[0] <= 'z') {
+            display_name[0] = display_name[0] - 'a' + 'A';  // 将首字母转为大写
+        }
         
         // 构建相关字符串
-        sprintf(section_header, "[%s]", section_name);
-        strcpy(section_line, "Ch0=");
-        sprintf(invalid_msg, "%sinvalid", cmd_name);
+        sprintf(invalid_msg, "%s invalid", cmd_name);
         sprintf(success_msg, "%s modified success", cmd_name);
         
-        // 挂载文件系统
-        fr = f_mount(0, &g_fs);
-        if(fr != FR_OK) {
-            my_printf(DEBUG_USART, "config.ini file not found.\r\n");
-            return;
-        }
+        // 从Flash读取当前值
+        uint32_t addr = 0x000000; // Flash起始地址
+        uint8_t read_buffer[256] = {0};
         
-        // 打开config.ini文件读取当前值
-        fr = f_open(&file, "0:config.ini", FA_READ);
-        if(fr != FR_OK) {
-            // 文件不存在，使用默认值
-            my_printf(DEBUG_USART, "%s=%s\r\n", cmd_name, value);
+        // 从Flash读取数据
+        spi_flash_buffer_read(read_buffer, addr, 4 + 2 * sizeof(float));
+        
+        // 检查标识符
+        if(strncmp((char*)read_buffer, "CONF", 4) != 0) {
+            my_printf(DEBUG_USART, "No valid configuration found in flash\r\n");
+            my_printf(DEBUG_USART, "%s = %s\r\n", display_name, value);
         } else {
-            // 读取文件内容
-            fr = f_read(&file, buffer, sizeof(buffer) - 1, &br);
-            if(fr == FR_OK && br > 0) {
-                buffer[br] = '\0'; // 确保字符串结束
-                
-                // 解析文件内容
-                uint8_t in_section = 0;
-                char *ptr = buffer;
-                int i = 0;
-                
-                // 逐行解析
-                while(*ptr) {
-                    // 读取一行
-                    i = 0;
-                    while(*ptr && *ptr != '\r' && *ptr != '\n') {
-                        line[i++] = *ptr++;
-                    }
-                    line[i] = '\0';
-                    
-                    // 跳过换行符
-                    if(*ptr == '\r') ptr++;
-                    if(*ptr == '\n') ptr++;
-                    
-                    // 检查是否是节名
-                    if(line[0] == '[') {
-                        in_section = (strncmp(line, section_header, strlen(section_header)) == 0);
-                        continue;
-                    }
-                    
-                    // 解析键值对
-                    if(in_section && strncmp(line, section_line, strlen(section_line)) == 0) {
-                        strcpy(value, line + strlen(section_line));
-                        value_found = 1;
-                        break;
-                    }
-                }
+            // 解析值
+            uint32_t value_bits = 0;
+            if(is_ratio) {
+                // 解析ratio值
+                value_bits |= (uint32_t)read_buffer[4] << 0;
+                value_bits |= (uint32_t)read_buffer[5] << 8;
+                value_bits |= (uint32_t)read_buffer[6] << 16;
+                value_bits |= (uint32_t)read_buffer[7] << 24;
+            } else {
+                // 解析limit值
+                value_bits |= (uint32_t)read_buffer[8] << 0;
+                value_bits |= (uint32_t)read_buffer[9] << 8;
+                value_bits |= (uint32_t)read_buffer[10] << 16;
+                value_bits |= (uint32_t)read_buffer[11] << 24;
             }
-            f_close(&file);
+            memcpy(&current_value, &value_bits, sizeof(float));
+            
+            // 格式化当前值为字符串
+            sprintf(value, "%.1f", current_value);
             
             // 输出当前值
-            my_printf(DEBUG_USART, "%s=%s\r\n", cmd_name, value);
-            value_float = atof(value);
+            my_printf(DEBUG_USART, "%s = %s\r\n", display_name, value);
         }
         
-        // 提示用户输入新值
-        my_printf(DEBUG_USART, "Input value(0~100):\r\n");
+        // 输出提示信息
+        my_printf(DEBUG_USART, "Input value(0-100):\r\n");
         
         // 等待用户输入
         rx_flag = 0;
@@ -241,156 +313,100 @@ static void config_value_set(const char *section_name, const char *cmd_name, uin
         
         // 清除接收标志
         rx_flag = 0;
+        memset(uart_dma_buffer, 0, sizeof(uart_dma_buffer));
         
         // 验证输入是否为有效浮点数且在范围内
-        new_value = atof(input);
-        if(new_value < 0.0f || new_value > 100.0f || !is_valid_float(input)) {
+        if(!is_valid_float(input)) {
             my_printf(DEBUG_USART, "%s\r\n", invalid_msg);
-            my_printf(DEBUG_USART, "%s=%s\r\n", cmd_name, value);
-            f_mount(0, NULL); // 卸载文件系统
+            my_printf(DEBUG_USART, "%s = %s\r\n", display_name, value);
             return;
         }
         
-        // 打开文件准备写入
-        fr = f_open(&file, "0:config.ini", FA_READ);
-        if(fr != FR_OK) {
-            // 文件不存在，创建新文件
-            sprintf(new_buffer, "%s\r\n%s%s\r\n", section_header, section_line, input);
-            
-            fr = f_open(&file, "0:config.ini", FA_WRITE | FA_CREATE_ALWAYS);
-            if(fr != FR_OK) {
-                my_printf(DEBUG_USART, "Failed to create config file.\r\n");
-                f_mount(0, NULL);
-                return;
-            }
-            
-            fr = f_write(&file, new_buffer, strlen(new_buffer), &bw);
-            f_close(&file);
-            
-            if(fr != FR_OK) {
-                my_printf(DEBUG_USART, "Write error.\r\n");
-                f_mount(0, NULL);
-                return;
-            }
-        } else {
-            // 文件存在，读取内容
-            fr = f_read(&file, buffer, sizeof(buffer) - 1, &br);
-            f_close(&file);
-            
-            if(fr != FR_OK) {
-                my_printf(DEBUG_USART, "Read error.\r\n");
-                f_mount(0, NULL);
-                return;
-            }
-            
-            buffer[br] = '\0';
-            
-            // 修改值
-            char *section = strstr(buffer, section_header);
-            if(section) {
-                // 找到节
-                char *ch0_line = strstr(section, section_line);
-                if(ch0_line) {
-                    // 找到Ch0行，替换值
-                    char *end_line = strstr(ch0_line, "\r\n");
-                    if(end_line) {
-                        // 构建新内容
-                        int prefix_len = ch0_line - buffer + strlen(section_line);
-                        strncpy(new_buffer, buffer, prefix_len);
-                        new_buffer[prefix_len] = '\0';
-                        strcat(new_buffer, input);
-                        strcat(new_buffer, end_line);
-                    } else {
-                        // 行尾没有换行符，可能是文件末尾
-                        int prefix_len = ch0_line - buffer + strlen(section_line);
-                        strncpy(new_buffer, buffer, prefix_len);
-                        new_buffer[prefix_len] = '\0';
-                        strcat(new_buffer, input);
-                    }
-                } else {
-                    // 没有Ch0行，添加一行
-                    char *section_end = strstr(section, "\r\n");
-                    if(section_end && section_end[2] == '[') {
-                        // 下一行是新节
-                        int prefix_len = section_end - buffer;
-                        strncpy(new_buffer, buffer, prefix_len);
-                        new_buffer[prefix_len] = '\0';
-                        strcat(new_buffer, "\r\n");
-                        strcat(new_buffer, section_line);
-                        strcat(new_buffer, input);
-                        strcat(new_buffer, section_end);
-                    } else {
-                        // 添加到节末尾
-                        strcpy(new_buffer, buffer);
-                        if(section_end) {
-                            // 节后有内容
-                            char *insert_pos = section_end + 2;
-                            char temp[512];
-                            strcpy(temp, insert_pos);
-                            *insert_pos = '\0';
-                            strcat(new_buffer, section_line);
-                            strcat(new_buffer, input);
-                            strcat(new_buffer, "\r\n");
-                            strcat(new_buffer, temp);
-                        } else {
-                            // 节是文件末尾
-                            strcat(new_buffer, "\r\n");
-                            strcat(new_buffer, section_line);
-                            strcat(new_buffer, input);
-                            strcat(new_buffer, "\r\n");
-                        }
-                    }
-                }
-            } else {
-                // 没有节，添加到文件末尾
-                strcpy(new_buffer, buffer);
-                if(buffer[0] != '\0' && buffer[strlen(buffer)-1] != '\n') {
-                    strcat(new_buffer, "\r\n");
-                }
-                strcat(new_buffer, section_header);
-                strcat(new_buffer, "\r\n");
-                strcat(new_buffer, section_line);
-                strcat(new_buffer, input);
-                strcat(new_buffer, "\r\n");
-            }
-            
-            // 写入新内容
-            fr = f_open(&file, "0:config.ini", FA_WRITE | FA_CREATE_ALWAYS);
-            if(fr != FR_OK) {
-                my_printf(DEBUG_USART, "Failed to open config file for writing.\r\n");
-                f_mount(0, NULL);
-                return;
-            }
-            
-            fr = f_write(&file, new_buffer, strlen(new_buffer), &bw);
-            f_close(&file);
-            
-            if(fr != FR_OK) {
-                my_printf(DEBUG_USART, "Write error.\r\n");
-                f_mount(0, NULL);
-                return;
-            }
+        // 转换输入为浮点数
+        new_value = str_to_float(input);
+        if(new_value < 0.0f || new_value > 100.0f) {
+            my_printf(DEBUG_USART, "%s\r\n", invalid_msg);
+            my_printf(DEBUG_USART, "%s = %s\r\n", display_name, value);
+            return;
         }
         
-        // 卸载文件系统
-        f_mount(0, NULL);
+        // 准备写入Flash
+        uint8_t write_buffer[256] = {0};
+        uint16_t offset = 0;
+        
+        // 构建保存数据
+        strcpy((char*)write_buffer, "CONF"); // 标识符
+        offset += 4;
+        
+        // 读取当前Flash内容
+        float ratio_value = current_value;
+        float limit_value = current_value;
+        
+        if(strncmp((char*)read_buffer, "CONF", 4) == 0) {
+            // 如果Flash中有有效数据，读取现有值
+            uint32_t ratio_bits = 0;
+            ratio_bits |= (uint32_t)read_buffer[4] << 0;
+            ratio_bits |= (uint32_t)read_buffer[5] << 8;
+            ratio_bits |= (uint32_t)read_buffer[6] << 16;
+            ratio_bits |= (uint32_t)read_buffer[7] << 24;
+            memcpy(&ratio_value, &ratio_bits, sizeof(float));
+            
+            uint32_t limit_bits = 0;
+            limit_bits |= (uint32_t)read_buffer[8] << 0;
+            limit_bits |= (uint32_t)read_buffer[9] << 8;
+            limit_bits |= (uint32_t)read_buffer[10] << 16;
+            limit_bits |= (uint32_t)read_buffer[11] << 24;
+            memcpy(&limit_value, &limit_bits, sizeof(float));
+        }
+        
+        // 更新要修改的值
+        if(is_ratio) {
+            ratio_value = new_value;
+        } else {
+            limit_value = new_value;
+        }
+        
+        // 保存ratio值
+        uint32_t ratio_bits;
+        memcpy(&ratio_bits, &ratio_value, sizeof(float));
+        write_buffer[offset++] = (ratio_bits >> 0) & 0xFF;
+        write_buffer[offset++] = (ratio_bits >> 8) & 0xFF;
+        write_buffer[offset++] = (ratio_bits >> 16) & 0xFF;
+        write_buffer[offset++] = (ratio_bits >> 24) & 0xFF;
+        
+        // 保存limit值
+        uint32_t limit_bits;
+        memcpy(&limit_bits, &limit_value, sizeof(float));
+        write_buffer[offset++] = (limit_bits >> 0) & 0xFF;
+        write_buffer[offset++] = (limit_bits >> 8) & 0xFF;
+        write_buffer[offset++] = (limit_bits >> 16) & 0xFF;
+        write_buffer[offset++] = (limit_bits >> 24) & 0xFF;
+        
+        // 擦除扇区
+        spi_flash_sector_erase(addr);
+        
+        // 等待擦除完成
+        spi_flash_wait_for_write_end();
+        
+        // 写入数据
+        spi_flash_buffer_write(write_buffer, addr, offset);
         
         // 输出成功信息
         my_printf(DEBUG_USART, "%s\r\n", success_msg);
-        my_printf(DEBUG_USART, "%s=%s\r\n", cmd_name, input);
+        my_printf(DEBUG_USART, "%s = %s\r\n", display_name, input);
     }
 }
 
 // Ratio设置函数
 void ratio_set(uint8_t * cmd)
 {
-    config_value_set("Ratio", "Ratio", cmd);
+    config_value_set("ratio", cmd);
 }
 
 // Limit设置函数
 void limit_set(uint8_t * cmd)
 {
-    config_value_set("Limit", "Limit", cmd);
+    config_value_set("limit", cmd);
 }
 
 // 保存配置到Flash
@@ -538,14 +554,28 @@ void config_read_flash(uint8_t * cmd)
         }
         
         // 解析ratio值
-        memcpy(&ratio_value, read_buffer + 4, sizeof(float));
+        uint32_t ratio_bits = 0;
+        ratio_bits |= (uint32_t)read_buffer[4] << 0;
+        ratio_bits |= (uint32_t)read_buffer[5] << 8;
+        ratio_bits |= (uint32_t)read_buffer[6] << 16;
+        ratio_bits |= (uint32_t)read_buffer[7] << 24;
+        memcpy(&ratio_value, &ratio_bits, sizeof(float));
         
         // 解析limit值
-        memcpy(&limit_value, read_buffer + 4 + sizeof(float), sizeof(float));
+        uint32_t limit_bits = 0;
+        limit_bits |= (uint32_t)read_buffer[8] << 0;
+        limit_bits |= (uint32_t)read_buffer[9] << 8;
+        limit_bits |= (uint32_t)read_buffer[10] << 16;
+        limit_bits |= (uint32_t)read_buffer[11] << 24;
+        memcpy(&limit_value, &limit_bits, sizeof(float));
         
         // 输出参数
         my_printf(DEBUG_USART, "ratio: %.1f\r\n", ratio_value);
         my_printf(DEBUG_USART, "limit: %.2f\r\n", limit_value);
+        
+        // 重置接收标志和清空接收缓冲区
+        rx_flag = 0;
+        memset(uart_dma_buffer, 0, sizeof(uart_dma_buffer));
     }
 }
 
