@@ -74,8 +74,8 @@ static float str_to_float(const char* str)
 
 void config_read(uint8_t * cmd)
 {
-    // 检查是否为conf命令
-    if(strncmp((char*)cmd, "conf", 4) == 0) 
+    // 检查是否为conf命令（确保是精确匹配）
+    if(strncmp((char*)cmd, "conf", 4) == 0 && (cmd[4] == '\0' || cmd[4] == '\r' || cmd[4] == '\n' || cmd[4] == ' ')) 
     {
         FIL file;           // 文件对象
         FRESULT fr;         // FatFs返回值
@@ -312,5 +312,89 @@ void limit_set(uint8_t * cmd)
 
 void config_save(uint8_t * cmd)
 {
-    
+    if(strncmp((char*)cmd, "config save", 11) == 0)
+    {
+        // 输出当前全局变量值
+        my_printf(DEBUG_USART, "ratio:%.1f\r\n", g_ratio_value);
+        my_printf(DEBUG_USART, "limit:%.2f\r\n", g_limit_value);
+        
+        // 准备写入Flash的数据
+        uint8_t write_buffer[256] = {0};
+        uint16_t offset = 0;
+        
+        // 构建保存数据
+        strcpy((char*)write_buffer, "CONF"); // 标识符
+        offset += 4;
+        
+        // 保存ratio值
+        uint32_t ratio_bits;
+        memcpy(&ratio_bits, &g_ratio_value, sizeof(float));
+        write_buffer[offset++] = (ratio_bits >> 0) & 0xFF;
+        write_buffer[offset++] = (ratio_bits >> 8) & 0xFF;
+        write_buffer[offset++] = (ratio_bits >> 16) & 0xFF;
+        write_buffer[offset++] = (ratio_bits >> 24) & 0xFF;
+        
+        // 保存limit值
+        uint32_t limit_bits;
+        memcpy(&limit_bits, &g_limit_value, sizeof(float));
+        write_buffer[offset++] = (limit_bits >> 0) & 0xFF;
+        write_buffer[offset++] = (limit_bits >> 8) & 0xFF;
+        write_buffer[offset++] = (limit_bits >> 16) & 0xFF;
+        write_buffer[offset++] = (limit_bits >> 24) & 0xFF;
+        
+        // 擦除扇区
+        uint32_t addr = 0x000000; // Flash起始地址
+        spi_flash_sector_erase(addr);
+        
+        // 等待擦除完成
+        spi_flash_wait_for_write_end();
+        
+        // 写入数据
+        spi_flash_buffer_write(write_buffer, addr, offset);
+        
+        // 输出保存成功信息
+        my_printf(DEBUG_USART, "save parameters to flash\r\n");
+    }
 }
+
+void config_read_flash(uint8_t * cmd)
+{
+    if(strncmp((char*)cmd, "config read", 11) == 0)
+    {
+        // 从Flash读取当前值到全局变量
+        uint32_t addr = 0x000000; // Flash起始地址
+        uint8_t read_buffer[256] = {0};
+        
+        // 从Flash读取数据
+        spi_flash_buffer_read(read_buffer, addr, 4 + 2 * sizeof(float));
+        
+        // 检查标识符
+        if(strncmp((char*)read_buffer, "CONF", 4) != 0) {
+            my_printf(DEBUG_USART, "No valid configuration found in flash\r\n");
+            return;
+        }
+        
+        // 解析值到全局变量
+        uint32_t ratio_bits = 0;
+        ratio_bits |= (uint32_t)read_buffer[4] << 0;
+        ratio_bits |= (uint32_t)read_buffer[5] << 8;
+        ratio_bits |= (uint32_t)read_buffer[6] << 16;
+        ratio_bits |= (uint32_t)read_buffer[7] << 24;
+        float ratio_value;
+        memcpy(&ratio_value, &ratio_bits, sizeof(float));
+        
+        uint32_t limit_bits = 0;
+        limit_bits |= (uint32_t)read_buffer[8] << 0;
+        limit_bits |= (uint32_t)read_buffer[9] << 8;
+        limit_bits |= (uint32_t)read_buffer[10] << 16;
+        limit_bits |= (uint32_t)read_buffer[11] << 24;
+        float limit_value;
+        memcpy(&limit_value, &limit_bits, sizeof(float));
+        
+        // 输出读取到的配置
+        my_printf(DEBUG_USART, "read parameters from flash\r\n");
+        my_printf(DEBUG_USART, "ratio:%.1f\r\n", ratio_value);
+        my_printf(DEBUG_USART, "limit:%.2f\r\n", limit_value);
+    }
+}
+

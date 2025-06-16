@@ -39,7 +39,7 @@ void uart_task(void)
     ratio_set(uart_dma_buffer);
     limit_set(uart_dma_buffer);
     config_save(uart_dma_buffer);
-//    config_read_flash(uart_dma_buffer);
+    config_read_flash(uart_dma_buffer);
     sampling_start_stop(uart_dma_buffer); // 处理采样控制命令
     hide_conversion(uart_dma_buffer); // 处理hide命令
     
