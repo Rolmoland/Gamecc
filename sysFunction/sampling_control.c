@@ -2,6 +2,7 @@
 
 extern uint16_t adc_value[1]; // ADC采样值 # 引用ADC采样值
 extern rtc_parameter_struct rtc_initpara; // RTC时间参数 # 引用RTC时间参数
+extern float g_ratio_value; // 从config_manager.c引入ratio全局变量 # 引入比例系数
 
 uint8_t sampling_flag = 0; // 0:停止 1:运行 # 采样状态标志
 uint32_t sampling_tick = 0; // 采样计时器计数 # 滴答定时器计数
@@ -44,12 +45,15 @@ void process_sampling(void)
 {
     if(sampling_flag == 0) return;
 
-    float voltage;
+    float voltage, adjusted_voltage;
 
     // 计算电压值 (假设ADC参考电压为3.3V，分辨率为12位)
     voltage = (float)adc_value[0] * 3.3f / 4096.0f;
+    
+    // 应用ratio系数调整电压值
+    adjusted_voltage = voltage * g_ratio_value;
 
-    // LED1每秒闪烁一次 (假设任务每10ms调用一次，100次为1秒)
+    // LED1每秒闪烁一次
     uint32_t now_time = get_system_ms();
 
     if(now_time - led_tick >= 1000)
@@ -61,20 +65,19 @@ void process_sampling(void)
     // 获取当前RTC时间
     rtc_current_time_get(&rtc_initpara);
 
-    // 在OLED上显示时间和电压
+    // 在OLED上显示时间和调整后的电压
     oled_printf(0, 0, "%02x:%02x:%02x", rtc_initpara.hour, rtc_initpara.minute, rtc_initpara.second);
-    oled_printf(0, 1, "%.2f V", voltage);
+    oled_printf(0, 1, "%.2f V", adjusted_voltage);
     
-    // 按照采样周期进行采样 (采样周期单位为秒)
+    // 按照采样周期进行采样
     if(now_time - sampling_tick >= sampling_cycle * 1000)
     {
         sampling_tick = now_time;
         
-        // 通过串口输出采样数据
+        // 通过串口输出采样数据，使用调整后的电压值
         my_printf(DEBUG_USART, "20%02x-%02x-%02x %02x:%02x:%02x ch0=%.2fV\r\n", 
                 rtc_initpara.year, rtc_initpara.month, rtc_initpara.date,
                 rtc_initpara.hour, rtc_initpara.minute, rtc_initpara.second,
-                voltage);
-    }        
-    
+                adjusted_voltage);
+    }
 }
