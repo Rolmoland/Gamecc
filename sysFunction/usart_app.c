@@ -35,11 +35,11 @@ void uart_task(void)
     
     system_selftest(uart_dma_buffer);
     time_config(uart_dma_buffer);
-    read_config(uart_dma_buffer);
+    config_read(uart_dma_buffer);
     ratio_set(uart_dma_buffer);
     limit_set(uart_dma_buffer);
     config_save(uart_dma_buffer);
-    config_read_flash(uart_dma_buffer);
+//    config_read_flash(uart_dma_buffer);
     sampling_start_stop(uart_dma_buffer); // 处理采样控制命令
     hide_conversion(uart_dma_buffer); // 处理hide命令
     
