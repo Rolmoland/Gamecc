@@ -1,0 +1,80 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: ¦ÌVision V5.40.0.0
+Copyright (C) 2024 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: 1 2206703361@qq.com, 1, LIC=03C6R-KDLR5-CXTU6-D767Z-22WWV-18L1P
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Plus  Version: 5.40.0.3
+Toolchain Path:  D:\Keil\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 6 (build 750)
+Assembler:       Armasm.exe V5.06 update 6 (build 750)
+Linker/Locator:  ArmLink.exe V5.06 update 6 (build 750)
+Library Manager: ArmAr.exe V5.06 update 6 (build 750)
+Hex Converter:   FromElf.exe V5.06 update 6 (build 750)
+CPU DLL:         SARMCM3.DLL V5.40.0.3
+Dialog DLL:      DCM.DLL V1.17.5.0
+Target DLL:      CMSIS_AGDI.dll V1.33.18.0
+Dialog DLL:      TCM.DLL V1.56.4.0
+ 
+<h2>Project:</h2>
+C:\Users\22067\Desktop\GD_Firmware_Template\MDK\Project.uvprojx
+Project File Date:  06/15/2025
+
+<h2>Output:</h2>
+*** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\Keil\ARM\ARMCC\Bin'
+Build target 'McuSTUDIO_F470VET6'
+compiling system_function.c...
+linking...
+Program Size: Code=44936 RO-data=3796 RW-data=472 ZI-data=3864  
+FromELF: creating hex file...
+After Build - User command #1: ./keil5_disp_size_bar.exe
+ram:
+  RW_IRAM1 :0x20000000
+  192.00 KB :|____________________|    2.21 % (    4.23 KB /   192.00 KB) [192272 B]
+flash:
+  ER_IROM1 :0x8000000
+  512.00 KB :|¡ö___________________|    9.29 % (   47.59 KB /   512.00 KB) [475556 B]
+".\output\Project.axf" - 0 Error(s), 0 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: ARM
+                http://www.keil.com/pack/ARM.CMSIS.5.4.0.pack
+                ARM::CMSIS@5.4.0
+                CMSIS (Cortex Microcontroller Software Interface Standard)
+   * Component: CORE Version: 5.1.2
+
+Package Vendor: GigaDevice
+                https://gd32mcu.com/data/documents/pack/GigaDevice.GD32F4xx_DFP.3.0.3.pack
+                GigaDevice::GD32F4xx_DFP@3.0.3
+                GigaDevice GD32F4xx Series Device Support and Examples
+
+Package Vendor: GorgonMeducer
+                https://raw.githubusercontent.com/GorgonMeducer/perf_counter/CMSIS-Pack/cmsis-pack/GorgonMeducer.perf_counter.2.4.0.pack
+                GorgonMeducer::perf_counter@2.4.0
+                A dedicated performance counter for the Cortex-M Systick. It shares the SysTick with users' original SysTick function without interfering with it. This library will bring new functionalities, such as performance counter, APIs for delay, clock() defined in time.h etc.
+   * Component: Core Variant: Source Version: 2.4.0
+
+<h2>Collection of Component include folders:</h2>
+  ./RTE/_McuSTUDIO_F470VET6
+  D:/Keil/Packs/ARM/CMSIS/5.4.0/CMSIS/Core/Include
+  D:/Keil/Packs/GigaDevice/GD32F4xx_DFP/3.0.3/Device/F4XX/Include
+  D:/Keil/Packs/GorgonMeducer/perf_counter/2.4.0
+
+<h2>Collection of Component Files used:</h2>
+
+   * Component: ARM::CMSIS:CORE@5.1.2
+
+   * Component: GorgonMeducer::Utilities:perf_counter:Core&Source@2.4.0
+      Source file:   systick_wrapper_ual.s
+      Source file:   perfc_port_default.c
+      Include file:  perf_counter.h
+      Source file:   perf_counter.c
+Build Time Elapsed:  00:00:03
+</pre>
+</body>
+</html>

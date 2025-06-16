@@ -1,0 +1,10 @@
+.\output\perfc_port_default.o: D:/Keil/Packs/GorgonMeducer/perf_counter/2.4.0/perfc_port_default.c
+.\output\perfc_port_default.o: .\RTE\_McuSTUDIO_F470VET6\Pre_Include_Global.h
+.\output\perfc_port_default.o: D:\Keil\ARM\ARMCC\Bin\..\include\stdint.h
+.\output\perfc_port_default.o: D:\Keil\ARM\ARMCC\Bin\..\include\stdbool.h
+.\output\perfc_port_default.o: D:\Keil\ARM\ARMCC\Bin\..\include\string.h
+.\output\perfc_port_default.o: D:\Keil\Packs\ARM\CMSIS\5.4.0\CMSIS\Core\Include\cmsis_compiler.h
+.\output\perfc_port_default.o: D:\Keil\Packs\ARM\CMSIS\5.4.0\CMSIS\Core\Include\cmsis_armcc.h
+.\output\perfc_port_default.o: D:/Keil/Packs/GorgonMeducer/perf_counter/2.4.0/perf_counter.h
+.\output\perfc_port_default.o: D:\Keil\ARM\ARMCC\Bin\..\include\stddef.h
+.\output\perfc_port_default.o: D:/Keil/Packs/GorgonMeducer/perf_counter/2.4.0/perfc_port_default.h

@@ -1,0 +1,8 @@
+{
+	"files.associations": {
+		"mcu_cmic_gd32f470vet6.h": "c",
+		"gd32f4xx_i2c.h": "c",
+		"stdint.h": "c"
+	},
+	"C_Cpp.errorSquiggles": "disabled"
+}
