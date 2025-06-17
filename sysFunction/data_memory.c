@@ -60,6 +60,8 @@ static uint8_t ensure_sd_ready(void)
         res = f_mount(0, &g_sample_fs);
         if(res != FR_OK) {
             my_printf(DEBUG_USART, "File system mount failed, error: %d\r\n", res);
+            // 文件系统挂载失败，重置SD卡状态以便下次重试
+            g_sd_initialized = 0;
             return 0;                        // 挂载失败
         } else {
             g_fs_mounted = 1;                // 标记文件系统已挂载
@@ -502,10 +504,17 @@ void log_write(const char* message)
         // 使用当前boot_count减1，因为在log_init中已经递增了
         uint32_t current_file_id = (g_boot_count > 0) ? (g_boot_count - 1) : 0;
 
+        // 保存当前的文件系统状态
+        uint8_t saved_sd_initialized = g_sd_initialized;
+        uint8_t saved_fs_mounted = g_fs_mounted;
+
         // 尝试创建日志文件
         if(create_new_log_file(current_file_id)) {
             g_log_file_opened = 1;           // 标记日志文件已打开
         } else {
+            // 恢复文件系统状态，避免影响其他文件操作
+            g_sd_initialized = saved_sd_initialized;
+            g_fs_mounted = saved_fs_mounted;
             return;                          // 重新初始化失败，放弃写入
         }
     }

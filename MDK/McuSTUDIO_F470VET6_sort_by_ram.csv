@@ -1,5 +1,5 @@
 File_name,ram_percent,ram,flash,Code,RO_data,RW_data,ZI_data
-data_memory.o,41.737034%,2768,2518,2502,0,16,2752
+data_memory.o,41.737034%,2768,2526,2510,0,16,2752
 startup_gd32f450_470.o,30.880579%,2048,492,64,428,0,2048
 mcu_cmic_gd32f470vet6.o,8.715320%,578,1578,1556,0,22,556
 usart_app.o,7.780458%,516,180,176,0,4,512
