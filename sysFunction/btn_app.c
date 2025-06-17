@@ -80,12 +80,15 @@ void prv_btn_event(struct ebtn_btn *btn, ebtn_evt_t evt)
         {
         case USER_BUTTON_0:
             sampling_flag ^= 1;
-            
+
             if(sampling_flag == 1)
             {
                 // 输出启动信息
                 my_printf(DEBUG_USART, "Periodic Sampling\r\n");
                 my_printf(DEBUG_USART, "sample cycle:%ds\r\n", sampling_cycle);
+
+                // 记录按键操作日志
+                log_write("start command (key)");
             }
             else
             {
@@ -96,6 +99,9 @@ void prv_btn_event(struct ebtn_btn *btn, ebtn_evt_t evt)
                 // 输出停止信息
                 my_printf(DEBUG_USART, "Periodic Sampling STOP\r\n");
 
+                // 记录按键操作日志
+                log_write("stop command (key)");
+
                 // OLED显示
                 oled_printf(0, 0, "system idle");
                 oled_printf(0, 1, "              ");
@@ -104,23 +110,29 @@ void prv_btn_event(struct ebtn_btn *btn, ebtn_evt_t evt)
         case USER_BUTTON_1:
             sampling_cycle = 5;
             my_printf(DEBUG_USART, "sample cycle adjust: 5s \r\n");
+            log_write("cycle 5s (key)");
             break;
         case USER_BUTTON_2:
             sampling_cycle = 10;
             my_printf(DEBUG_USART, "sample cycle adjust: 10s \r\n");
+            log_write("cycle 10s (key)");
             break;
         case USER_BUTTON_3:
             sampling_cycle = 15;
             my_printf(DEBUG_USART, "sample cycle adjust: 15s \r\n");
+            log_write("cycle 15s (key)");
             break;
         case USER_BUTTON_4:
             LED5_TOGGLE;
+            log_write("led5 toggle (key)");
             break;
         case USER_BUTTON_5:
             LED6_TOGGLE;
+            log_write("led6 toggle (key)");
             break;
         case USER_BUTTON_6:
             LED6_TOGGLE;
+            log_write("led6 toggle (key)");
             break;
         default:
             break;

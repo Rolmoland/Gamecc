@@ -82,6 +82,8 @@ void hide_conversion(uint8_t * cmd)
     
     // 检查是否为hide命令
     if(strncmp((char*)cmd, "hide", 4) == 0) {
+        // 记录人机操作日志
+        log_write("hide command");
         // 获取当前RTC时间
         rtc_current_time_get(&rtc_initpara);
         

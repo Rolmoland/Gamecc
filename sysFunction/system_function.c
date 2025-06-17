@@ -7,6 +7,8 @@ void system_selftest(uint8_t * cmd)
 {
     // 检查是否为test命令
     if(strncmp((char*)cmd, "test", 4) == 0) {
+        // 记录人机操作日志
+        log_write("test command");
         uint32_t flash_id = 0;
         uint32_t tf_size = 0;
         rtc_parameter_struct rtc_time;
@@ -67,6 +69,8 @@ void time_config(uint8_t * cmd)
     
     // 处理RTC Config命令 - 设置时间
     if(strncmp((char*)cmd, "RTC Config", 10) == 0) {
+        // 记录人机操作日志
+        log_write("rtc config command");
         // 获取当前时间作为基础
         rtc_current_time_get(&rtc_time);
         
@@ -131,6 +135,8 @@ void time_config(uint8_t * cmd)
     }
     // 处理RTC now命令 - 查询当前时间
     else if(strncmp((char*)cmd, "RTC now", 7) == 0) {
+        // 记录人机操作日志
+        log_write("rtc now command");
 
         // 获取当前RTC时间
         rtc_current_time_get(&rtc_time);

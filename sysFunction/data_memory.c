@@ -493,8 +493,7 @@ void log_init(void)
         g_log_file_opened = 1;               // 标记日志文件已打开
         my_printf(DEBUG_USART, "Log system initialized successfully\r\n");
 
-        // 记录系统启动日志
-        log_write("system initialized");
+        // 记录RTC配置日志
         log_write("rtc config");
 
         // 递增上电次数并保存到Flash

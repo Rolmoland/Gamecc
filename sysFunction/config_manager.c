@@ -75,8 +75,10 @@ static float str_to_float(const char* str)
 void config_read(uint8_t * cmd)
 {
     // 检查是否为conf命令（确保是精确匹配）
-    if(strncmp((char*)cmd, "conf", 4) == 0 && (cmd[4] == '\0' || cmd[4] == '\r' || cmd[4] == '\n' || cmd[4] == ' ')) 
+    if(strncmp((char*)cmd, "conf", 4) == 0 && (cmd[4] == '\0' || cmd[4] == '\r' || cmd[4] == '\n' || cmd[4] == ' '))
     {
+        // 记录人机操作日志
+        log_write("conf command");
         FIL file;           // 文件对象
         FRESULT fr;         // FatFs返回值
         char buffer[256];   // 读取缓冲区
@@ -187,15 +189,21 @@ void config_read(uint8_t * cmd)
 // 通用配置值设置函数
 static void config_value_set(const char *cmd_name, uint8_t *cmd)
 {
-    if(strncmp((char*)cmd, cmd_name, strlen(cmd_name)) == 0) 
+    if(strncmp((char*)cmd, cmd_name, strlen(cmd_name)) == 0)
     {
+        // 记录人机操作日志
+        uint8_t is_ratio = (strcmp(cmd_name, "ratio") == 0); // 是否为ratio命令
+        if(is_ratio) {
+            log_write("ratio command");
+        } else {
+            log_write("limit command");
+        }
         char value[32] = "1.0";  // 默认值
         float new_value;    // 新的值
         char input[32];     // 用户输入缓冲区
         char invalid_msg[32];        // 无效消息，如"ratio invalid"
         char success_msg[32];        // 成功消息，如"ratio modified success"
         char display_name[32];       // 显示名称，如"Ratio"
-        uint8_t is_ratio = (strcmp(cmd_name, "ratio") == 0); // 是否为ratio命令
         float max_value = is_ratio ? 100.0f : 500.0f;  // 根据命令类型设置最大值
 
         // 设置显示名称（首字母大写）
@@ -295,13 +303,6 @@ static void config_value_set(const char *cmd_name, uint8_t *cmd)
         // 输出成功信息
         my_printf(DEBUG_USART, "%s\r\n", success_msg);
         my_printf(DEBUG_USART, "%s = %.1f\r\n", display_name, new_value);
-
-        // 记录配置变更日志
-        if(is_ratio) {
-            log_write("ratio config");
-        } else {
-            log_write("limit config");
-        }
     }
 }
 
@@ -321,6 +322,8 @@ void config_save(uint8_t * cmd)
 {
     if(strncmp((char*)cmd, "config save", 11) == 0)
     {
+        // 记录人机操作日志
+        log_write("config save command");
         // 输出当前全局变量值
         my_printf(DEBUG_USART, "ratio:%.1f\r\n", g_ratio_value);
         my_printf(DEBUG_USART, "limit:%.2f\r\n", g_limit_value);
@@ -361,9 +364,6 @@ void config_save(uint8_t * cmd)
         
         // 输出保存成功信息
         my_printf(DEBUG_USART, "save parameters to flash\r\n");
-
-        // 记录配置保存日志
-        log_write("config saved");
     }
 }
 
@@ -371,6 +371,8 @@ void config_read_flash(uint8_t * cmd)
 {
     if(strncmp((char*)cmd, "config read", 11) == 0)
     {
+        // 记录人机操作日志
+        log_write("config read command");
         // 从Flash读取当前值到全局变量
         uint32_t addr = 0x000000; // Flash起始地址
         uint8_t read_buffer[256] = {0};
