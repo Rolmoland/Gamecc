@@ -5,6 +5,7 @@ extern uint16_t adc_value[1]; // ADC采样值 # 引用ADC采样值
 extern rtc_parameter_struct rtc_initpara; // RTC时间参数 # 引用RTC时间参数
 extern float g_ratio_value; // 从config_manager.c引入ratio全局变量 # 引入比例系数
 extern float g_limit_value; // 从config_manager.c引入limit全局变量 # 引入限制阈值
+extern uint8_t g_hide_mode; // 从data_dispose.c引入hide模式状态 # 引入隐藏模式标志
 
 uint8_t sampling_flag = 0; // 0:停止 1:运行 # 采样状态标志
 uint32_t sampling_tick = 0; // 采样计时器计数 # 滴答定时器计数
@@ -88,10 +89,16 @@ void process_sampling(void)
                 rtc_initpara.hour, rtc_initpara.minute, rtc_initpara.second,
                 adjusted_voltage);
 
-        // 保存数据到TF卡
-        save_sample_data(adjusted_voltage);
+        // 根据hide模式决定数据存储位置
+        if(g_hide_mode) {
+            // 隐藏模式：数据存储到hideData文件夹
+            save_hidedata(adjusted_voltage);
+        } else {
+            // 正常模式：数据存储到sample文件夹
+            save_sample_data(adjusted_voltage);
+        }
 
-        // 检查是否超限并保存超限数据
+        // 检查是否超限并保存超限数据（无论是否隐藏模式，都要保存未加密的超限数据）
         if(adjusted_voltage > g_limit_value) {
             my_printf(DEBUG_USART, "OVERLIMIT: %.2fV > %.2fV\r\n", adjusted_voltage, g_limit_value);
             save_overlimit_data(adjusted_voltage, g_limit_value);

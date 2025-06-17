@@ -11,6 +11,7 @@ static uint8_t g_record_count = 0;          // 当前文件记录计数 # 文件
 // 全局变量定义 # 对外可见状态
 uint8_t g_sample_record_count = 0;          // 当前文件记录计数 # 外部可访问的计数器
 uint8_t g_overlimit_record_count = 0;       // 超限文件记录计数 # 外部可访问的超限计数器
+uint8_t g_hidedata_record_count = 0;        // 隐藏文件记录计数 # 外部可访问的隐藏计数器
 static FATFS g_sample_fs;                   // 文件系统对象 # 数据存储专用文件系统
 
 // 超限数据存储静态变量 # 超限数据模块状态管理
@@ -22,6 +23,11 @@ static uint8_t g_overlimit_record_count_internal = 0; // 超限文件内部记�
 static FIL g_log_file;                       // 日志文件句柄 # FATFS日志文件对象
 static uint8_t g_log_file_opened = 0;        // 日志文件打开状态 # 0:关闭 1:打开
 static uint32_t g_boot_count = 0;            // 上电次数计数器 # 系统启动次数记录
+
+// 隐藏数据存储静态变量 # 隐藏数据模块状态管理
+static FIL g_hidedata_file;                 // 隐藏文件句柄 # FATFS隐藏文件对象
+static uint8_t g_hidedata_file_opened = 0;  // 隐藏文件打开状态 # 0:关闭 1:打开
+static uint8_t g_hidedata_record_count_internal = 0; // 隐藏文件内部记录计数 # 文件内记录数
 
 // SD卡和文件系统状态管理 # 统一的存储状态管理
 static uint8_t g_sd_initialized = 0;         // SD卡初始化状态 # 0:未初始化 1:已初始化
@@ -200,6 +206,35 @@ static uint8_t create_log_directory(void)
     }
 }
 
+// 创建hideData目录 # 隐藏目录创建函数
+static uint8_t create_hidedata_directory(void)
+{
+    FRESULT res;                             // FATFS操作结果 # 文件系统返回值
+
+    // 确保SD卡和文件系统就绪
+    if(!ensure_sd_ready()) {
+        my_printf(DEBUG_USART, "SD card not ready for hidedata directory creation\r\n");
+        return 0;                            // SD卡未就绪
+    }
+
+    // 尝试创建目录
+    res = f_mkdir(HIDEDATA_DIR_NAME);
+
+    // 检查创建结果
+    if(res == FR_OK) {
+        my_printf(DEBUG_USART, "Hidedata directory created successfully\r\n");
+        return 1;                            // 创建成功
+    }
+    else if(res == FR_EXIST) {
+        my_printf(DEBUG_USART, "Hidedata directory already exists\r\n");
+        return 1;                            // 目录已存在，视为成功
+    }
+    else {
+        my_printf(DEBUG_USART, "Failed to create hidedata directory, error: %d\r\n", res);
+        return 0;                            // 创建失败
+    }
+}
+
 // BCD码转十进制辅助函数 # BCD转换工具
 static uint8_t bcd_to_dec(uint8_t bcd)
 {
@@ -315,6 +350,37 @@ static uint8_t create_new_log_file(uint32_t boot_id)
     }
 }
 
+// 创建新的隐藏数据文件 # 隐藏文件创建函数
+static uint8_t create_new_hidedata_file(void)
+{
+    char timestamp[15];                      // 时间戳缓冲区 # 14位时间戳+结束符
+    char filename[HIDEDATA_FILENAME_MAX_LEN]; // 文件名缓冲区 # 原始文件名
+    FRESULT res;                             // FATFS操作结果 # 文件系统返回值
+
+    // 生成14位时间戳
+    generate_14digit_timestamp(timestamp);
+
+    // 构建完整文件名：hideData目录/hideData时间戳.txt
+    sprintf(filename, "%s/hideData%s.txt", HIDEDATA_DIR_NAME, timestamp);
+
+    // 创建并打开文件（总是创建新文件，覆盖同名文件）
+    res = f_open(&g_hidedata_file, filename, FA_CREATE_ALWAYS | FA_WRITE);
+
+    // 检查文件创建结果
+    if(res == FR_OK) {
+        my_printf(DEBUG_USART, "Hidedata file created: %s\r\n", filename);
+
+        // 立即同步到存储设备
+        f_sync(&g_hidedata_file);
+
+        return 1;                            // 创建成功
+    }
+    else {
+        my_printf(DEBUG_USART, "Failed to create hidedata file: %s, error: %d\r\n", filename, res);
+        return 0;                            // 创建失败
+    }
+}
+
 // 格式化采样数据 # 数据格式化函数
 static void format_sample_data(char* buffer, float voltage)
 {
@@ -334,6 +400,35 @@ static void format_sample_data(char* buffer, float voltage)
             voltage);
 }
 
+// 格式化隐藏数据 # 隐藏数据格式化函数
+static void format_hidedata(char* buffer, float voltage, uint8_t is_overlimit)
+{
+    extern rtc_parameter_struct rtc_initpara; // RTC时间参数 # 引用外部RTC参数
+    char hide_data[32];                      // 隐藏数据缓冲区 # 加密数据存储
+
+    // 获取当前RTC时间
+    rtc_current_time_get(&rtc_initpara);
+
+    // 调用hide_conversion函数进行数据加密
+    sprintf(hide_data, "%.2fV", voltage);
+    hide_conversion((uint8_t*)hide_data);
+
+    // 如果是超限数据，在加密后的内容后加*
+    if(is_overlimit) {
+        strcat(hide_data, "*");
+    }
+
+    // 格式化数据为"YYYY-MM-DD HH:MM:SS 加密数据"格式
+    sprintf(buffer, "20%02d-%02d-%02d %02d:%02d:%02d %s\r\n",
+            bcd_to_dec(rtc_initpara.year),
+            bcd_to_dec(rtc_initpara.month),
+            bcd_to_dec(rtc_initpara.date),
+            bcd_to_dec(rtc_initpara.hour),
+            bcd_to_dec(rtc_initpara.minute),
+            bcd_to_dec(rtc_initpara.second),
+            hide_data);
+}
+
 // 格式化超限数据 # 超限数据格式化函数
 static void format_overlimit_data(char* buffer, float voltage, float limit_value)
 {
@@ -342,8 +437,8 @@ static void format_overlimit_data(char* buffer, float voltage, float limit_value
     // 获取当前RTC时间
     rtc_current_time_get(&rtc_initpara);
 
-    // 格式化数据为"YYYY-MM-DD HH:MM:SS XXV limit XXV"格式
-    sprintf(buffer, "20%02d-%02d-%02d %02d:%02d:%02d %.0fV limit %.0fV\r\n",
+    // 格式化数据为"YYYY-MM-DD HH:MM:SS XX.XXV limit XX.XXV"格式
+    sprintf(buffer, "20%02d-%02d-%02d %02d:%02d:%02d %.2fV limit %.2fV\r\n",
             bcd_to_dec(rtc_initpara.year),
             bcd_to_dec(rtc_initpara.month),
             bcd_to_dec(rtc_initpara.date),
@@ -444,6 +539,27 @@ void save_sample_data(float voltage)
         } else {
             my_printf(DEBUG_USART, "Failed to write sample data\r\n");
         }
+    }
+}
+
+// 写入隐藏数据到文件 # 隐藏数据写入函数
+static uint8_t write_hidedata(const char* data)
+{
+    UINT bw;                                 // 实际写入字节数 # FATFS写入计数
+    FRESULT res;                             // FATFS操作结果 # 文件系统返回值
+
+    // 写入数据到文件，参考sd_app.c的f_write操作模式
+    res = f_write(&g_hidedata_file, data, strlen(data), &bw);
+
+    // 检查写入结果
+    if(res == FR_OK && bw == strlen(data)) {
+        // 立即同步到存储设备，确保数据持久化
+        f_sync(&g_hidedata_file);
+        return 1;                            // 写入成功
+    }
+    else {
+        my_printf(DEBUG_USART, "Failed to write hidedata, error: %d, written: %d\r\n", res, bw);
+        return 0;                            // 写入失败
     }
 }
 
@@ -608,6 +724,58 @@ void save_overlimit_data(float voltage, float limit_value)
             g_overlimit_record_count = g_overlimit_record_count_internal; // 更新全局计数器
         } else {
             my_printf(DEBUG_USART, "Failed to write overlimit data\r\n");
+        }
+    }
+}
+
+// 保存隐藏数据到TF卡 # 隐藏数据主接口函数
+void save_hidedata(float voltage)
+{
+    static uint8_t hidedata_dir_created = 0; // 隐藏目录创建标志 # 静态标志避免重复创建
+    char data_buffer[HIDEDATA_DATA_BUFFER_SIZE]; // 数据缓冲区 # 格式化数据存储
+    extern float g_limit_value;              // 引入限制值 # 用于判断是否超限
+    uint8_t is_overlimit = (voltage > g_limit_value); // 是否超限 # 超限判断
+
+    // 首次调用时创建hideData目录
+    if(!hidedata_dir_created) {
+        if(create_hidedata_directory()) {
+            hidedata_dir_created = 1;       // 标记目录已创建
+        } else {
+            my_printf(DEBUG_USART, "Failed to create hidedata directory, data not saved\r\n");
+            return;                          // 目录创建失败，退出
+        }
+    }
+
+    // 检查是否需要创建新文件（记录数达到限制或文件未打开）
+    if(g_hidedata_record_count_internal >= HIDEDATA_RECORDS_PER_FILE || !g_hidedata_file_opened) {
+        // 如果当前有文件打开，先关闭
+        if(g_hidedata_file_opened) {
+            f_close(&g_hidedata_file);
+            my_printf(DEBUG_USART, "Hidedata file closed, %d records saved\r\n", g_hidedata_record_count_internal);
+            g_hidedata_file_opened = 0;     // 更新文件状态
+        }
+
+        // 创建新文件
+        if(create_new_hidedata_file()) {
+            g_hidedata_file_opened = 1;     // 标记文件已打开
+            g_hidedata_record_count_internal = 0; // 重置记录计数
+        } else {
+            my_printf(DEBUG_USART, "Failed to create new hidedata file, data not saved\r\n");
+            return;                          // 文件创建失败，退出
+        }
+    }
+
+    // 如果文件已打开，写入数据
+    if(g_hidedata_file_opened) {
+        // 格式化数据
+        format_hidedata(data_buffer, voltage, is_overlimit);
+
+        // 写入数据到文件
+        if(write_hidedata(data_buffer)) {
+            g_hidedata_record_count_internal++; // 增加记录计数
+            g_hidedata_record_count = g_hidedata_record_count_internal; // 更新全局计数器
+        } else {
+            my_printf(DEBUG_USART, "Failed to write hidedata\r\n");
         }
     }
 }

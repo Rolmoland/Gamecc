@@ -110,8 +110,8 @@ I (..\sysFunction\scheduler.h)(0x6846DD9D)
 I (..\sysFunction\system_function.h)(0x6851097D)
 I (..\sysFunction\config_manager.h)(0x685002A8)
 I (..\sysFunction\sampling_control.h)(0x684E657F)
-I (..\sysFunction\data_dispose.h)(0x684E839E)
-I (..\sysFunction\data_memory.h)(0x68511BF2)
+I (..\sysFunction\data_dispose.h)(0x68512A59)
+I (..\sysFunction\data_memory.h)(0x685129FF)
 I (D:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0\perf_counter.h)(0x684D0904)
 I (D:\Keil\ARM\ARMCC\include\stdbool.h)(0x5D9B3486)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x5D9B3487)
@@ -224,8 +224,8 @@ I (..\sysFunction\scheduler.h)(0x6846DD9D)
 I (..\sysFunction\system_function.h)(0x6851097D)
 I (..\sysFunction\config_manager.h)(0x685002A8)
 I (..\sysFunction\sampling_control.h)(0x684E657F)
-I (..\sysFunction\data_dispose.h)(0x684E839E)
-I (..\sysFunction\data_memory.h)(0x68511BF2)
+I (..\sysFunction\data_dispose.h)(0x68512A59)
+I (..\sysFunction\data_memory.h)(0x685129FF)
 I (D:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0\perf_counter.h)(0x684D0904)
 I (D:\Keil\ARM\ARMCC\include\stdbool.h)(0x5D9B3486)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x5D9B3487)
@@ -297,8 +297,8 @@ I (..\sysFunction\scheduler.h)(0x6846DD9D)
 I (..\sysFunction\system_function.h)(0x6851097D)
 I (..\sysFunction\config_manager.h)(0x685002A8)
 I (..\sysFunction\sampling_control.h)(0x684E657F)
-I (..\sysFunction\data_dispose.h)(0x684E839E)
-I (..\sysFunction\data_memory.h)(0x68511BF2)
+I (..\sysFunction\data_dispose.h)(0x68512A59)
+I (..\sysFunction\data_memory.h)(0x685129FF)
 I (D:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0\perf_counter.h)(0x684D0904)
 I (D:\Keil\ARM\ARMCC\include\stdbool.h)(0x5D9B3486)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x5D9B3487)
@@ -1754,8 +1754,8 @@ I (..\sysFunction\scheduler.h)(0x6846DD9D)
 I (..\sysFunction\system_function.h)(0x6851097D)
 I (..\sysFunction\config_manager.h)(0x685002A8)
 I (..\sysFunction\sampling_control.h)(0x684E657F)
-I (..\sysFunction\data_dispose.h)(0x684E839E)
-I (..\sysFunction\data_memory.h)(0x68511BF2)
+I (..\sysFunction\data_dispose.h)(0x68512A59)
+I (..\sysFunction\data_memory.h)(0x685129FF)
 I (D:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0\perf_counter.h)(0x684D0904)
 I (D:\Keil\ARM\ARMCC\include\stdbool.h)(0x5D9B3486)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x5D9B3487)
@@ -1826,8 +1826,8 @@ I (..\sysFunction\scheduler.h)(0x6846DD9D)
 I (..\sysFunction\system_function.h)(0x6851097D)
 I (..\sysFunction\config_manager.h)(0x685002A8)
 I (..\sysFunction\sampling_control.h)(0x684E657F)
-I (..\sysFunction\data_dispose.h)(0x684E839E)
-I (..\sysFunction\data_memory.h)(0x68511BF2)
+I (..\sysFunction\data_dispose.h)(0x68512A59)
+I (..\sysFunction\data_memory.h)(0x685129FF)
 I (D:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0\perf_counter.h)(0x684D0904)
 I (D:\Keil\ARM\ARMCC\include\stdbool.h)(0x5D9B3486)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x5D9B3487)
@@ -1898,8 +1898,8 @@ I (..\sysFunction\scheduler.h)(0x6846DD9D)
 I (..\sysFunction\system_function.h)(0x6851097D)
 I (..\sysFunction\config_manager.h)(0x685002A8)
 I (..\sysFunction\sampling_control.h)(0x684E657F)
-I (..\sysFunction\data_dispose.h)(0x684E839E)
-I (..\sysFunction\data_memory.h)(0x68511BF2)
+I (..\sysFunction\data_dispose.h)(0x68512A59)
+I (..\sysFunction\data_memory.h)(0x685129FF)
 I (D:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0\perf_counter.h)(0x684D0904)
 I (D:\Keil\ARM\ARMCC\include\stdbool.h)(0x5D9B3486)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x5D9B3487)
@@ -1970,8 +1970,8 @@ I (..\sysFunction\scheduler.h)(0x6846DD9D)
 I (..\sysFunction\system_function.h)(0x6851097D)
 I (..\sysFunction\config_manager.h)(0x685002A8)
 I (..\sysFunction\sampling_control.h)(0x684E657F)
-I (..\sysFunction\data_dispose.h)(0x684E839E)
-I (..\sysFunction\data_memory.h)(0x68511BF2)
+I (..\sysFunction\data_dispose.h)(0x68512A59)
+I (..\sysFunction\data_memory.h)(0x685129FF)
 I (D:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0\perf_counter.h)(0x684D0904)
 I (D:\Keil\ARM\ARMCC\include\stdbool.h)(0x5D9B3486)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x5D9B3487)
@@ -2042,8 +2042,8 @@ I (..\sysFunction\scheduler.h)(0x6846DD9D)
 I (..\sysFunction\system_function.h)(0x6851097D)
 I (..\sysFunction\config_manager.h)(0x685002A8)
 I (..\sysFunction\sampling_control.h)(0x684E657F)
-I (..\sysFunction\data_dispose.h)(0x684E839E)
-I (..\sysFunction\data_memory.h)(0x68511BF2)
+I (..\sysFunction\data_dispose.h)(0x68512A59)
+I (..\sysFunction\data_memory.h)(0x685129FF)
 I (D:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0\perf_counter.h)(0x684D0904)
 I (D:\Keil\ARM\ARMCC\include\stdbool.h)(0x5D9B3486)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x5D9B3487)
@@ -2114,8 +2114,8 @@ I (..\sysFunction\scheduler.h)(0x6846DD9D)
 I (..\sysFunction\system_function.h)(0x6851097D)
 I (..\sysFunction\config_manager.h)(0x685002A8)
 I (..\sysFunction\sampling_control.h)(0x684E657F)
-I (..\sysFunction\data_dispose.h)(0x684E839E)
-I (..\sysFunction\data_memory.h)(0x68511BF2)
+I (..\sysFunction\data_dispose.h)(0x68512A59)
+I (..\sysFunction\data_memory.h)(0x685129FF)
 I (D:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0\perf_counter.h)(0x684D0904)
 I (D:\Keil\ARM\ARMCC\include\stdbool.h)(0x5D9B3486)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x5D9B3487)
@@ -2186,8 +2186,8 @@ I (..\sysFunction\scheduler.h)(0x6846DD9D)
 I (..\sysFunction\system_function.h)(0x6851097D)
 I (..\sysFunction\config_manager.h)(0x685002A8)
 I (..\sysFunction\sampling_control.h)(0x684E657F)
-I (..\sysFunction\data_dispose.h)(0x684E839E)
-I (..\sysFunction\data_memory.h)(0x68511BF2)
+I (..\sysFunction\data_dispose.h)(0x68512A59)
+I (..\sysFunction\data_memory.h)(0x685129FF)
 I (D:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0\perf_counter.h)(0x684D0904)
 I (D:\Keil\ARM\ARMCC\include\stdbool.h)(0x5D9B3486)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x5D9B3487)
@@ -2258,8 +2258,8 @@ I (..\sysFunction\scheduler.h)(0x6846DD9D)
 I (..\sysFunction\system_function.h)(0x6851097D)
 I (..\sysFunction\config_manager.h)(0x685002A8)
 I (..\sysFunction\sampling_control.h)(0x684E657F)
-I (..\sysFunction\data_dispose.h)(0x684E839E)
-I (..\sysFunction\data_memory.h)(0x68511BF2)
+I (..\sysFunction\data_dispose.h)(0x68512A59)
+I (..\sysFunction\data_memory.h)(0x685129FF)
 I (D:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0\perf_counter.h)(0x684D0904)
 I (D:\Keil\ARM\ARMCC\include\stdbool.h)(0x5D9B3486)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x5D9B3487)
@@ -2330,8 +2330,8 @@ I (..\sysFunction\scheduler.h)(0x6846DD9D)
 I (..\sysFunction\system_function.h)(0x6851097D)
 I (..\sysFunction\config_manager.h)(0x685002A8)
 I (..\sysFunction\sampling_control.h)(0x684E657F)
-I (..\sysFunction\data_dispose.h)(0x684E839E)
-I (..\sysFunction\data_memory.h)(0x68511BF2)
+I (..\sysFunction\data_dispose.h)(0x68512A59)
+I (..\sysFunction\data_memory.h)(0x685129FF)
 I (D:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0\perf_counter.h)(0x684D0904)
 I (D:\Keil\ARM\ARMCC\include\stdbool.h)(0x5D9B3486)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x5D9B3487)
@@ -2402,15 +2402,15 @@ I (..\sysFunction\scheduler.h)(0x6846DD9D)
 I (..\sysFunction\system_function.h)(0x6851097D)
 I (..\sysFunction\config_manager.h)(0x685002A8)
 I (..\sysFunction\sampling_control.h)(0x684E657F)
-I (..\sysFunction\data_dispose.h)(0x684E839E)
-I (..\sysFunction\data_memory.h)(0x68511BF2)
+I (..\sysFunction\data_dispose.h)(0x68512A59)
+I (..\sysFunction\data_memory.h)(0x685129FF)
 I (D:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0\perf_counter.h)(0x684D0904)
 I (D:\Keil\ARM\ARMCC\include\stdbool.h)(0x5D9B3486)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x5D9B3487)
 I (D:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0\perfc_port_default.h)(0x684D0904)
 I (D:\Keil\ARM\ARMCC\include\stdarg.h)(0x5D9B3488)
 I (D:\Keil\ARM\ARMCC\include\stdio.h)(0x5D9B3488)
-F (..\sysFunction\sampling_control.c)(0x685124C7)(--c99 -c --cpu Cortex-M4.fp.sp -g -O1 --apcs=interwork --split_sections -I ..\Libraries\Include -I ..\USER\inc -I ..\Driver\CMSIS\GD\GD32F4xx\Include -I ..\Components\bsp -I ..\Components\oled -I ..\Components\gd25qxx -I ..\Components\ebtn -I ..\Components\sdio -I ..\Components\fatfs -I ..\sysFunction-I.\RTE\_McuSTUDIO_F470VET6-ID:\Keil\Packs\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\Keil\Packs\GigaDevice\GD32F4xx_DFP\3.0.3\Device\F4XX\Include-ID:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0-D__UVISION_VERSION="540" -DGD32F470 -D_RTE_ -DUSE_STDPERIPH_DRIVER -DGD32F470  --preinclude="Pre_Include_Global.h"-o .\output\sampling_control.o --omf_browse .\output\sampling_control.crf --depend .\output\sampling_control.d)
+F (..\sysFunction\sampling_control.c)(0x68512B99)(--c99 -c --cpu Cortex-M4.fp.sp -g -O1 --apcs=interwork --split_sections -I ..\Libraries\Include -I ..\USER\inc -I ..\Driver\CMSIS\GD\GD32F4xx\Include -I ..\Components\bsp -I ..\Components\oled -I ..\Components\gd25qxx -I ..\Components\ebtn -I ..\Components\sdio -I ..\Components\fatfs -I ..\sysFunction-I.\RTE\_McuSTUDIO_F470VET6-ID:\Keil\Packs\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\Keil\Packs\GigaDevice\GD32F4xx_DFP\3.0.3\Device\F4XX\Include-ID:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0-D__UVISION_VERSION="540" -DGD32F470 -D_RTE_ -DUSE_STDPERIPH_DRIVER -DGD32F470  --preinclude="Pre_Include_Global.h"-o .\output\sampling_control.o --omf_browse .\output\sampling_control.crf --depend .\output\sampling_control.d)
 I (.\RTE\_McuSTUDIO_F470VET6\Pre_Include_Global.h)(0x684D0939)
 I (..\Components\bsp\mcu_cmic_gd32f470vet6.h)(0x684E2108)
 I (..\Driver\CMSIS\GD\GD32F4xx\Include\gd32f4xx.h)(0x6846DD9D)
@@ -2474,15 +2474,15 @@ I (..\sysFunction\scheduler.h)(0x6846DD9D)
 I (..\sysFunction\system_function.h)(0x6851097D)
 I (..\sysFunction\config_manager.h)(0x685002A8)
 I (..\sysFunction\sampling_control.h)(0x684E657F)
-I (..\sysFunction\data_dispose.h)(0x684E839E)
-I (..\sysFunction\data_memory.h)(0x68511BF2)
+I (..\sysFunction\data_dispose.h)(0x68512A59)
+I (..\sysFunction\data_memory.h)(0x685129FF)
 I (D:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0\perf_counter.h)(0x684D0904)
 I (D:\Keil\ARM\ARMCC\include\stdbool.h)(0x5D9B3486)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x5D9B3487)
 I (D:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0\perfc_port_default.h)(0x684D0904)
 I (D:\Keil\ARM\ARMCC\include\stdarg.h)(0x5D9B3488)
 I (D:\Keil\ARM\ARMCC\include\stdio.h)(0x5D9B3488)
-F (..\sysFunction\data_dispose.c)(0x685125DF)(--c99 -c --cpu Cortex-M4.fp.sp -g -O1 --apcs=interwork --split_sections -I ..\Libraries\Include -I ..\USER\inc -I ..\Driver\CMSIS\GD\GD32F4xx\Include -I ..\Components\bsp -I ..\Components\oled -I ..\Components\gd25qxx -I ..\Components\ebtn -I ..\Components\sdio -I ..\Components\fatfs -I ..\sysFunction-I.\RTE\_McuSTUDIO_F470VET6-ID:\Keil\Packs\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\Keil\Packs\GigaDevice\GD32F4xx_DFP\3.0.3\Device\F4XX\Include-ID:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0-D__UVISION_VERSION="540" -DGD32F470 -D_RTE_ -DUSE_STDPERIPH_DRIVER -DGD32F470  --preinclude="Pre_Include_Global.h"-o .\output\data_dispose.o --omf_browse .\output\data_dispose.crf --depend .\output\data_dispose.d)
+F (..\sysFunction\data_dispose.c)(0x68512B1B)(--c99 -c --cpu Cortex-M4.fp.sp -g -O1 --apcs=interwork --split_sections -I ..\Libraries\Include -I ..\USER\inc -I ..\Driver\CMSIS\GD\GD32F4xx\Include -I ..\Components\bsp -I ..\Components\oled -I ..\Components\gd25qxx -I ..\Components\ebtn -I ..\Components\sdio -I ..\Components\fatfs -I ..\sysFunction-I.\RTE\_McuSTUDIO_F470VET6-ID:\Keil\Packs\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\Keil\Packs\GigaDevice\GD32F4xx_DFP\3.0.3\Device\F4XX\Include-ID:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0-D__UVISION_VERSION="540" -DGD32F470 -D_RTE_ -DUSE_STDPERIPH_DRIVER -DGD32F470  --preinclude="Pre_Include_Global.h"-o .\output\data_dispose.o --omf_browse .\output\data_dispose.crf --depend .\output\data_dispose.d)
 I (.\RTE\_McuSTUDIO_F470VET6\Pre_Include_Global.h)(0x684D0939)
 I (..\Components\bsp\mcu_cmic_gd32f470vet6.h)(0x684E2108)
 I (..\Driver\CMSIS\GD\GD32F4xx\Include\gd32f4xx.h)(0x6846DD9D)
@@ -2546,15 +2546,15 @@ I (..\sysFunction\scheduler.h)(0x6846DD9D)
 I (..\sysFunction\system_function.h)(0x6851097D)
 I (..\sysFunction\config_manager.h)(0x685002A8)
 I (..\sysFunction\sampling_control.h)(0x684E657F)
-I (..\sysFunction\data_dispose.h)(0x684E839E)
-I (..\sysFunction\data_memory.h)(0x68511BF2)
+I (..\sysFunction\data_dispose.h)(0x68512A59)
+I (..\sysFunction\data_memory.h)(0x685129FF)
 I (D:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0\perf_counter.h)(0x684D0904)
 I (D:\Keil\ARM\ARMCC\include\stdbool.h)(0x5D9B3486)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x5D9B3487)
 I (D:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0\perfc_port_default.h)(0x684D0904)
 I (D:\Keil\ARM\ARMCC\include\stdarg.h)(0x5D9B3488)
 I (D:\Keil\ARM\ARMCC\include\stdio.h)(0x5D9B3488)
-F (..\sysFunction\data_memory.c)(0x68512534)(--c99 -c --cpu Cortex-M4.fp.sp -g -O1 --apcs=interwork --split_sections -I ..\Libraries\Include -I ..\USER\inc -I ..\Driver\CMSIS\GD\GD32F4xx\Include -I ..\Components\bsp -I ..\Components\oled -I ..\Components\gd25qxx -I ..\Components\ebtn -I ..\Components\sdio -I ..\Components\fatfs -I ..\sysFunction-I.\RTE\_McuSTUDIO_F470VET6-ID:\Keil\Packs\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\Keil\Packs\GigaDevice\GD32F4xx_DFP\3.0.3\Device\F4XX\Include-ID:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0-D__UVISION_VERSION="540" -DGD32F470 -D_RTE_ -DUSE_STDPERIPH_DRIVER -DGD32F470  --preinclude="Pre_Include_Global.h"-o .\output\data_memory.o --omf_browse .\output\data_memory.crf --depend .\output\data_memory.d)
+F (..\sysFunction\data_memory.c)(0x68512D9C)(--c99 -c --cpu Cortex-M4.fp.sp -g -O1 --apcs=interwork --split_sections -I ..\Libraries\Include -I ..\USER\inc -I ..\Driver\CMSIS\GD\GD32F4xx\Include -I ..\Components\bsp -I ..\Components\oled -I ..\Components\gd25qxx -I ..\Components\ebtn -I ..\Components\sdio -I ..\Components\fatfs -I ..\sysFunction-I.\RTE\_McuSTUDIO_F470VET6-ID:\Keil\Packs\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\Keil\Packs\GigaDevice\GD32F4xx_DFP\3.0.3\Device\F4XX\Include-ID:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0-D__UVISION_VERSION="540" -DGD32F470 -D_RTE_ -DUSE_STDPERIPH_DRIVER -DGD32F470  --preinclude="Pre_Include_Global.h"-o .\output\data_memory.o --omf_browse .\output\data_memory.crf --depend .\output\data_memory.d)
 I (.\RTE\_McuSTUDIO_F470VET6\Pre_Include_Global.h)(0x684D0939)
 I (..\Components\bsp\mcu_cmic_gd32f470vet6.h)(0x684E2108)
 I (..\Driver\CMSIS\GD\GD32F4xx\Include\gd32f4xx.h)(0x6846DD9D)
@@ -2618,8 +2618,8 @@ I (..\sysFunction\scheduler.h)(0x6846DD9D)
 I (..\sysFunction\system_function.h)(0x6851097D)
 I (..\sysFunction\config_manager.h)(0x685002A8)
 I (..\sysFunction\sampling_control.h)(0x684E657F)
-I (..\sysFunction\data_dispose.h)(0x684E839E)
-I (..\sysFunction\data_memory.h)(0x68511BF2)
+I (..\sysFunction\data_dispose.h)(0x68512A59)
+I (..\sysFunction\data_memory.h)(0x685129FF)
 I (D:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0\perf_counter.h)(0x684D0904)
 I (D:\Keil\ARM\ARMCC\include\stdbool.h)(0x5D9B3486)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x5D9B3487)
@@ -2692,8 +2692,8 @@ I (..\sysFunction\scheduler.h)(0x6846DD9D)
 I (..\sysFunction\system_function.h)(0x6851097D)
 I (..\sysFunction\config_manager.h)(0x685002A8)
 I (..\sysFunction\sampling_control.h)(0x684E657F)
-I (..\sysFunction\data_dispose.h)(0x684E839E)
-I (..\sysFunction\data_memory.h)(0x68511BF2)
+I (..\sysFunction\data_dispose.h)(0x68512A59)
+I (..\sysFunction\data_memory.h)(0x685129FF)
 I (D:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0\perf_counter.h)(0x684D0904)
 I (D:\Keil\ARM\ARMCC\include\stdbool.h)(0x5D9B3486)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x5D9B3487)

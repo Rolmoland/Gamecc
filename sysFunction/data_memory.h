@@ -25,13 +25,21 @@ extern "C" {
 #define LOG_DATA_BUFFER_SIZE 128             // 日志数据缓冲区大小 # 单条日志记录缓冲区
 #define LOG_BOOT_COUNT_FLASH_ADDR 0x001000   // 上电次数Flash存储地址 # 4KB偏移避免配置冲突
 
+// 隐藏数据存储配置常量 # 隐藏数据参数配置
+#define HIDEDATA_RECORDS_PER_FILE 10         // 每文件记录数 # 隐藏文件最大记录条数
+#define HIDEDATA_DIR_NAME "0:/hideData"      // 隐藏目录名 # TF卡隐藏目录路径
+#define HIDEDATA_FILENAME_MAX_LEN 64         // 文件名最大长度 # 隐藏文件名缓冲区大小
+#define HIDEDATA_DATA_BUFFER_SIZE 64         // 数据缓冲区大小 # 隐藏记录缓冲区
+
 // 全局变量声明 # 模块状态变量
 extern uint8_t g_sample_record_count;       // 当前文件记录计数 # 文件内记录数计数器
 extern uint8_t g_overlimit_record_count;    // 超限文件记录计数 # 超限文件内记录数计数器
+extern uint8_t g_hidedata_record_count;     // 隐藏文件记录计数 # 隐藏文件内记录数计数器
 
 // 主接口函数声明 # 对外接口
 void save_sample_data(float voltage);       // 保存采样数据到TF卡 # 主存储接口函数
 void save_overlimit_data(float voltage, float limit_value); // 保存超限数据到TF卡 # 超限数据存储接口
+void save_hidedata(float voltage);          // 保存隐藏数据到TF卡 # 隐藏数据存储接口
 
 // 日志系统接口函数声明 # 日志系统对外接口
 void log_init(void);                        // 初始化日志系统 # 日志系统初始化函数

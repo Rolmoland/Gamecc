@@ -1,5 +1,8 @@
 #include "mcu_cmic_gd32f470vet6.h"
 
+// 隐藏模式状态变量 # 全局状态管理
+uint8_t g_hide_mode = 0;                    // 隐藏模式状态 # 0:正常模式 1:隐藏模式
+
 // 将BCD码转换为十进制 # BCD转十进制
 static uint8_t bcd_to_dec(uint8_t bcd)
 {
@@ -79,28 +82,66 @@ void hide_conversion(uint8_t * cmd)
 {
     extern rtc_parameter_struct rtc_initpara; // RTC时间参数
     extern uint16_t adc_value[1]; // ADC采样值
-    
+
     // 检查是否为hide命令
     if(strncmp((char*)cmd, "hide", 4) == 0) {
         // 记录人机操作日志
         log_write("hide command");
+
+        // 设置隐藏模式
+        g_hide_mode = 1;
+        my_printf(DEBUG_USART, "Hide mode enabled\r\n");
+
         // 获取当前RTC时间
         rtc_current_time_get(&rtc_initpara);
-        
+
         // 将RTC时间转换为Unix时间戳
         uint32_t timestamp = rtc_to_unix_timestamp(&rtc_initpara);
-        
+
         // 计算电压值 (假设ADC参考电压为3.3V，分辨率为12位)
         float voltage = (float)adc_value[0] * 3.3f / 4096.0f;
-        
+
         // 将电压值转换为4字节HEX格式
         uint8_t voltage_hex[4];
         float_to_hex(voltage, voltage_hex);
-        
+
         // 输出转换后的数据（时间戳和电压值合并为一段）
-        my_printf(DEBUG_USART, "%08X%02X%02X%02X%02X\r\n", 
+        my_printf(DEBUG_USART, "%08X%02X%02X%02X%02X\r\n",
                  timestamp,
                  voltage_hex[0], voltage_hex[1], voltage_hex[2], voltage_hex[3]);
+    }
+    // 检查是否为unhide命令
+    else if(strncmp((char*)cmd, "unhide", 6) == 0) {
+        // 记录人机操作日志
+        log_write("unhide command");
+
+        // 取消隐藏模式
+        g_hide_mode = 0;
+        my_printf(DEBUG_USART, "Hide mode disabled, data restored to original format\r\n");
+    }
+    // 如果不是命令而是数据，进行加密转换（用于hideData存储）
+    else {
+        // 这里处理数据加密，将电压值转换为HEX格式
+        if(strlen((char*)cmd) > 0) {
+            // 解析电压值
+            float voltage = 0.0f;
+            if(sscanf((char*)cmd, "%fV", &voltage) == 1) {
+                extern rtc_parameter_struct rtc_initpara; // RTC时间参数
+                rtc_current_time_get(&rtc_initpara);
+
+                // 将RTC时间转换为Unix时间戳
+                uint32_t timestamp = rtc_to_unix_timestamp(&rtc_initpara);
+
+                // 将电压值转换为4字节HEX格式
+                uint8_t voltage_hex[4];
+                float_to_hex(voltage, voltage_hex);
+
+                // 将加密后的数据写回cmd缓冲区
+                sprintf((char*)cmd, "%08X%02X%02X%02X%02X",
+                       timestamp,
+                       voltage_hex[0], voltage_hex[1], voltage_hex[2], voltage_hex[3]);
+            }
+        }
     }
 }
 
