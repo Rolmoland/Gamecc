@@ -15,7 +15,7 @@ void system_selftest(uint8_t * cmd)
         sd_error_enum sd_status = SD_OK;
         
         my_printf(DEBUG_USART, "======system selftest======\r\n");
-        
+
         // 测试Flash
         flash_id = spi_flash_read_id();
         if(flash_id != 0) {
@@ -23,28 +23,28 @@ void system_selftest(uint8_t * cmd)
         } else {
             my_printf(DEBUG_USART, "flash............error\r\n");
         }
-        
+
         // 测试TF卡
         sd_status = sd_init();
-        if(sd_status == SD_OK) 
+        if(sd_status == SD_OK)
         {
             tf_size = sd_card_capacity_get();
             my_printf(DEBUG_USART, "TF card............ok\r\n");
-        } 
-        else 
+        }
+        else
         {
-            my_printf(DEBUG_USART, "TF card............error\r\n"); // 修改为新的错误信息
+            my_printf(DEBUG_USART, "TF card............error\r\n");
             tf_size = 0;
         }
-        
+
         // 获取Flash ID
         my_printf(DEBUG_USART, "flash ID:0x%X\r\n", flash_id);
-        
+
         // 显示TF卡状态信息
         if(sd_status == SD_OK)
         {
             my_printf(DEBUG_USART, "TF card memory:%d KB\r\n", tf_size);
-        } 
+        }
         else
         {
             my_printf(DEBUG_USART, "can not find TF card\r\n");
@@ -52,10 +52,10 @@ void system_selftest(uint8_t * cmd)
 
         // 获取RTC时间
         rtc_current_time_get(&rtc_time);
-        my_printf(DEBUG_USART, "RTC:20%02x-%02x-%02x %02x:%02x:%02x\r\n", 
+        my_printf(DEBUG_USART, "RTC:20%02x-%02x-%02x %02x:%02x:%02x\r\n",
                  rtc_time.year, rtc_time.month, rtc_time.date,
                  rtc_time.hour, rtc_time.minute, rtc_time.second);
-        
+
         my_printf(DEBUG_USART, "======system selftest======\r\n");
         
         // 清除接收标志
@@ -116,18 +116,18 @@ void time_config(uint8_t * cmd)
                 my_printf(DEBUG_USART, "RTC Config failed\r\n");
             } else {
                 my_printf(DEBUG_USART, "RTC Config success\r\n");
-                my_printf(DEBUG_USART, "Time: %04d-%02d-%02d %02d:%02d:%02d\r\n", 
-                         year_full, 
-                         month & 0x0F | ((month >> 4) * 10), 
+                my_printf(DEBUG_USART, "Time: %04d-%02d-%02d %02d:%02d:%02d\r\n",
+                         year_full,
+                         month & 0x0F | ((month >> 4) * 10),
                          date & 0x0F | ((date >> 4) * 10),
-                         hour & 0x0F | ((hour >> 4) * 10), 
-                         minute & 0x0F | ((minute >> 4) * 10), 
+                         hour & 0x0F | ((hour >> 4) * 10),
+                         minute & 0x0F | ((minute >> 4) * 10),
                          second & 0x0F | ((second >> 4) * 10));
             }
         } else {
             my_printf(DEBUG_USART, "Invalid time format\r\n");
             my_printf(DEBUG_USART, "Expected format: YYYY-MM-DD HH:MM:SS\r\n");
-            my_printf(DEBUG_USART, "Received: %s\r\n", cmd); // 输出接收到的内容以便调试
+            my_printf(DEBUG_USART, "Received: %s\r\n", cmd);
         }
         
         // 清除接收标志
@@ -142,7 +142,7 @@ void time_config(uint8_t * cmd)
         rtc_current_time_get(&rtc_time);
         
         // 显示当前时间 - 转换BCD为十进制显示
-        my_printf(DEBUG_USART, "Current Time: %04d-%02d-%02d %02d:%02d:%02d\r\n", 
+        my_printf(DEBUG_USART, "Current Time: %04d-%02d-%02d %02d:%02d:%02d\r\n",
                  2000 + (rtc_time.year & 0x0F) + ((rtc_time.year >> 4) * 10),
                  (rtc_time.month & 0x0F) + ((rtc_time.month >> 4) * 10),
                  (rtc_time.date & 0x0F) + ((rtc_time.date >> 4) * 10),

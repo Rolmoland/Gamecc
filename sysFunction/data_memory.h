@@ -2,6 +2,7 @@
 #define __DATA_MEMORY_H__
 
 #include "stdint.h"
+#include "ff.h"  // 包含FATFS定义
 
 #ifdef __cplusplus
 extern "C" {
@@ -35,6 +36,7 @@ extern "C" {
 extern uint8_t g_sample_record_count;       // 当前文件记录计数 # 文件内记录数计数器
 extern uint8_t g_overlimit_record_count;    // 超限文件记录计数 # 超限文件内记录数计数器
 extern uint8_t g_hidedata_record_count;     // 隐藏文件记录计数 # 隐藏文件内记录数计数器
+extern FATFS g_sample_fs;                   // 文件系统对象 # 全局文件系统对象
 
 // 主接口函数声明 # 对外接口
 void save_sample_data(float voltage);       // 保存采样数据到TF卡 # 主存储接口函数

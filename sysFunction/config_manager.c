@@ -1,7 +1,7 @@
 #include "mcu_cmic_gd32f470vet6.h"
 
-// 全局文件系统对象
-static FATFS g_fs;          // 文件系统对象
+// 引用data_memory.c中的文件系统对象，避免冲突
+extern FATFS g_sample_fs;   // 使用统一的文件系统对象
 
 extern __IO uint8_t rx_flag;
 extern uint8_t uart_dma_buffer[512];
@@ -89,27 +89,25 @@ void config_read(uint8_t * cmd)
         uint8_t limit_found = 0;     // 是否找到Limit
         UINT br;            // 读取的字节数
         
-        // 挂载文件系统
-        fr = f_mount(0, &g_fs);
+        // 挂载文件系统（使用统一的文件系统对象）
+        fr = f_mount(0, &g_sample_fs);
         if(fr != FR_OK) {
             my_printf(DEBUG_USART, "config.ini file not found.\r\n");
             return;
         }
-        
+
         // 打开config.ini文件
         fr = f_open(&file, "0:config.ini", FA_READ);
         if(fr != FR_OK) {
             my_printf(DEBUG_USART, "config.ini file not found.\r\n");
-            f_mount(0, NULL); // 卸载文件系统
             return;
         }
-        
+
         // 读取文件内容
         fr = f_read(&file, buffer, sizeof(buffer) - 1, &br);
         if(fr != FR_OK || br == 0) {
             my_printf(DEBUG_USART, "config.ini file read error.\r\n");
             f_close(&file);
-            f_mount(0, NULL);
             return;
         }
         
@@ -166,15 +164,14 @@ void config_read(uint8_t * cmd)
         
         // 关闭文件
         f_close(&file);
-        
-        // 卸载文件系统
-        f_mount(0, NULL);
+
+        // 不卸载文件系统，保持挂载状态供其他模块使用
         
         // 输出结果
         if(ratio_found) {
             my_printf(DEBUG_USART, "Ratio=%s\r\n", ratio_value);
         }
-        
+
         if(limit_found) {
             my_printf(DEBUG_USART, "Limit=%s\r\n", limit_value);
         }
@@ -215,38 +212,8 @@ static void config_value_set(const char *cmd_name, uint8_t *cmd)
         // 构建相关字符串
         sprintf(invalid_msg, "%s invalid", cmd_name);
         sprintf(success_msg, "%s modified success", cmd_name);
-        
-        // 从Flash读取当前值到全局变量
-        uint32_t addr = 0x000000; // Flash起始地址
-        uint8_t read_buffer[256] = {0};
-        
-        // 从Flash读取数据
-        spi_flash_buffer_read(read_buffer, addr, 4 + 2 * sizeof(float));
-        
-        // 检查标识符
-        if(strncmp((char*)read_buffer, "CONF", 4) != 0) {
-            my_printf(DEBUG_USART, "No valid configuration found in flash\r\n");
-            // 使用默认值
-            g_ratio_value = 1.0f;
-            g_limit_value = 1.0f;
-        } else {
-            // 解析值到全局变量
-            uint32_t ratio_bits = 0;
-            ratio_bits |= (uint32_t)read_buffer[4] << 0;
-            ratio_bits |= (uint32_t)read_buffer[5] << 8;
-            ratio_bits |= (uint32_t)read_buffer[6] << 16;
-            ratio_bits |= (uint32_t)read_buffer[7] << 24;
-            memcpy(&g_ratio_value, &ratio_bits, sizeof(float));
-            
-            uint32_t limit_bits = 0;
-            limit_bits |= (uint32_t)read_buffer[8] << 0;
-            limit_bits |= (uint32_t)read_buffer[9] << 8;
-            limit_bits |= (uint32_t)read_buffer[10] << 16;
-            limit_bits |= (uint32_t)read_buffer[11] << 24;
-            memcpy(&g_limit_value, &limit_bits, sizeof(float));
-        }
-        
-        // 获取当前值
+
+        // 直接使用当前全局变量值，不从Flash读取
         float current_value = is_ratio ? g_ratio_value : g_limit_value;
         
         // 格式化当前值为字符串
@@ -254,7 +221,7 @@ static void config_value_set(const char *cmd_name, uint8_t *cmd)
         
         // 输出当前值
         my_printf(DEBUG_USART, "%s = %s\r\n", display_name, value);
-        
+
         // 输出提示信息
         my_printf(DEBUG_USART, "Input value(0-%d):\r\n", (int)max_value);
         
@@ -284,7 +251,7 @@ static void config_value_set(const char *cmd_name, uint8_t *cmd)
             my_printf(DEBUG_USART, "%s = %s\r\n", display_name, value);
             return;
         }
-        
+
         // 转换输入为浮点数
         new_value = str_to_float(input);
         if(new_value < 0.0f || new_value > max_value) {

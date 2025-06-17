@@ -12,7 +12,7 @@ static uint8_t g_record_count = 0;          // 当前文件记录计数 # 文件
 uint8_t g_sample_record_count = 0;          // 当前文件记录计数 # 外部可访问的计数器
 uint8_t g_overlimit_record_count = 0;       // 超限文件记录计数 # 外部可访问的超限计数器
 uint8_t g_hidedata_record_count = 0;        // 隐藏文件记录计数 # 外部可访问的隐藏计数器
-static FATFS g_sample_fs;                   // 文件系统对象 # 数据存储专用文件系统
+FATFS g_sample_fs;                          // 文件系统对象 # 数据存储专用文件系统（全局可访问）
 
 // 超限数据存储静态变量 # 超限数据模块状态管理
 static FIL g_overlimit_file;                // 超限文件句柄 # FATFS超限文件对象
@@ -48,7 +48,7 @@ static uint8_t ensure_sd_ready(void)
     if(!g_sd_initialized) {
         disk_status = disk_initialize(0);
         if(disk_status != RES_OK) {
-            my_printf(DEBUG_USART, "Failed to initialize SD card, status: %d\r\n", disk_status);
+            my_printf(DEBUG_USART, "SD card initialization failed, status: %d\r\n", disk_status);
             return 0;                        // SD卡初始化失败
         } else {
             g_sd_initialized = 1;            // 标记SD卡已初始化
@@ -59,7 +59,7 @@ static uint8_t ensure_sd_ready(void)
     if(!g_fs_mounted) {
         res = f_mount(0, &g_sample_fs);
         if(res != FR_OK) {
-            my_printf(DEBUG_USART, "Failed to mount filesystem, error: %d\r\n", res);
+            my_printf(DEBUG_USART, "File system mount failed, error: %d\r\n", res);
             return 0;                        // 挂载失败
         } else {
             g_fs_mounted = 1;                // 标记文件系统已挂载
@@ -113,112 +113,13 @@ static void save_boot_count_to_flash(uint32_t boot_count)
     spi_flash_buffer_write(write_buffer, LOG_BOOT_COUNT_FLASH_ADDR, 8);
 }
 
-// 创建sample目录 # 目录创建函数
-static uint8_t create_sample_directory(void)
-{
-    FRESULT res;                             // FATFS操作结果 # 文件系统返回值
+// sample目录已预先创建，无需创建函数 # 目录已存在
 
-    // 确保SD卡和文件系统就绪
-    if(!ensure_sd_ready()) {
-        my_printf(DEBUG_USART, "SD card not ready for sample directory creation\r\n");
-        return 0;                            // SD卡未就绪
-    }
+// overLimit目录已预先创建，无需创建函数 # 目录已存在
 
-    // 尝试创建目录
-    res = f_mkdir(SAMPLE_DIR_NAME);
+// log目录已预先创建，无需创建函数 # 目录已存在
 
-    // 检查创建结果
-    if(res == FR_OK) {
-        return 1;                            // 创建成功
-    }
-    else if(res == FR_EXIST) {
-        return 1;                            // 目录已存在，视为成功
-    }
-    else {
-        my_printf(DEBUG_USART, "Failed to create sample directory, error: %d\r\n", res);
-        return 0;                            // 创建失败
-    }
-}
-
-// 创建overLimit目录 # 超限目录创建函数
-static uint8_t create_overlimit_directory(void)
-{
-    FRESULT res;                             // FATFS操作结果 # 文件系统返回值
-
-    // 确保SD卡和文件系统就绪
-    if(!ensure_sd_ready()) {
-        my_printf(DEBUG_USART, "SD card not ready for overlimit directory creation\r\n");
-        return 0;                            // SD卡未就绪
-    }
-
-    // 尝试创建目录
-    res = f_mkdir(OVERLIMIT_DIR_NAME);
-
-    // 检查创建结果
-    if(res == FR_OK) {
-        return 1;                            // 创建成功
-    }
-    else if(res == FR_EXIST) {
-        return 1;                            // 目录已存在，视为成功
-    }
-    else {
-        my_printf(DEBUG_USART, "Failed to create overlimit directory, error: %d\r\n", res);
-        return 0;                            // 创建失败
-    }
-}
-
-// 创建log目录 # 日志目录创建函数
-static uint8_t create_log_directory(void)
-{
-    FRESULT res;                             // FATFS操作结果 # 文件系统返回值
-
-    // 确保SD卡和文件系统就绪
-    if(!ensure_sd_ready()) {
-        my_printf(DEBUG_USART, "SD card not ready for log directory creation\r\n");
-        return 0;                            // SD卡未就绪
-    }
-
-    // 尝试创建目录
-    res = f_mkdir(LOG_DIR_NAME);
-
-    // 检查创建结果
-    if(res == FR_OK) {
-        return 1;                            // 创建成功
-    }
-    else if(res == FR_EXIST) {
-        return 1;                            // 目录已存在，视为成功
-    }
-    else {
-        my_printf(DEBUG_USART, "Failed to create log directory, error: %d\r\n", res);
-        return 0;                            // 创建失败
-    }
-}
-
-// 创建hideData目录 # 隐藏目录创建函数
-static uint8_t create_hidedata_directory(void)
-{
-    FRESULT res;                             // FATFS操作结果 # 文件系统返回值
-
-    // 确保SD卡和文件系统就绪
-    if(!ensure_sd_ready()) {
-        my_printf(DEBUG_USART, "SD card not ready for hidedata directory creation\r\n");
-        return 0;                            // SD卡未就绪
-    }
-
-    // 尝试创建目录
-    res = f_mkdir(HIDEDATA_DIR_NAME);
-
-    // 检查创建结果
-    if(res == FR_OK) {
-        return 1;                            // 创建成功
-    }
-    else if(res == FR_EXIST) {
-        return 1;                            // 目录已存在，视为成功
-    }
-    else {
-        return 0;                            // 创建失败
-    }
-}
+// hideData目录已预先创建，无需创建函数 # 目录已存在
 
 // BCD码转十进制辅助函数 # BCD转换工具
 static uint8_t bcd_to_dec(uint8_t bcd)
@@ -252,6 +153,12 @@ static uint8_t create_new_sample_file(void)
     char optimized_filename[SAMPLE_FILENAME_MAX_LEN]; // 优化后文件名 # 文件名优化结果
     FRESULT res;                             // FATFS操作结果 # 文件系统返回值
 
+    // 确保SD卡就绪
+    if(!ensure_sd_ready()) {
+        my_printf(DEBUG_USART, "SD card not ready for sample file creation\r\n");
+        return 0;  // SD卡未就绪
+    }
+
     // 生成14位时间戳
     generate_14digit_timestamp(timestamp);
 
@@ -269,8 +176,7 @@ static uint8_t create_new_sample_file(void)
         return 1;                            // 创建成功
     }
     else {
-        my_printf(DEBUG_USART, "Failed to create sample file: %s, error: %d\r\n",
-                 optimized_filename, res);
+        my_printf(DEBUG_USART, "Failed to create sample file: %s, error: %d\r\n", optimized_filename, res);
         return 0;                            // 创建失败
     }
 }
@@ -282,6 +188,11 @@ static uint8_t create_new_overlimit_file(void)
     char filename[OVERLIMIT_FILENAME_MAX_LEN]; // 文件名缓冲区 # 原始文件名
     char optimized_filename[OVERLIMIT_FILENAME_MAX_LEN]; // 优化后文件名 # 文件名优化结果
     FRESULT res;                             // FATFS操作结果 # 文件系统返回值
+
+    // 确保SD卡就绪
+    if(!ensure_sd_ready()) {
+        return 0;  // SD卡未就绪
+    }
 
     // 生成14位时间戳
     generate_14digit_timestamp(timestamp);
@@ -300,8 +211,6 @@ static uint8_t create_new_overlimit_file(void)
         return 1;                            // 创建成功
     }
     else {
-        my_printf(DEBUG_USART, "Failed to create overlimit file: %s, error: %d\r\n",
-                 optimized_filename, res);
         return 0;                            // 创建失败
     }
 }
@@ -311,6 +220,11 @@ static uint8_t create_new_log_file(uint32_t boot_id)
 {
     char filename[LOG_FILENAME_MAX_LEN];     // 文件名缓冲区 # 日志文件名
     FRESULT res;                             // FATFS操作结果 # 文件系统返回值
+
+    // 确保SD卡就绪
+    if(!ensure_sd_ready()) {
+        return 0;  // SD卡未就绪
+    }
 
     // 构建日志文件名：log目录/log{id}.txt
     sprintf(filename, "%s/log%lu.txt", LOG_DIR_NAME, boot_id);
@@ -338,6 +252,11 @@ static uint8_t create_new_hidedata_file(void)
     char timestamp[15];                      // 时间戳缓冲区 # 14位时间戳+结束符
     char filename[HIDEDATA_FILENAME_MAX_LEN]; // 文件名缓冲区 # 原始文件名
     FRESULT res;                             // FATFS操作结果 # 文件系统返回值
+
+    // 确保SD卡就绪
+    if(!ensure_sd_ready()) {
+        return 0;  // SD卡未就绪
+    }
 
     // 生成14位时间戳
     generate_14digit_timestamp(timestamp);
@@ -443,8 +362,6 @@ static uint8_t write_sample_data(const char* data)
         return 1;                            // 写入成功
     }
     else {
-        my_printf(DEBUG_USART, "Failed to write sample data, error: %d, written: %d\r\n",
-                 res, bw);
         return 0;                            // 写入失败
     }
 }
@@ -465,8 +382,6 @@ static uint8_t write_overlimit_data(const char* data)
         return 1;                            // 写入成功
     }
     else {
-        my_printf(DEBUG_USART, "Failed to write overlimit data, error: %d, written: %d\r\n",
-                 res, bw);
         return 0;                            // 写入失败
     }
 }
@@ -474,25 +389,13 @@ static uint8_t write_overlimit_data(const char* data)
 // 保存采样数据到TF卡 # 主接口函数
 void save_sample_data(float voltage)
 {
-    static uint8_t dir_created = 0;         // 目录创建标志 # 静态标志避免重复创建
     char data_buffer[SAMPLE_DATA_BUFFER_SIZE]; // 数据缓冲区 # 格式化数据存储
-
-    // 首次调用时创建sample目录
-    if(!dir_created) {
-        if(create_sample_directory()) {
-            dir_created = 1;                 // 标记目录已创建
-        } else {
-            my_printf(DEBUG_USART, "Failed to create sample directory, data not saved\r\n");
-            return;                          // 目录创建失败，退出
-        }
-    }
 
     // 检查是否需要创建新文件（记录数达到限制或文件未打开）
     if(g_record_count >= SAMPLE_RECORDS_PER_FILE || !g_file_opened) {
         // 如果当前有文件打开，先关闭
         if(g_file_opened) {
             f_close(&g_sample_file);
-            my_printf(DEBUG_USART, "Sample file closed, %d records saved\r\n", g_record_count);
             g_file_opened = 0;               // 更新文件状态
         }
 
@@ -501,7 +404,6 @@ void save_sample_data(float voltage)
             g_file_opened = 1;               // 标记文件已打开
             g_record_count = 0;              // 重置记录计数
         } else {
-            my_printf(DEBUG_USART, "Failed to create new sample file, data not saved\r\n");
             return;                          // 文件创建失败，退出
         }
     }
@@ -515,8 +417,6 @@ void save_sample_data(float voltage)
         if(write_sample_data(data_buffer)) {
             g_record_count++;                // 增加记录计数
             g_sample_record_count = g_record_count; // 更新全局计数器
-        } else {
-            my_printf(DEBUG_USART, "Failed to write sample data\r\n");
         }
     }
 }
@@ -537,7 +437,6 @@ static uint8_t write_hidedata(const char* data)
         return 1;                            // 写入成功
     }
     else {
-        my_printf(DEBUG_USART, "Failed to write hidedata, error: %d, written: %d\r\n", res, bw);
         return 0;                            // 写入失败
     }
 }
@@ -562,7 +461,6 @@ static uint8_t write_log_data(const char* data)
         return 1;                            // 写入成功
     }
     else {
-        my_printf(DEBUG_USART, "Failed to write log data, error: %d, written: %d\r\n", res, bw);
         return 0;                            // 写入失败
     }
 }
@@ -573,9 +471,10 @@ void log_init(void)
     // 读取上电次数
     g_boot_count = read_boot_count_from_flash();
 
-    // 创建log目录
-    if(!create_log_directory()) {
-        return;
+    // 确保SD卡就绪
+    if(!ensure_sd_ready()) {
+        my_printf(DEBUG_USART, "SD card not ready for log file creation\r\n");
+        return;  // SD卡未就绪，无法创建文件
     }
 
     // 创建日志文件（使用当前的boot_count作为文件号）
@@ -603,8 +502,8 @@ void log_write(const char* message)
         // 使用当前boot_count减1，因为在log_init中已经递增了
         uint32_t current_file_id = (g_boot_count > 0) ? (g_boot_count - 1) : 0;
 
-        // 尝试创建log目录和文件
-        if(create_log_directory() && create_new_log_file(current_file_id)) {
+        // 尝试创建日志文件
+        if(create_new_log_file(current_file_id)) {
             g_log_file_opened = 1;           // 标记日志文件已打开
         } else {
             return;                          // 重新初始化失败，放弃写入
@@ -653,25 +552,13 @@ void log_printf(const char* format, ...)
 // 保存超限数据到TF卡 # 超限数据主接口函数
 void save_overlimit_data(float voltage, float limit_value)
 {
-    static uint8_t overlimit_dir_created = 0; // 超限目录创建标志 # 静态标志避免重复创建
     char data_buffer[OVERLIMIT_DATA_BUFFER_SIZE]; // 数据缓冲区 # 格式化数据存储
-
-    // 首次调用时创建overLimit目录
-    if(!overlimit_dir_created) {
-        if(create_overlimit_directory()) {
-            overlimit_dir_created = 1;       // 标记目录已创建
-        } else {
-            my_printf(DEBUG_USART, "Failed to create overlimit directory, data not saved\r\n");
-            return;                          // 目录创建失败，退出
-        }
-    }
 
     // 检查是否需要创建新文件（记录数达到限制或文件未打开）
     if(g_overlimit_record_count_internal >= OVERLIMIT_RECORDS_PER_FILE || !g_overlimit_file_opened) {
         // 如果当前有文件打开，先关闭
         if(g_overlimit_file_opened) {
             f_close(&g_overlimit_file);
-            my_printf(DEBUG_USART, "Overlimit file closed, %d records saved\r\n", g_overlimit_record_count_internal);
             g_overlimit_file_opened = 0;    // 更新文件状态
         }
 
@@ -680,7 +567,6 @@ void save_overlimit_data(float voltage, float limit_value)
             g_overlimit_file_opened = 1;     // 标记文件已打开
             g_overlimit_record_count_internal = 0; // 重置记录计数
         } else {
-            my_printf(DEBUG_USART, "Failed to create new overlimit file, data not saved\r\n");
             return;                          // 文件创建失败，退出
         }
     }
@@ -694,8 +580,6 @@ void save_overlimit_data(float voltage, float limit_value)
         if(write_overlimit_data(data_buffer)) {
             g_overlimit_record_count_internal++; // 增加记录计数
             g_overlimit_record_count = g_overlimit_record_count_internal; // 更新全局计数器
-        } else {
-            my_printf(DEBUG_USART, "Failed to write overlimit data\r\n");
         }
     }
 }
@@ -703,27 +587,15 @@ void save_overlimit_data(float voltage, float limit_value)
 // 保存隐藏数据到TF卡 # 隐藏数据主接口函数
 void save_hidedata(float voltage)
 {
-    static uint8_t hidedata_dir_created = 0; // 隐藏目录创建标志 # 静态标志避免重复创建
     char data_buffer[HIDEDATA_DATA_BUFFER_SIZE]; // 数据缓冲区 # 格式化数据存储
     extern float g_limit_value;              // 引入限制值 # 用于判断是否超限
     uint8_t is_overlimit = (voltage > g_limit_value); // 是否超限 # 超限判断
-
-    // 首次调用时创建hideData目录
-    if(!hidedata_dir_created) {
-        if(create_hidedata_directory()) {
-            hidedata_dir_created = 1;       // 标记目录已创建
-        } else {
-            my_printf(DEBUG_USART, "Failed to create hidedata directory, data not saved\r\n");
-            return;                          // 目录创建失败，退出
-        }
-    }
 
     // 检查是否需要创建新文件（记录数达到限制或文件未打开）
     if(g_hidedata_record_count_internal >= HIDEDATA_RECORDS_PER_FILE || !g_hidedata_file_opened) {
         // 如果当前有文件打开，先关闭
         if(g_hidedata_file_opened) {
             f_close(&g_hidedata_file);
-            my_printf(DEBUG_USART, "Hidedata file closed, %d records saved\r\n", g_hidedata_record_count_internal);
             g_hidedata_file_opened = 0;     // 更新文件状态
         }
 
@@ -732,7 +604,6 @@ void save_hidedata(float voltage)
             g_hidedata_file_opened = 1;     // 标记文件已打开
             g_hidedata_record_count_internal = 0; // 重置记录计数
         } else {
-            my_printf(DEBUG_USART, "Failed to create new hidedata file, data not saved\r\n");
             return;                          // 文件创建失败，退出
         }
     }
@@ -746,8 +617,6 @@ void save_hidedata(float voltage)
         if(write_hidedata(data_buffer)) {
             g_hidedata_record_count_internal++; // 增加记录计数
             g_hidedata_record_count = g_hidedata_record_count_internal; // 更新全局计数器
-        } else {
-            my_printf(DEBUG_USART, "Failed to write hidedata\r\n");
         }
     }
 }
