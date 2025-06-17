@@ -479,6 +479,11 @@
               <FileType>1</FileType>
               <FilePath>..\Components\fatfs\diskio.c</FilePath>
             </File>
+            <File>
+              <FileName>unicode.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Components\fatfs\unicode.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -718,6 +723,11 @@
               <FileName>data_memory.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\sysFunction\data_memory.c</FilePath>
+            </File>
+            <File>
+              <FileName>fatfs_unicode_helper.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\sysFunction\fatfs_unicode_helper.c</FilePath>
             </File>
           </Files>
         </Group>

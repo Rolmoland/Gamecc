@@ -46,7 +46,7 @@ I (..\USER\inc\main.h)(0x6846DD9D)
 I (..\USER\inc\systick.h)(0x6846DD9D)
 I (..\Components\sdio\sdio_sdcard.h)(0x6846DD9D)
 I (D:\Keil\ARM\ARMCC\include\string.h)(0x5D9B3487)
-F (..\USER\src\main.c)(0x684E9AEF)(--c99 -c --cpu Cortex-M4.fp.sp -g -O1 --apcs=interwork --split_sections -I ..\Libraries\Include -I ..\USER\inc -I ..\Driver\CMSIS\GD\GD32F4xx\Include -I ..\Components\bsp -I ..\Components\oled -I ..\Components\gd25qxx -I ..\Components\ebtn -I ..\Components\sdio -I ..\Components\fatfs -I ..\sysFunction-I.\RTE\_McuSTUDIO_F470VET6-ID:\Keil\Packs\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\Keil\Packs\GigaDevice\GD32F4xx_DFP\3.0.3\Device\F4XX\Include-ID:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0-D__UVISION_VERSION="540" -DGD32F470 -D_RTE_ -DUSE_STDPERIPH_DRIVER -DGD32F470  --preinclude="Pre_Include_Global.h"-o .\output\main.o --omf_browse .\output\main.crf --depend .\output\main.d)
+F (..\USER\src\main.c)(0x6851199A)(--c99 -c --cpu Cortex-M4.fp.sp -g -O1 --apcs=interwork --split_sections -I ..\Libraries\Include -I ..\USER\inc -I ..\Driver\CMSIS\GD\GD32F4xx\Include -I ..\Components\bsp -I ..\Components\oled -I ..\Components\gd25qxx -I ..\Components\ebtn -I ..\Components\sdio -I ..\Components\fatfs -I ..\sysFunction-I.\RTE\_McuSTUDIO_F470VET6-ID:\Keil\Packs\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\Keil\Packs\GigaDevice\GD32F4xx_DFP\3.0.3\Device\F4XX\Include-ID:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0-D__UVISION_VERSION="540" -DGD32F470 -D_RTE_ -DUSE_STDPERIPH_DRIVER -DGD32F470  --preinclude="Pre_Include_Global.h"-o .\output\main.o --omf_browse .\output\main.crf --depend .\output\main.d)
 I (.\RTE\_McuSTUDIO_F470VET6\Pre_Include_Global.h)(0x684D0939)
 I (..\Components\bsp\mcu_cmic_gd32f470vet6.h)(0x684E2108)
 I (..\Driver\CMSIS\GD\GD32F4xx\Include\gd32f4xx.h)(0x6846DD9D)
@@ -97,21 +97,21 @@ I (..\Components\gd25qxx\gd25qxx.h)(0x6846DD9D)
 I (..\Components\sdio\sdio_sdcard.h)(0x6846DD9D)
 I (..\Components\fatfs\ff.h)(0x6846DD9D)
 I (..\Components\fatfs\integer.h)(0x6846DD9D)
-I (..\Components\fatfs\ffconf.h)(0x68501CC6)
+I (..\Components\fatfs\ffconf.h)(0x6850FC63)
 I (..\Components\fatfs\diskio.h)(0x6846DD9D)
 I (..\sysFunction\sd_app.h)(0x6846DD9D)
 I (..\sysFunction\led_app.h)(0x6846DD9D)
 I (..\sysFunction\adc_app.h)(0x6846DD9D)
 I (..\sysFunction\oled_app.h)(0x6846DD9D)
-I (..\sysFunction\usart_app.h)(0x6846DD9D)
+I (..\sysFunction\usart_app.h)(0x6851097D)
 I (..\sysFunction\rtc_app.h)(0x6846DD9D)
 I (..\sysFunction\btn_app.h)(0x6846DD9D)
 I (..\sysFunction\scheduler.h)(0x6846DD9D)
-I (..\sysFunction\system_function.h)(0x684E9CB8)
+I (..\sysFunction\system_function.h)(0x6851097D)
 I (..\sysFunction\config_manager.h)(0x685002A8)
 I (..\sysFunction\sampling_control.h)(0x684E657F)
 I (..\sysFunction\data_dispose.h)(0x684E839E)
-I (..\sysFunction\data_memory.h)(0x68500900)
+I (..\sysFunction\data_memory.h)(0x685119AF)
 I (D:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0\perf_counter.h)(0x684D0904)
 I (D:\Keil\ARM\ARMCC\include\stdbool.h)(0x5D9B3486)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x5D9B3487)
@@ -211,21 +211,21 @@ I (..\Components\gd25qxx\gd25qxx.h)(0x6846DD9D)
 I (..\Components\sdio\sdio_sdcard.h)(0x6846DD9D)
 I (..\Components\fatfs\ff.h)(0x6846DD9D)
 I (..\Components\fatfs\integer.h)(0x6846DD9D)
-I (..\Components\fatfs\ffconf.h)(0x68501CC6)
+I (..\Components\fatfs\ffconf.h)(0x6850FC63)
 I (..\Components\fatfs\diskio.h)(0x6846DD9D)
 I (..\sysFunction\sd_app.h)(0x6846DD9D)
 I (..\sysFunction\led_app.h)(0x6846DD9D)
 I (..\sysFunction\adc_app.h)(0x6846DD9D)
 I (..\sysFunction\oled_app.h)(0x6846DD9D)
-I (..\sysFunction\usart_app.h)(0x6846DD9D)
+I (..\sysFunction\usart_app.h)(0x6851097D)
 I (..\sysFunction\rtc_app.h)(0x6846DD9D)
 I (..\sysFunction\btn_app.h)(0x6846DD9D)
 I (..\sysFunction\scheduler.h)(0x6846DD9D)
-I (..\sysFunction\system_function.h)(0x684E9CB8)
+I (..\sysFunction\system_function.h)(0x6851097D)
 I (..\sysFunction\config_manager.h)(0x685002A8)
 I (..\sysFunction\sampling_control.h)(0x684E657F)
 I (..\sysFunction\data_dispose.h)(0x684E839E)
-I (..\sysFunction\data_memory.h)(0x68500900)
+I (..\sysFunction\data_memory.h)(0x685119AF)
 I (D:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0\perf_counter.h)(0x684D0904)
 I (D:\Keil\ARM\ARMCC\include\stdbool.h)(0x5D9B3486)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x5D9B3487)
@@ -284,21 +284,21 @@ I (..\Components\gd25qxx\gd25qxx.h)(0x6846DD9D)
 I (..\Components\sdio\sdio_sdcard.h)(0x6846DD9D)
 I (..\Components\fatfs\ff.h)(0x6846DD9D)
 I (..\Components\fatfs\integer.h)(0x6846DD9D)
-I (..\Components\fatfs\ffconf.h)(0x68501CC6)
+I (..\Components\fatfs\ffconf.h)(0x6850FC63)
 I (..\Components\fatfs\diskio.h)(0x6846DD9D)
 I (..\sysFunction\sd_app.h)(0x6846DD9D)
 I (..\sysFunction\led_app.h)(0x6846DD9D)
 I (..\sysFunction\adc_app.h)(0x6846DD9D)
 I (..\sysFunction\oled_app.h)(0x6846DD9D)
-I (..\sysFunction\usart_app.h)(0x6846DD9D)
+I (..\sysFunction\usart_app.h)(0x6851097D)
 I (..\sysFunction\rtc_app.h)(0x6846DD9D)
 I (..\sysFunction\btn_app.h)(0x6846DD9D)
 I (..\sysFunction\scheduler.h)(0x6846DD9D)
-I (..\sysFunction\system_function.h)(0x684E9CB8)
+I (..\sysFunction\system_function.h)(0x6851097D)
 I (..\sysFunction\config_manager.h)(0x685002A8)
 I (..\sysFunction\sampling_control.h)(0x684E657F)
 I (..\sysFunction\data_dispose.h)(0x684E839E)
-I (..\sysFunction\data_memory.h)(0x68500900)
+I (..\sysFunction\data_memory.h)(0x685119AF)
 I (D:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0\perf_counter.h)(0x684D0904)
 I (D:\Keil\ARM\ARMCC\include\stdbool.h)(0x5D9B3486)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x5D9B3487)
@@ -407,7 +407,7 @@ F (..\Components\fatfs\ff.c)(0x6846DD9D)(--c99 -c --cpu Cortex-M4.fp.sp -g -O1 -
 I (.\RTE\_McuSTUDIO_F470VET6\Pre_Include_Global.h)(0x684D0939)
 I (..\Components\fatfs\ff.h)(0x6846DD9D)
 I (..\Components\fatfs\integer.h)(0x6846DD9D)
-I (..\Components\fatfs\ffconf.h)(0x68501CC6)
+I (..\Components\fatfs\ffconf.h)(0x6850FC63)
 I (..\Components\fatfs\diskio.h)(0x6846DD9D)
 F (..\Components\fatfs\diskio.c)(0x6846DD9D)(--c99 -c --cpu Cortex-M4.fp.sp -g -O1 --apcs=interwork --split_sections -I ..\Libraries\Include -I ..\USER\inc -I ..\Driver\CMSIS\GD\GD32F4xx\Include -I ..\Components\bsp -I ..\Components\oled -I ..\Components\gd25qxx -I ..\Components\ebtn -I ..\Components\sdio -I ..\Components\fatfs -I ..\sysFunction-I.\RTE\_McuSTUDIO_F470VET6-ID:\Keil\Packs\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\Keil\Packs\GigaDevice\GD32F4xx_DFP\3.0.3\Device\F4XX\Include-ID:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0-D__UVISION_VERSION="540" -DGD32F470 -D_RTE_ -DUSE_STDPERIPH_DRIVER -DGD32F470  --preinclude="Pre_Include_Global.h"-o .\output\diskio.o --omf_browse .\output\diskio.crf --depend .\output\diskio.d)
 I (.\RTE\_McuSTUDIO_F470VET6\Pre_Include_Global.h)(0x684D0939)
@@ -454,6 +454,11 @@ I (..\Libraries\Include\gd32f4xx_exmc.h)(0x6846DD9D)
 I (..\Libraries\Include\gd32f4xx_ipa.h)(0x6846DD9D)
 I (..\Libraries\Include\gd32f4xx_tli.h)(0x6846DD9D)
 I (D:\Keil\ARM\ARMCC\include\stdio.h)(0x5D9B3488)
+F (..\Components\fatfs\unicode.c)(0x684E6B78)(--c99 -c --cpu Cortex-M4.fp.sp -g -O1 --apcs=interwork --split_sections -I ..\Libraries\Include -I ..\USER\inc -I ..\Driver\CMSIS\GD\GD32F4xx\Include -I ..\Components\bsp -I ..\Components\oled -I ..\Components\gd25qxx -I ..\Components\ebtn -I ..\Components\sdio -I ..\Components\fatfs -I ..\sysFunction-I.\RTE\_McuSTUDIO_F470VET6-ID:\Keil\Packs\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\Keil\Packs\GigaDevice\GD32F4xx_DFP\3.0.3\Device\F4XX\Include-ID:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0-D__UVISION_VERSION="540" -DGD32F470 -D_RTE_ -DUSE_STDPERIPH_DRIVER -DGD32F470  --preinclude="Pre_Include_Global.h"-o .\output\unicode.o --omf_browse .\output\unicode.crf --depend .\output\unicode.d)
+I (.\RTE\_McuSTUDIO_F470VET6\Pre_Include_Global.h)(0x684D0939)
+I (..\Components\fatfs\ff.h)(0x6846DD9D)
+I (..\Components\fatfs\integer.h)(0x6846DD9D)
+I (..\Components\fatfs\ffconf.h)(0x6850FC63)
 F (..\Libraries\Source\gd32f4xx_adc.c)(0x6846DD9D)(--c99 -c --cpu Cortex-M4.fp.sp -g -O1 --apcs=interwork --split_sections -I ..\Libraries\Include -I ..\USER\inc -I ..\Driver\CMSIS\GD\GD32F4xx\Include -I ..\Components\bsp -I ..\Components\oled -I ..\Components\gd25qxx -I ..\Components\ebtn -I ..\Components\sdio -I ..\Components\fatfs -I ..\sysFunction-I.\RTE\_McuSTUDIO_F470VET6-ID:\Keil\Packs\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\Keil\Packs\GigaDevice\GD32F4xx_DFP\3.0.3\Device\F4XX\Include-ID:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0-D__UVISION_VERSION="540" -DGD32F470 -D_RTE_ -DUSE_STDPERIPH_DRIVER -DGD32F470  --preinclude="Pre_Include_Global.h"-o .\output\gd32f4xx_adc.o --omf_browse .\output\gd32f4xx_adc.crf --depend .\output\gd32f4xx_adc.d)
 I (.\RTE\_McuSTUDIO_F470VET6\Pre_Include_Global.h)(0x684D0939)
 I (..\Libraries\Include\gd32f4xx_adc.h)(0x6846DD9D)
@@ -1736,21 +1741,21 @@ I (..\Components\gd25qxx\gd25qxx.h)(0x6846DD9D)
 I (..\Components\sdio\sdio_sdcard.h)(0x6846DD9D)
 I (..\Components\fatfs\ff.h)(0x6846DD9D)
 I (..\Components\fatfs\integer.h)(0x6846DD9D)
-I (..\Components\fatfs\ffconf.h)(0x68501CC6)
+I (..\Components\fatfs\ffconf.h)(0x6850FC63)
 I (..\Components\fatfs\diskio.h)(0x6846DD9D)
 I (..\sysFunction\sd_app.h)(0x6846DD9D)
 I (..\sysFunction\led_app.h)(0x6846DD9D)
 I (..\sysFunction\adc_app.h)(0x6846DD9D)
 I (..\sysFunction\oled_app.h)(0x6846DD9D)
-I (..\sysFunction\usart_app.h)(0x6846DD9D)
+I (..\sysFunction\usart_app.h)(0x6851097D)
 I (..\sysFunction\rtc_app.h)(0x6846DD9D)
 I (..\sysFunction\btn_app.h)(0x6846DD9D)
 I (..\sysFunction\scheduler.h)(0x6846DD9D)
-I (..\sysFunction\system_function.h)(0x684E9CB8)
+I (..\sysFunction\system_function.h)(0x6851097D)
 I (..\sysFunction\config_manager.h)(0x685002A8)
 I (..\sysFunction\sampling_control.h)(0x684E657F)
 I (..\sysFunction\data_dispose.h)(0x684E839E)
-I (..\sysFunction\data_memory.h)(0x68500900)
+I (..\sysFunction\data_memory.h)(0x685119AF)
 I (D:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0\perf_counter.h)(0x684D0904)
 I (D:\Keil\ARM\ARMCC\include\stdbool.h)(0x5D9B3486)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x5D9B3487)
@@ -1808,21 +1813,21 @@ I (..\Components\gd25qxx\gd25qxx.h)(0x6846DD9D)
 I (..\Components\sdio\sdio_sdcard.h)(0x6846DD9D)
 I (..\Components\fatfs\ff.h)(0x6846DD9D)
 I (..\Components\fatfs\integer.h)(0x6846DD9D)
-I (..\Components\fatfs\ffconf.h)(0x68501CC6)
+I (..\Components\fatfs\ffconf.h)(0x6850FC63)
 I (..\Components\fatfs\diskio.h)(0x6846DD9D)
 I (..\sysFunction\sd_app.h)(0x6846DD9D)
 I (..\sysFunction\led_app.h)(0x6846DD9D)
 I (..\sysFunction\adc_app.h)(0x6846DD9D)
 I (..\sysFunction\oled_app.h)(0x6846DD9D)
-I (..\sysFunction\usart_app.h)(0x6846DD9D)
+I (..\sysFunction\usart_app.h)(0x6851097D)
 I (..\sysFunction\rtc_app.h)(0x6846DD9D)
 I (..\sysFunction\btn_app.h)(0x6846DD9D)
 I (..\sysFunction\scheduler.h)(0x6846DD9D)
-I (..\sysFunction\system_function.h)(0x684E9CB8)
+I (..\sysFunction\system_function.h)(0x6851097D)
 I (..\sysFunction\config_manager.h)(0x685002A8)
 I (..\sysFunction\sampling_control.h)(0x684E657F)
 I (..\sysFunction\data_dispose.h)(0x684E839E)
-I (..\sysFunction\data_memory.h)(0x68500900)
+I (..\sysFunction\data_memory.h)(0x685119AF)
 I (D:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0\perf_counter.h)(0x684D0904)
 I (D:\Keil\ARM\ARMCC\include\stdbool.h)(0x5D9B3486)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x5D9B3487)
@@ -1880,21 +1885,21 @@ I (..\Components\gd25qxx\gd25qxx.h)(0x6846DD9D)
 I (..\Components\sdio\sdio_sdcard.h)(0x6846DD9D)
 I (..\Components\fatfs\ff.h)(0x6846DD9D)
 I (..\Components\fatfs\integer.h)(0x6846DD9D)
-I (..\Components\fatfs\ffconf.h)(0x68501CC6)
+I (..\Components\fatfs\ffconf.h)(0x6850FC63)
 I (..\Components\fatfs\diskio.h)(0x6846DD9D)
 I (..\sysFunction\sd_app.h)(0x6846DD9D)
 I (..\sysFunction\led_app.h)(0x6846DD9D)
 I (..\sysFunction\adc_app.h)(0x6846DD9D)
 I (..\sysFunction\oled_app.h)(0x6846DD9D)
-I (..\sysFunction\usart_app.h)(0x6846DD9D)
+I (..\sysFunction\usart_app.h)(0x6851097D)
 I (..\sysFunction\rtc_app.h)(0x6846DD9D)
 I (..\sysFunction\btn_app.h)(0x6846DD9D)
 I (..\sysFunction\scheduler.h)(0x6846DD9D)
-I (..\sysFunction\system_function.h)(0x684E9CB8)
+I (..\sysFunction\system_function.h)(0x6851097D)
 I (..\sysFunction\config_manager.h)(0x685002A8)
 I (..\sysFunction\sampling_control.h)(0x684E657F)
 I (..\sysFunction\data_dispose.h)(0x684E839E)
-I (..\sysFunction\data_memory.h)(0x68500900)
+I (..\sysFunction\data_memory.h)(0x685119AF)
 I (D:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0\perf_counter.h)(0x684D0904)
 I (D:\Keil\ARM\ARMCC\include\stdbool.h)(0x5D9B3486)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x5D9B3487)
@@ -1952,21 +1957,21 @@ I (..\Components\gd25qxx\gd25qxx.h)(0x6846DD9D)
 I (..\Components\sdio\sdio_sdcard.h)(0x6846DD9D)
 I (..\Components\fatfs\ff.h)(0x6846DD9D)
 I (..\Components\fatfs\integer.h)(0x6846DD9D)
-I (..\Components\fatfs\ffconf.h)(0x68501CC6)
+I (..\Components\fatfs\ffconf.h)(0x6850FC63)
 I (..\Components\fatfs\diskio.h)(0x6846DD9D)
 I (..\sysFunction\sd_app.h)(0x6846DD9D)
 I (..\sysFunction\led_app.h)(0x6846DD9D)
 I (..\sysFunction\adc_app.h)(0x6846DD9D)
 I (..\sysFunction\oled_app.h)(0x6846DD9D)
-I (..\sysFunction\usart_app.h)(0x6846DD9D)
+I (..\sysFunction\usart_app.h)(0x6851097D)
 I (..\sysFunction\rtc_app.h)(0x6846DD9D)
 I (..\sysFunction\btn_app.h)(0x6846DD9D)
 I (..\sysFunction\scheduler.h)(0x6846DD9D)
-I (..\sysFunction\system_function.h)(0x684E9CB8)
+I (..\sysFunction\system_function.h)(0x6851097D)
 I (..\sysFunction\config_manager.h)(0x685002A8)
 I (..\sysFunction\sampling_control.h)(0x684E657F)
 I (..\sysFunction\data_dispose.h)(0x684E839E)
-I (..\sysFunction\data_memory.h)(0x68500900)
+I (..\sysFunction\data_memory.h)(0x685119AF)
 I (D:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0\perf_counter.h)(0x684D0904)
 I (D:\Keil\ARM\ARMCC\include\stdbool.h)(0x5D9B3486)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x5D9B3487)
@@ -2024,21 +2029,21 @@ I (..\Components\gd25qxx\gd25qxx.h)(0x6846DD9D)
 I (..\Components\sdio\sdio_sdcard.h)(0x6846DD9D)
 I (..\Components\fatfs\ff.h)(0x6846DD9D)
 I (..\Components\fatfs\integer.h)(0x6846DD9D)
-I (..\Components\fatfs\ffconf.h)(0x68501CC6)
+I (..\Components\fatfs\ffconf.h)(0x6850FC63)
 I (..\Components\fatfs\diskio.h)(0x6846DD9D)
 I (..\sysFunction\sd_app.h)(0x6846DD9D)
 I (..\sysFunction\led_app.h)(0x6846DD9D)
 I (..\sysFunction\adc_app.h)(0x6846DD9D)
 I (..\sysFunction\oled_app.h)(0x6846DD9D)
-I (..\sysFunction\usart_app.h)(0x6846DD9D)
+I (..\sysFunction\usart_app.h)(0x6851097D)
 I (..\sysFunction\rtc_app.h)(0x6846DD9D)
 I (..\sysFunction\btn_app.h)(0x6846DD9D)
 I (..\sysFunction\scheduler.h)(0x6846DD9D)
-I (..\sysFunction\system_function.h)(0x684E9CB8)
+I (..\sysFunction\system_function.h)(0x6851097D)
 I (..\sysFunction\config_manager.h)(0x685002A8)
 I (..\sysFunction\sampling_control.h)(0x684E657F)
 I (..\sysFunction\data_dispose.h)(0x684E839E)
-I (..\sysFunction\data_memory.h)(0x68500900)
+I (..\sysFunction\data_memory.h)(0x685119AF)
 I (D:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0\perf_counter.h)(0x684D0904)
 I (D:\Keil\ARM\ARMCC\include\stdbool.h)(0x5D9B3486)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x5D9B3487)
@@ -2096,21 +2101,21 @@ I (..\Components\gd25qxx\gd25qxx.h)(0x6846DD9D)
 I (..\Components\sdio\sdio_sdcard.h)(0x6846DD9D)
 I (..\Components\fatfs\ff.h)(0x6846DD9D)
 I (..\Components\fatfs\integer.h)(0x6846DD9D)
-I (..\Components\fatfs\ffconf.h)(0x68501CC6)
+I (..\Components\fatfs\ffconf.h)(0x6850FC63)
 I (..\Components\fatfs\diskio.h)(0x6846DD9D)
 I (..\sysFunction\sd_app.h)(0x6846DD9D)
 I (..\sysFunction\led_app.h)(0x6846DD9D)
 I (..\sysFunction\adc_app.h)(0x6846DD9D)
 I (..\sysFunction\oled_app.h)(0x6846DD9D)
-I (..\sysFunction\usart_app.h)(0x6846DD9D)
+I (..\sysFunction\usart_app.h)(0x6851097D)
 I (..\sysFunction\rtc_app.h)(0x6846DD9D)
 I (..\sysFunction\btn_app.h)(0x6846DD9D)
 I (..\sysFunction\scheduler.h)(0x6846DD9D)
-I (..\sysFunction\system_function.h)(0x684E9CB8)
+I (..\sysFunction\system_function.h)(0x6851097D)
 I (..\sysFunction\config_manager.h)(0x685002A8)
 I (..\sysFunction\sampling_control.h)(0x684E657F)
 I (..\sysFunction\data_dispose.h)(0x684E839E)
-I (..\sysFunction\data_memory.h)(0x68500900)
+I (..\sysFunction\data_memory.h)(0x685119AF)
 I (D:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0\perf_counter.h)(0x684D0904)
 I (D:\Keil\ARM\ARMCC\include\stdbool.h)(0x5D9B3486)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x5D9B3487)
@@ -2168,28 +2173,28 @@ I (..\Components\gd25qxx\gd25qxx.h)(0x6846DD9D)
 I (..\Components\sdio\sdio_sdcard.h)(0x6846DD9D)
 I (..\Components\fatfs\ff.h)(0x6846DD9D)
 I (..\Components\fatfs\integer.h)(0x6846DD9D)
-I (..\Components\fatfs\ffconf.h)(0x68501CC6)
+I (..\Components\fatfs\ffconf.h)(0x6850FC63)
 I (..\Components\fatfs\diskio.h)(0x6846DD9D)
 I (..\sysFunction\sd_app.h)(0x6846DD9D)
 I (..\sysFunction\led_app.h)(0x6846DD9D)
 I (..\sysFunction\adc_app.h)(0x6846DD9D)
 I (..\sysFunction\oled_app.h)(0x6846DD9D)
-I (..\sysFunction\usart_app.h)(0x6846DD9D)
+I (..\sysFunction\usart_app.h)(0x6851097D)
 I (..\sysFunction\rtc_app.h)(0x6846DD9D)
 I (..\sysFunction\btn_app.h)(0x6846DD9D)
 I (..\sysFunction\scheduler.h)(0x6846DD9D)
-I (..\sysFunction\system_function.h)(0x684E9CB8)
+I (..\sysFunction\system_function.h)(0x6851097D)
 I (..\sysFunction\config_manager.h)(0x685002A8)
 I (..\sysFunction\sampling_control.h)(0x684E657F)
 I (..\sysFunction\data_dispose.h)(0x684E839E)
-I (..\sysFunction\data_memory.h)(0x68500900)
+I (..\sysFunction\data_memory.h)(0x685119AF)
 I (D:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0\perf_counter.h)(0x684D0904)
 I (D:\Keil\ARM\ARMCC\include\stdbool.h)(0x5D9B3486)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x5D9B3487)
 I (D:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0\perfc_port_default.h)(0x684D0904)
 I (D:\Keil\ARM\ARMCC\include\stdarg.h)(0x5D9B3488)
 I (D:\Keil\ARM\ARMCC\include\stdio.h)(0x5D9B3488)
-F (..\sysFunction\usart_app.c)(0x6850022E)(--c99 -c --cpu Cortex-M4.fp.sp -g -O1 --apcs=interwork --split_sections -I ..\Libraries\Include -I ..\USER\inc -I ..\Driver\CMSIS\GD\GD32F4xx\Include -I ..\Components\bsp -I ..\Components\oled -I ..\Components\gd25qxx -I ..\Components\ebtn -I ..\Components\sdio -I ..\Components\fatfs -I ..\sysFunction-I.\RTE\_McuSTUDIO_F470VET6-ID:\Keil\Packs\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\Keil\Packs\GigaDevice\GD32F4xx_DFP\3.0.3\Device\F4XX\Include-ID:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0-D__UVISION_VERSION="540" -DGD32F470 -D_RTE_ -DUSE_STDPERIPH_DRIVER -DGD32F470  --preinclude="Pre_Include_Global.h"-o .\output\usart_app.o --omf_browse .\output\usart_app.crf --depend .\output\usart_app.d)
+F (..\sysFunction\usart_app.c)(0x6851097D)(--c99 -c --cpu Cortex-M4.fp.sp -g -O1 --apcs=interwork --split_sections -I ..\Libraries\Include -I ..\USER\inc -I ..\Driver\CMSIS\GD\GD32F4xx\Include -I ..\Components\bsp -I ..\Components\oled -I ..\Components\gd25qxx -I ..\Components\ebtn -I ..\Components\sdio -I ..\Components\fatfs -I ..\sysFunction-I.\RTE\_McuSTUDIO_F470VET6-ID:\Keil\Packs\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\Keil\Packs\GigaDevice\GD32F4xx_DFP\3.0.3\Device\F4XX\Include-ID:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0-D__UVISION_VERSION="540" -DGD32F470 -D_RTE_ -DUSE_STDPERIPH_DRIVER -DGD32F470  --preinclude="Pre_Include_Global.h"-o .\output\usart_app.o --omf_browse .\output\usart_app.crf --depend .\output\usart_app.d)
 I (.\RTE\_McuSTUDIO_F470VET6\Pre_Include_Global.h)(0x684D0939)
 I (..\Components\bsp\mcu_cmic_gd32f470vet6.h)(0x684E2108)
 I (..\Driver\CMSIS\GD\GD32F4xx\Include\gd32f4xx.h)(0x6846DD9D)
@@ -2240,28 +2245,28 @@ I (..\Components\gd25qxx\gd25qxx.h)(0x6846DD9D)
 I (..\Components\sdio\sdio_sdcard.h)(0x6846DD9D)
 I (..\Components\fatfs\ff.h)(0x6846DD9D)
 I (..\Components\fatfs\integer.h)(0x6846DD9D)
-I (..\Components\fatfs\ffconf.h)(0x68501CC6)
+I (..\Components\fatfs\ffconf.h)(0x6850FC63)
 I (..\Components\fatfs\diskio.h)(0x6846DD9D)
 I (..\sysFunction\sd_app.h)(0x6846DD9D)
 I (..\sysFunction\led_app.h)(0x6846DD9D)
 I (..\sysFunction\adc_app.h)(0x6846DD9D)
 I (..\sysFunction\oled_app.h)(0x6846DD9D)
-I (..\sysFunction\usart_app.h)(0x6846DD9D)
+I (..\sysFunction\usart_app.h)(0x6851097D)
 I (..\sysFunction\rtc_app.h)(0x6846DD9D)
 I (..\sysFunction\btn_app.h)(0x6846DD9D)
 I (..\sysFunction\scheduler.h)(0x6846DD9D)
-I (..\sysFunction\system_function.h)(0x684E9CB8)
+I (..\sysFunction\system_function.h)(0x6851097D)
 I (..\sysFunction\config_manager.h)(0x685002A8)
 I (..\sysFunction\sampling_control.h)(0x684E657F)
 I (..\sysFunction\data_dispose.h)(0x684E839E)
-I (..\sysFunction\data_memory.h)(0x68500900)
+I (..\sysFunction\data_memory.h)(0x685119AF)
 I (D:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0\perf_counter.h)(0x684D0904)
 I (D:\Keil\ARM\ARMCC\include\stdbool.h)(0x5D9B3486)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x5D9B3487)
 I (D:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0\perfc_port_default.h)(0x684D0904)
 I (D:\Keil\ARM\ARMCC\include\stdarg.h)(0x5D9B3488)
 I (D:\Keil\ARM\ARMCC\include\stdio.h)(0x5D9B3488)
-F (..\sysFunction\system_function.c)(0x684FC4C8)(--c99 -c --cpu Cortex-M4.fp.sp -g -O1 --apcs=interwork --split_sections -I ..\Libraries\Include -I ..\USER\inc -I ..\Driver\CMSIS\GD\GD32F4xx\Include -I ..\Components\bsp -I ..\Components\oled -I ..\Components\gd25qxx -I ..\Components\ebtn -I ..\Components\sdio -I ..\Components\fatfs -I ..\sysFunction-I.\RTE\_McuSTUDIO_F470VET6-ID:\Keil\Packs\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\Keil\Packs\GigaDevice\GD32F4xx_DFP\3.0.3\Device\F4XX\Include-ID:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0-D__UVISION_VERSION="540" -DGD32F470 -D_RTE_ -DUSE_STDPERIPH_DRIVER -DGD32F470  --preinclude="Pre_Include_Global.h"-o .\output\system_function.o --omf_browse .\output\system_function.crf --depend .\output\system_function.d)
+F (..\sysFunction\system_function.c)(0x6851097D)(--c99 -c --cpu Cortex-M4.fp.sp -g -O1 --apcs=interwork --split_sections -I ..\Libraries\Include -I ..\USER\inc -I ..\Driver\CMSIS\GD\GD32F4xx\Include -I ..\Components\bsp -I ..\Components\oled -I ..\Components\gd25qxx -I ..\Components\ebtn -I ..\Components\sdio -I ..\Components\fatfs -I ..\sysFunction-I.\RTE\_McuSTUDIO_F470VET6-ID:\Keil\Packs\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\Keil\Packs\GigaDevice\GD32F4xx_DFP\3.0.3\Device\F4XX\Include-ID:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0-D__UVISION_VERSION="540" -DGD32F470 -D_RTE_ -DUSE_STDPERIPH_DRIVER -DGD32F470  --preinclude="Pre_Include_Global.h"-o .\output\system_function.o --omf_browse .\output\system_function.crf --depend .\output\system_function.d)
 I (.\RTE\_McuSTUDIO_F470VET6\Pre_Include_Global.h)(0x684D0939)
 I (..\Components\bsp\mcu_cmic_gd32f470vet6.h)(0x684E2108)
 I (..\Driver\CMSIS\GD\GD32F4xx\Include\gd32f4xx.h)(0x6846DD9D)
@@ -2312,21 +2317,21 @@ I (..\Components\gd25qxx\gd25qxx.h)(0x6846DD9D)
 I (..\Components\sdio\sdio_sdcard.h)(0x6846DD9D)
 I (..\Components\fatfs\ff.h)(0x6846DD9D)
 I (..\Components\fatfs\integer.h)(0x6846DD9D)
-I (..\Components\fatfs\ffconf.h)(0x68501CC6)
+I (..\Components\fatfs\ffconf.h)(0x6850FC63)
 I (..\Components\fatfs\diskio.h)(0x6846DD9D)
 I (..\sysFunction\sd_app.h)(0x6846DD9D)
 I (..\sysFunction\led_app.h)(0x6846DD9D)
 I (..\sysFunction\adc_app.h)(0x6846DD9D)
 I (..\sysFunction\oled_app.h)(0x6846DD9D)
-I (..\sysFunction\usart_app.h)(0x6846DD9D)
+I (..\sysFunction\usart_app.h)(0x6851097D)
 I (..\sysFunction\rtc_app.h)(0x6846DD9D)
 I (..\sysFunction\btn_app.h)(0x6846DD9D)
 I (..\sysFunction\scheduler.h)(0x6846DD9D)
-I (..\sysFunction\system_function.h)(0x684E9CB8)
+I (..\sysFunction\system_function.h)(0x6851097D)
 I (..\sysFunction\config_manager.h)(0x685002A8)
 I (..\sysFunction\sampling_control.h)(0x684E657F)
 I (..\sysFunction\data_dispose.h)(0x684E839E)
-I (..\sysFunction\data_memory.h)(0x68500900)
+I (..\sysFunction\data_memory.h)(0x685119AF)
 I (D:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0\perf_counter.h)(0x684D0904)
 I (D:\Keil\ARM\ARMCC\include\stdbool.h)(0x5D9B3486)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x5D9B3487)
@@ -2384,28 +2389,28 @@ I (..\Components\gd25qxx\gd25qxx.h)(0x6846DD9D)
 I (..\Components\sdio\sdio_sdcard.h)(0x6846DD9D)
 I (..\Components\fatfs\ff.h)(0x6846DD9D)
 I (..\Components\fatfs\integer.h)(0x6846DD9D)
-I (..\Components\fatfs\ffconf.h)(0x68501CC6)
+I (..\Components\fatfs\ffconf.h)(0x6850FC63)
 I (..\Components\fatfs\diskio.h)(0x6846DD9D)
 I (..\sysFunction\sd_app.h)(0x6846DD9D)
 I (..\sysFunction\led_app.h)(0x6846DD9D)
 I (..\sysFunction\adc_app.h)(0x6846DD9D)
 I (..\sysFunction\oled_app.h)(0x6846DD9D)
-I (..\sysFunction\usart_app.h)(0x6846DD9D)
+I (..\sysFunction\usart_app.h)(0x6851097D)
 I (..\sysFunction\rtc_app.h)(0x6846DD9D)
 I (..\sysFunction\btn_app.h)(0x6846DD9D)
 I (..\sysFunction\scheduler.h)(0x6846DD9D)
-I (..\sysFunction\system_function.h)(0x684E9CB8)
+I (..\sysFunction\system_function.h)(0x6851097D)
 I (..\sysFunction\config_manager.h)(0x685002A8)
 I (..\sysFunction\sampling_control.h)(0x684E657F)
 I (..\sysFunction\data_dispose.h)(0x684E839E)
-I (..\sysFunction\data_memory.h)(0x68500900)
+I (..\sysFunction\data_memory.h)(0x685119AF)
 I (D:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0\perf_counter.h)(0x684D0904)
 I (D:\Keil\ARM\ARMCC\include\stdbool.h)(0x5D9B3486)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x5D9B3487)
 I (D:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0\perfc_port_default.h)(0x684D0904)
 I (D:\Keil\ARM\ARMCC\include\stdarg.h)(0x5D9B3488)
 I (D:\Keil\ARM\ARMCC\include\stdio.h)(0x5D9B3488)
-F (..\sysFunction\sampling_control.c)(0x685020E0)(--c99 -c --cpu Cortex-M4.fp.sp -g -O1 --apcs=interwork --split_sections -I ..\Libraries\Include -I ..\USER\inc -I ..\Driver\CMSIS\GD\GD32F4xx\Include -I ..\Components\bsp -I ..\Components\oled -I ..\Components\gd25qxx -I ..\Components\ebtn -I ..\Components\sdio -I ..\Components\fatfs -I ..\sysFunction-I.\RTE\_McuSTUDIO_F470VET6-ID:\Keil\Packs\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\Keil\Packs\GigaDevice\GD32F4xx_DFP\3.0.3\Device\F4XX\Include-ID:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0-D__UVISION_VERSION="540" -DGD32F470 -D_RTE_ -DUSE_STDPERIPH_DRIVER -DGD32F470  --preinclude="Pre_Include_Global.h"-o .\output\sampling_control.o --omf_browse .\output\sampling_control.crf --depend .\output\sampling_control.d)
+F (..\sysFunction\sampling_control.c)(0x68511556)(--c99 -c --cpu Cortex-M4.fp.sp -g -O1 --apcs=interwork --split_sections -I ..\Libraries\Include -I ..\USER\inc -I ..\Driver\CMSIS\GD\GD32F4xx\Include -I ..\Components\bsp -I ..\Components\oled -I ..\Components\gd25qxx -I ..\Components\ebtn -I ..\Components\sdio -I ..\Components\fatfs -I ..\sysFunction-I.\RTE\_McuSTUDIO_F470VET6-ID:\Keil\Packs\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\Keil\Packs\GigaDevice\GD32F4xx_DFP\3.0.3\Device\F4XX\Include-ID:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0-D__UVISION_VERSION="540" -DGD32F470 -D_RTE_ -DUSE_STDPERIPH_DRIVER -DGD32F470  --preinclude="Pre_Include_Global.h"-o .\output\sampling_control.o --omf_browse .\output\sampling_control.crf --depend .\output\sampling_control.d)
 I (.\RTE\_McuSTUDIO_F470VET6\Pre_Include_Global.h)(0x684D0939)
 I (..\Components\bsp\mcu_cmic_gd32f470vet6.h)(0x684E2108)
 I (..\Driver\CMSIS\GD\GD32F4xx\Include\gd32f4xx.h)(0x6846DD9D)
@@ -2456,28 +2461,28 @@ I (..\Components\gd25qxx\gd25qxx.h)(0x6846DD9D)
 I (..\Components\sdio\sdio_sdcard.h)(0x6846DD9D)
 I (..\Components\fatfs\ff.h)(0x6846DD9D)
 I (..\Components\fatfs\integer.h)(0x6846DD9D)
-I (..\Components\fatfs\ffconf.h)(0x68501CC6)
+I (..\Components\fatfs\ffconf.h)(0x6850FC63)
 I (..\Components\fatfs\diskio.h)(0x6846DD9D)
 I (..\sysFunction\sd_app.h)(0x6846DD9D)
 I (..\sysFunction\led_app.h)(0x6846DD9D)
 I (..\sysFunction\adc_app.h)(0x6846DD9D)
 I (..\sysFunction\oled_app.h)(0x6846DD9D)
-I (..\sysFunction\usart_app.h)(0x6846DD9D)
+I (..\sysFunction\usart_app.h)(0x6851097D)
 I (..\sysFunction\rtc_app.h)(0x6846DD9D)
 I (..\sysFunction\btn_app.h)(0x6846DD9D)
 I (..\sysFunction\scheduler.h)(0x6846DD9D)
-I (..\sysFunction\system_function.h)(0x684E9CB8)
+I (..\sysFunction\system_function.h)(0x6851097D)
 I (..\sysFunction\config_manager.h)(0x685002A8)
 I (..\sysFunction\sampling_control.h)(0x684E657F)
 I (..\sysFunction\data_dispose.h)(0x684E839E)
-I (..\sysFunction\data_memory.h)(0x68500900)
+I (..\sysFunction\data_memory.h)(0x685119AF)
 I (D:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0\perf_counter.h)(0x684D0904)
 I (D:\Keil\ARM\ARMCC\include\stdbool.h)(0x5D9B3486)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x5D9B3487)
 I (D:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0\perfc_port_default.h)(0x684D0904)
 I (D:\Keil\ARM\ARMCC\include\stdarg.h)(0x5D9B3488)
 I (D:\Keil\ARM\ARMCC\include\stdio.h)(0x5D9B3488)
-F (..\sysFunction\data_dispose.c)(0x684E9133)(--c99 -c --cpu Cortex-M4.fp.sp -g -O1 --apcs=interwork --split_sections -I ..\Libraries\Include -I ..\USER\inc -I ..\Driver\CMSIS\GD\GD32F4xx\Include -I ..\Components\bsp -I ..\Components\oled -I ..\Components\gd25qxx -I ..\Components\ebtn -I ..\Components\sdio -I ..\Components\fatfs -I ..\sysFunction-I.\RTE\_McuSTUDIO_F470VET6-ID:\Keil\Packs\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\Keil\Packs\GigaDevice\GD32F4xx_DFP\3.0.3\Device\F4XX\Include-ID:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0-D__UVISION_VERSION="540" -DGD32F470 -D_RTE_ -DUSE_STDPERIPH_DRIVER -DGD32F470  --preinclude="Pre_Include_Global.h"-o .\output\data_dispose.o --omf_browse .\output\data_dispose.crf --depend .\output\data_dispose.d)
+F (..\sysFunction\data_dispose.c)(0x6850FC44)(--c99 -c --cpu Cortex-M4.fp.sp -g -O1 --apcs=interwork --split_sections -I ..\Libraries\Include -I ..\USER\inc -I ..\Driver\CMSIS\GD\GD32F4xx\Include -I ..\Components\bsp -I ..\Components\oled -I ..\Components\gd25qxx -I ..\Components\ebtn -I ..\Components\sdio -I ..\Components\fatfs -I ..\sysFunction-I.\RTE\_McuSTUDIO_F470VET6-ID:\Keil\Packs\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\Keil\Packs\GigaDevice\GD32F4xx_DFP\3.0.3\Device\F4XX\Include-ID:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0-D__UVISION_VERSION="540" -DGD32F470 -D_RTE_ -DUSE_STDPERIPH_DRIVER -DGD32F470  --preinclude="Pre_Include_Global.h"-o .\output\data_dispose.o --omf_browse .\output\data_dispose.crf --depend .\output\data_dispose.d)
 I (.\RTE\_McuSTUDIO_F470VET6\Pre_Include_Global.h)(0x684D0939)
 I (..\Components\bsp\mcu_cmic_gd32f470vet6.h)(0x684E2108)
 I (..\Driver\CMSIS\GD\GD32F4xx\Include\gd32f4xx.h)(0x6846DD9D)
@@ -2528,29 +2533,173 @@ I (..\Components\gd25qxx\gd25qxx.h)(0x6846DD9D)
 I (..\Components\sdio\sdio_sdcard.h)(0x6846DD9D)
 I (..\Components\fatfs\ff.h)(0x6846DD9D)
 I (..\Components\fatfs\integer.h)(0x6846DD9D)
-I (..\Components\fatfs\ffconf.h)(0x68501CC6)
+I (..\Components\fatfs\ffconf.h)(0x6850FC63)
 I (..\Components\fatfs\diskio.h)(0x6846DD9D)
 I (..\sysFunction\sd_app.h)(0x6846DD9D)
 I (..\sysFunction\led_app.h)(0x6846DD9D)
 I (..\sysFunction\adc_app.h)(0x6846DD9D)
 I (..\sysFunction\oled_app.h)(0x6846DD9D)
-I (..\sysFunction\usart_app.h)(0x6846DD9D)
+I (..\sysFunction\usart_app.h)(0x6851097D)
 I (..\sysFunction\rtc_app.h)(0x6846DD9D)
 I (..\sysFunction\btn_app.h)(0x6846DD9D)
 I (..\sysFunction\scheduler.h)(0x6846DD9D)
-I (..\sysFunction\system_function.h)(0x684E9CB8)
+I (..\sysFunction\system_function.h)(0x6851097D)
 I (..\sysFunction\config_manager.h)(0x685002A8)
 I (..\sysFunction\sampling_control.h)(0x684E657F)
 I (..\sysFunction\data_dispose.h)(0x684E839E)
-I (..\sysFunction\data_memory.h)(0x68500900)
+I (..\sysFunction\data_memory.h)(0x685119AF)
 I (D:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0\perf_counter.h)(0x684D0904)
 I (D:\Keil\ARM\ARMCC\include\stdbool.h)(0x5D9B3486)
 I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x5D9B3487)
 I (D:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0\perfc_port_default.h)(0x684D0904)
 I (D:\Keil\ARM\ARMCC\include\stdarg.h)(0x5D9B3488)
 I (D:\Keil\ARM\ARMCC\include\stdio.h)(0x5D9B3488)
-F (..\sysFunction\data_memory.c)(0x68501CC6)(--c99 -c --cpu Cortex-M4.fp.sp -g -O1 --apcs=interwork --split_sections -I ..\Libraries\Include -I ..\USER\inc -I ..\Driver\CMSIS\GD\GD32F4xx\Include -I ..\Components\bsp -I ..\Components\oled -I ..\Components\gd25qxx -I ..\Components\ebtn -I ..\Components\sdio -I ..\Components\fatfs -I ..\sysFunction-I.\RTE\_McuSTUDIO_F470VET6-ID:\Keil\Packs\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\Keil\Packs\GigaDevice\GD32F4xx_DFP\3.0.3\Device\F4XX\Include-ID:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0-D__UVISION_VERSION="540" -DGD32F470 -D_RTE_ -DUSE_STDPERIPH_DRIVER -DGD32F470  --preinclude="Pre_Include_Global.h"-o .\output\data_memory.o --omf_browse .\output\data_memory.crf --depend .\output\data_memory.d)
+F (..\sysFunction\data_memory.c)(0x68511A11)(--c99 -c --cpu Cortex-M4.fp.sp -g -O1 --apcs=interwork --split_sections -I ..\Libraries\Include -I ..\USER\inc -I ..\Driver\CMSIS\GD\GD32F4xx\Include -I ..\Components\bsp -I ..\Components\oled -I ..\Components\gd25qxx -I ..\Components\ebtn -I ..\Components\sdio -I ..\Components\fatfs -I ..\sysFunction-I.\RTE\_McuSTUDIO_F470VET6-ID:\Keil\Packs\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\Keil\Packs\GigaDevice\GD32F4xx_DFP\3.0.3\Device\F4XX\Include-ID:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0-D__UVISION_VERSION="540" -DGD32F470 -D_RTE_ -DUSE_STDPERIPH_DRIVER -DGD32F470  --preinclude="Pre_Include_Global.h"-o .\output\data_memory.o --omf_browse .\output\data_memory.crf --depend .\output\data_memory.d)
 I (.\RTE\_McuSTUDIO_F470VET6\Pre_Include_Global.h)(0x684D0939)
+I (..\Components\bsp\mcu_cmic_gd32f470vet6.h)(0x684E2108)
+I (..\Driver\CMSIS\GD\GD32F4xx\Include\gd32f4xx.h)(0x6846DD9D)
+I (D:\Keil\Packs\ARM\CMSIS\5.4.0\CMSIS\Core\Include\core_cm4.h)(0x684D0909)
+I (D:\Keil\ARM\ARMCC\include\stdint.h)(0x5D9B3487)
+I (D:\Keil\Packs\ARM\CMSIS\5.4.0\CMSIS\Core\Include\cmsis_version.h)(0x684D0909)
+I (D:\Keil\Packs\ARM\CMSIS\5.4.0\CMSIS\Core\Include\cmsis_compiler.h)(0x684D0909)
+I (D:\Keil\Packs\ARM\CMSIS\5.4.0\CMSIS\Core\Include\cmsis_armcc.h)(0x684D0909)
+I (D:\Keil\Packs\ARM\CMSIS\5.4.0\CMSIS\Core\Include\mpu_armv7.h)(0x684D0909)
+I (..\Driver\CMSIS\GD\GD32F4xx\Include\system_gd32f4xx.h)(0x6846DD9D)
+I (..\USER\inc\gd32f4xx_libopt.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_rcu.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_adc.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_can.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_crc.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_ctc.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_dac.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_dbg.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_dci.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_dma.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_exti.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_fmc.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_fwdgt.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_gpio.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_syscfg.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_i2c.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_iref.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_pmu.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_rtc.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_sdio.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_spi.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_timer.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_trng.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_usart.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_wwdgt.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_misc.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_enet.h)(0x6846DD9D)
+I (D:\Keil\ARM\ARMCC\include\stdlib.h)(0x5D9B3488)
+I (..\Libraries\Include\gd32f4xx_exmc.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_ipa.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_tli.h)(0x6846DD9D)
+I (..\USER\inc\systick.h)(0x6846DD9D)
+I (..\Components\ebtn\ebtn.h)(0x6846DD9D)
+I (D:\Keil\ARM\ARMCC\include\string.h)(0x5D9B3487)
+I (..\Components\ebtn\bit_array.h)(0x6846DD9D)
+I (..\Components\oled\oled.h)(0x6846DD9D)
+I (..\Components\gd25qxx\gd25qxx.h)(0x6846DD9D)
+I (..\Components\sdio\sdio_sdcard.h)(0x6846DD9D)
+I (..\Components\fatfs\ff.h)(0x6846DD9D)
+I (..\Components\fatfs\integer.h)(0x6846DD9D)
+I (..\Components\fatfs\ffconf.h)(0x6850FC63)
+I (..\Components\fatfs\diskio.h)(0x6846DD9D)
+I (..\sysFunction\sd_app.h)(0x6846DD9D)
+I (..\sysFunction\led_app.h)(0x6846DD9D)
+I (..\sysFunction\adc_app.h)(0x6846DD9D)
+I (..\sysFunction\oled_app.h)(0x6846DD9D)
+I (..\sysFunction\usart_app.h)(0x6851097D)
+I (..\sysFunction\rtc_app.h)(0x6846DD9D)
+I (..\sysFunction\btn_app.h)(0x6846DD9D)
+I (..\sysFunction\scheduler.h)(0x6846DD9D)
+I (..\sysFunction\system_function.h)(0x6851097D)
+I (..\sysFunction\config_manager.h)(0x685002A8)
+I (..\sysFunction\sampling_control.h)(0x684E657F)
+I (..\sysFunction\data_dispose.h)(0x684E839E)
+I (..\sysFunction\data_memory.h)(0x685119AF)
+I (D:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0\perf_counter.h)(0x684D0904)
+I (D:\Keil\ARM\ARMCC\include\stdbool.h)(0x5D9B3486)
+I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x5D9B3487)
+I (D:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0\perfc_port_default.h)(0x684D0904)
+I (D:\Keil\ARM\ARMCC\include\stdarg.h)(0x5D9B3488)
+I (D:\Keil\ARM\ARMCC\include\stdio.h)(0x5D9B3488)
+I (..\sysFunction\fatfs_unicode_helper.h)(0x6850FB64)
+F (..\sysFunction\fatfs_unicode_helper.c)(0x6850FB53)(--c99 -c --cpu Cortex-M4.fp.sp -g -O1 --apcs=interwork --split_sections -I ..\Libraries\Include -I ..\USER\inc -I ..\Driver\CMSIS\GD\GD32F4xx\Include -I ..\Components\bsp -I ..\Components\oled -I ..\Components\gd25qxx -I ..\Components\ebtn -I ..\Components\sdio -I ..\Components\fatfs -I ..\sysFunction-I.\RTE\_McuSTUDIO_F470VET6-ID:\Keil\Packs\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\Keil\Packs\GigaDevice\GD32F4xx_DFP\3.0.3\Device\F4XX\Include-ID:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0-D__UVISION_VERSION="540" -DGD32F470 -D_RTE_ -DUSE_STDPERIPH_DRIVER -DGD32F470  --preinclude="Pre_Include_Global.h"-o .\output\fatfs_unicode_helper.o --omf_browse .\output\fatfs_unicode_helper.crf --depend .\output\fatfs_unicode_helper.d)
+I (.\RTE\_McuSTUDIO_F470VET6\Pre_Include_Global.h)(0x684D0939)
+I (..\sysFunction\fatfs_unicode_helper.h)(0x6850FB64)
+I (D:\Keil\ARM\ARMCC\include\stdint.h)(0x5D9B3487)
+I (..\Components\fatfs\ff.h)(0x6846DD9D)
+I (..\Components\fatfs\integer.h)(0x6846DD9D)
+I (..\Components\fatfs\ffconf.h)(0x6850FC63)
+I (..\Components\bsp\mcu_cmic_gd32f470vet6.h)(0x684E2108)
+I (..\Driver\CMSIS\GD\GD32F4xx\Include\gd32f4xx.h)(0x6846DD9D)
+I (D:\Keil\Packs\ARM\CMSIS\5.4.0\CMSIS\Core\Include\core_cm4.h)(0x684D0909)
+I (D:\Keil\Packs\ARM\CMSIS\5.4.0\CMSIS\Core\Include\cmsis_version.h)(0x684D0909)
+I (D:\Keil\Packs\ARM\CMSIS\5.4.0\CMSIS\Core\Include\cmsis_compiler.h)(0x684D0909)
+I (D:\Keil\Packs\ARM\CMSIS\5.4.0\CMSIS\Core\Include\cmsis_armcc.h)(0x684D0909)
+I (D:\Keil\Packs\ARM\CMSIS\5.4.0\CMSIS\Core\Include\mpu_armv7.h)(0x684D0909)
+I (..\Driver\CMSIS\GD\GD32F4xx\Include\system_gd32f4xx.h)(0x6846DD9D)
+I (..\USER\inc\gd32f4xx_libopt.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_rcu.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_adc.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_can.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_crc.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_ctc.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_dac.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_dbg.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_dci.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_dma.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_exti.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_fmc.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_fwdgt.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_gpio.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_syscfg.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_i2c.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_iref.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_pmu.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_rtc.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_sdio.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_spi.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_timer.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_trng.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_usart.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_wwdgt.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_misc.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_enet.h)(0x6846DD9D)
+I (D:\Keil\ARM\ARMCC\include\stdlib.h)(0x5D9B3488)
+I (..\Libraries\Include\gd32f4xx_exmc.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_ipa.h)(0x6846DD9D)
+I (..\Libraries\Include\gd32f4xx_tli.h)(0x6846DD9D)
+I (..\USER\inc\systick.h)(0x6846DD9D)
+I (..\Components\ebtn\ebtn.h)(0x6846DD9D)
+I (D:\Keil\ARM\ARMCC\include\string.h)(0x5D9B3487)
+I (..\Components\ebtn\bit_array.h)(0x6846DD9D)
+I (..\Components\oled\oled.h)(0x6846DD9D)
+I (..\Components\gd25qxx\gd25qxx.h)(0x6846DD9D)
+I (..\Components\sdio\sdio_sdcard.h)(0x6846DD9D)
+I (..\Components\fatfs\diskio.h)(0x6846DD9D)
+I (..\sysFunction\sd_app.h)(0x6846DD9D)
+I (..\sysFunction\led_app.h)(0x6846DD9D)
+I (..\sysFunction\adc_app.h)(0x6846DD9D)
+I (..\sysFunction\oled_app.h)(0x6846DD9D)
+I (..\sysFunction\usart_app.h)(0x6851097D)
+I (..\sysFunction\rtc_app.h)(0x6846DD9D)
+I (..\sysFunction\btn_app.h)(0x6846DD9D)
+I (..\sysFunction\scheduler.h)(0x6846DD9D)
+I (..\sysFunction\system_function.h)(0x6851097D)
+I (..\sysFunction\config_manager.h)(0x685002A8)
+I (..\sysFunction\sampling_control.h)(0x684E657F)
+I (..\sysFunction\data_dispose.h)(0x684E839E)
+I (..\sysFunction\data_memory.h)(0x685119AF)
+I (D:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0\perf_counter.h)(0x684D0904)
+I (D:\Keil\ARM\ARMCC\include\stdbool.h)(0x5D9B3486)
+I (D:\Keil\ARM\ARMCC\include\stddef.h)(0x5D9B3487)
+I (D:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0\perfc_port_default.h)(0x684D0904)
+I (D:\Keil\ARM\ARMCC\include\stdarg.h)(0x5D9B3488)
+I (D:\Keil\ARM\ARMCC\include\stdio.h)(0x5D9B3488)
 F (D:/Keil/Packs/GorgonMeducer/perf_counter/2.4.0/perf_counter.c)(0x684D0904)(--c99 -c --cpu Cortex-M4.fp.sp -g -O1 --apcs=interwork --split_sections -I ..\Libraries\Include -I ..\USER\inc -I ..\Driver\CMSIS\GD\GD32F4xx\Include -I ..\Components\bsp -I ..\Components\oled -I ..\Components\gd25qxx -I ..\Components\ebtn -I ..\Components\sdio -I ..\Components\fatfs -I ..\sysFunction-I.\RTE\_McuSTUDIO_F470VET6-ID:\Keil\Packs\ARM\CMSIS\5.4.0\CMSIS\Core\Include-ID:\Keil\Packs\GigaDevice\GD32F4xx_DFP\3.0.3\Device\F4XX\Include-ID:\Keil\Packs\GorgonMeducer\perf_counter\2.4.0-D__UVISION_VERSION="540" -DGD32F470 -D_RTE_ -DUSE_STDPERIPH_DRIVER -DGD32F470  --preinclude="Pre_Include_Global.h"-o .\output\perf_counter.o --omf_browse .\output\perf_counter.crf --depend .\output\perf_counter.d)
 I (.\RTE\_McuSTUDIO_F470VET6\Pre_Include_Global.h)(0x684D0939)
 I (D:\Keil\ARM\ARMCC\include\stdint.h)(0x5D9B3487)

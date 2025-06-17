@@ -1,8 +1,10 @@
 #include "mcu_cmic_gd32f470vet6.h"
+#include "data_memory.h"
 
 extern uint16_t adc_value[1]; // ADC采样值 # 引用ADC采样值
 extern rtc_parameter_struct rtc_initpara; // RTC时间参数 # 引用RTC时间参数
 extern float g_ratio_value; // 从config_manager.c引入ratio全局变量 # 引入比例系数
+extern float g_limit_value; // 从config_manager.c引入limit全局变量 # 引入限制阈值
 
 uint8_t sampling_flag = 0; // 0:停止 1:运行 # 采样状态标志
 uint32_t sampling_tick = 0; // 采样计时器计数 # 滴答定时器计数
@@ -75,9 +77,18 @@ void process_sampling(void)
         sampling_tick = now_time;
         
         // 通过串口输出采样数据，使用调整后的电压值
-        my_printf(DEBUG_USART, "20%02x-%02x-%02x %02x:%02x:%02x ch0=%.2fV\r\n", 
+        my_printf(DEBUG_USART, "20%02x-%02x-%02x %02x:%02x:%02x ch0=%.2fV\r\n",
                 rtc_initpara.year, rtc_initpara.month, rtc_initpara.date,
                 rtc_initpara.hour, rtc_initpara.minute, rtc_initpara.second,
                 adjusted_voltage);
+
+        // 保存数据到TF卡
+        save_sample_data(adjusted_voltage);
+
+        // 检查是否超限并保存超限数据
+        if(adjusted_voltage > g_limit_value) {
+            my_printf(DEBUG_USART, "OVERLIMIT: %.2fV > %.2fV\r\n", adjusted_voltage, g_limit_value);
+            save_overlimit_data(adjusted_voltage, g_limit_value);
+        }
     }
 }
