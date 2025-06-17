@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\output\Project.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\output\Project.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Tue Jun 17 17:57:32 2025
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Tue Jun 17 18:18:06 2025
 <BR><P>
 <H3>Maximum Stack Usage =       2324 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -2619,12 +2619,11 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[176]"></a>log_write</STRONG> (Thumb, 136 bytes, Stack size 184 bytes, data_memory.o(i.log_write))
+<P><STRONG><a name="[176]"></a>log_write</STRONG> (Thumb, 138 bytes, Stack size 184 bytes, data_memory.o(i.log_write))
 <BR><BR>[Stack]<UL><LI>Max Depth = 1148 + Unknown Stack Size
 <LI>Call Chain = log_write &rArr; create_new_log_file &rArr; f_open &rArr; dir_register &rArr; dir_find &rArr; dir_next &rArr; create_chain &rArr; put_fat &rArr; move_window &rArr; disk_write &rArr; sd_multiblocks_write &rArr; dma_transfer_config &rArr; dma_multi_data_mode_init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[179]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;my_printf
-<LI><a href="#[1cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rtc_current_time_get
+<BR>[Calls]<UL><LI><a href="#[1cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rtc_current_time_get
 <LI><a href="#[1e0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_log_data
 <LI><a href="#[199]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;create_new_log_file
 <LI><a href="#[191]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;create_log_directory
@@ -2643,7 +2642,7 @@ Global Symbols
 <LI><a href="#[174]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;config_read
 </UL>
 
-<P><STRONG><a name="[af]"></a>main</STRONG> (Thumb, 86 bytes, Stack size 0 bytes, main.o(i.main))
+<P><STRONG><a name="[af]"></a>main</STRONG> (Thumb, 94 bytes, Stack size 0 bytes, main.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 1156 + Unknown Stack Size
 <LI>Call Chain = main &rArr; log_init &rArr; log_write &rArr; create_new_log_file &rArr; f_open &rArr; dir_register &rArr; dir_find &rArr; dir_next &rArr; create_chain &rArr; put_fat &rArr; move_window &rArr; disk_write &rArr; sd_multiblocks_write &rArr; dma_transfer_config &rArr; dma_multi_data_mode_init
 </UL>
@@ -2680,7 +2679,6 @@ Global Symbols
 <LI><a href="#[b7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vsnprintf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1e4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;system_init
-<LI><a href="#[176]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;log_write
 <LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prv_btn_event
 <LI><a href="#[127]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;process_sampling
 <LI><a href="#[201]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;write_sample_data
@@ -2693,7 +2691,6 @@ Global Symbols
 <LI><a href="#[19b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;create_new_sample_file
 <LI><a href="#[19a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;create_new_overlimit_file
 <LI><a href="#[199]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;create_new_log_file
-<LI><a href="#[196]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;create_new_hidedata_file
 <LI><a href="#[191]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;create_log_directory
 <LI><a href="#[18e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;create_hidedata_directory
 <LI><a href="#[1ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;save_sample_data
@@ -2774,7 +2771,7 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[151]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;bsp_rtc_init
 </UL>
 
-<P><STRONG><a name="[127]"></a>process_sampling</STRONG> (Thumb, 258 bytes, Stack size 48 bytes, sampling_control.o(i.process_sampling))
+<P><STRONG><a name="[127]"></a>process_sampling</STRONG> (Thumb, 266 bytes, Stack size 48 bytes, sampling_control.o(i.process_sampling))
 <BR><BR>[Stack]<UL><LI>Max Depth = 1428 + Unknown Stack Size
 <LI>Call Chain = process_sampling &rArr; save_hidedata &rArr; format_hidedata &rArr; hide_conversion &rArr; log_write &rArr; create_new_log_file &rArr; f_open &rArr; dir_register &rArr; dir_find &rArr; dir_next &rArr; create_chain &rArr; put_fat &rArr; move_window &rArr; disk_write &rArr; sd_multiblocks_write &rArr; dma_transfer_config &rArr; dma_multi_data_mode_init
 </UL>
@@ -4487,7 +4484,7 @@ Local Symbols
 <LI><a href="#[1cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;format_hidedata
 </UL>
 
-<P><STRONG><a name="[18e]"></a>create_hidedata_directory</STRONG> (Thumb, 72 bytes, Stack size 8 bytes, data_memory.o(i.create_hidedata_directory))
+<P><STRONG><a name="[18e]"></a>create_hidedata_directory</STRONG> (Thumb, 44 bytes, Stack size 8 bytes, data_memory.o(i.create_hidedata_directory))
 <BR><BR>[Stack]<UL><LI>Max Depth = 924 + Unknown Stack Size
 <LI>Call Chain = create_hidedata_directory &rArr; f_mkdir &rArr; dir_register &rArr; dir_find &rArr; dir_next &rArr; create_chain &rArr; put_fat &rArr; move_window &rArr; disk_write &rArr; sd_multiblocks_write &rArr; dma_transfer_config &rArr; dma_multi_data_mode_init
 </UL>
@@ -4510,12 +4507,11 @@ Local Symbols
 <LI><a href="#[176]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;log_write
 </UL>
 
-<P><STRONG><a name="[196]"></a>create_new_hidedata_file</STRONG> (Thumb, 70 bytes, Stack size 88 bytes, data_memory.o(i.create_new_hidedata_file))
+<P><STRONG><a name="[196]"></a>create_new_hidedata_file</STRONG> (Thumb, 50 bytes, Stack size 88 bytes, data_memory.o(i.create_new_hidedata_file))
 <BR><BR>[Stack]<UL><LI>Max Depth = 1012 + Unknown Stack Size
 <LI>Call Chain = create_new_hidedata_file &rArr; f_open &rArr; dir_register &rArr; dir_find &rArr; dir_next &rArr; create_chain &rArr; put_fat &rArr; move_window &rArr; disk_write &rArr; sd_multiblocks_write &rArr; dma_transfer_config &rArr; dma_multi_data_mode_init
 </UL>
-<BR>[Calls]<UL><LI><a href="#[179]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;my_printf
-<LI><a href="#[198]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;f_sync
+<BR>[Calls]<UL><LI><a href="#[198]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;f_sync
 <LI><a href="#[17a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;f_open
 <LI><a href="#[197]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;generate_14digit_timestamp
 <LI><a href="#[b9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2sprintf

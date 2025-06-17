@@ -210,15 +210,12 @@ static uint8_t create_hidedata_directory(void)
 
     // 检查创建结果
     if(res == FR_OK) {
-        my_printf(DEBUG_USART, "Hidedata directory created successfully\r\n");
         return 1;                            // 创建成功
     }
     else if(res == FR_EXIST) {
-        my_printf(DEBUG_USART, "Hidedata directory already exists\r\n");
         return 1;                            // 目录已存在，视为成功
     }
     else {
-        my_printf(DEBUG_USART, "Failed to create hidedata directory, error: %d\r\n", res);
         return 0;                            // 创建失败
     }
 }
@@ -353,15 +350,12 @@ static uint8_t create_new_hidedata_file(void)
 
     // 检查文件创建结果
     if(res == FR_OK) {
-        my_printf(DEBUG_USART, "Hidedata file created: %s\r\n", filename);
-
         // 立即同步到存储设备
         f_sync(&g_hidedata_file);
 
         return 1;                            // 创建成功
     }
     else {
-        my_printf(DEBUG_USART, "Failed to create hidedata file: %s, error: %d\r\n", filename, res);
         return 0;                            // 创建失败
     }
 }
@@ -584,18 +578,16 @@ void log_init(void)
         return;
     }
 
-    // 创建日志文件
+    // 创建日志文件（使用当前的boot_count作为文件号）
     if(create_new_log_file(g_boot_count)) {
         g_log_file_opened = 1;               // 标记日志文件已打开
 
         // 记录RTC配置日志
         log_write("rtc config");
 
-        // 递增上电次数并保存到Flash
+        // 递增上电次数并保存到Flash（为下次上电准备）
         g_boot_count++;
         save_boot_count_to_flash(g_boot_count);
-    } else {
-        // 不要return，让系统继续运行
     }
 }
 
@@ -608,10 +600,12 @@ void log_write(const char* message)
 
     // 如果日志文件未打开，尝试重新初始化
     if(!g_log_file_opened) {
+        // 使用当前boot_count减1，因为在log_init中已经递增了
+        uint32_t current_file_id = (g_boot_count > 0) ? (g_boot_count - 1) : 0;
+
         // 尝试创建log目录和文件
-        if(create_log_directory() && create_new_log_file(g_boot_count)) {
+        if(create_log_directory() && create_new_log_file(current_file_id)) {
             g_log_file_opened = 1;           // 标记日志文件已打开
-            my_printf(DEBUG_USART, "Log system re-initialized\r\n");
         } else {
             return;                          // 重新初始化失败，放弃写入
         }

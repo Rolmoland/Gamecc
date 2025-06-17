@@ -101,6 +101,12 @@ void process_sampling(void)
         // 检查是否超限并保存超限数据（无论是否隐藏模式，都要保存未加密的超限数据）
         if(adjusted_voltage > g_limit_value) {
             save_overlimit_data(adjusted_voltage, g_limit_value);
+
+            // 超限时点亮LED2
+            LED2_OFF;
+        } else {
+            // 不超限时熄灭LED2
+            LED2_ON;
         }
     }
 }

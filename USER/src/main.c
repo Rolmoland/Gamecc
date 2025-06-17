@@ -39,7 +39,10 @@ int main(void)
     OLED_Init();
 
     flash_device_id_set(); // 写入设备ID
-    
+
+    // 初始化LED2状态为熄灭（不超限状态）
+    LED2_OFF;
+
     system_init();
     
     scheduler_init();
