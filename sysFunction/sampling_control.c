@@ -22,6 +22,9 @@ void sampling_start_stop(uint8_t * cmd)
         // 输出启动信息
         my_printf(DEBUG_USART, "Periodic Sampling\r\n");
         my_printf(DEBUG_USART, "sample cycle:%ds\r\n", sampling_cycle);
+
+        // 记录日志
+        log_write("sampling started");
     }
     // 检查是否为stop命令
     else if(strncmp((char*)cmd, "stop", 4) == 0) 
@@ -34,6 +37,9 @@ void sampling_start_stop(uint8_t * cmd)
 
             // 输出停止信息
             my_printf(DEBUG_USART, "Periodic Sampling STOP\r\n");
+
+            // 记录日志
+            log_write("sampling stopped");
 
             // OLED显示
             oled_printf(0, 0, "system idle");
@@ -89,6 +95,9 @@ void process_sampling(void)
         if(adjusted_voltage > g_limit_value) {
             my_printf(DEBUG_USART, "OVERLIMIT: %.2fV > %.2fV\r\n", adjusted_voltage, g_limit_value);
             save_overlimit_data(adjusted_voltage, g_limit_value);
+
+            // 记录超限日志
+            log_write("voltage overlimit");
         }
     }
 }

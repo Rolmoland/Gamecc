@@ -295,6 +295,13 @@ static void config_value_set(const char *cmd_name, uint8_t *cmd)
         // 输出成功信息
         my_printf(DEBUG_USART, "%s\r\n", success_msg);
         my_printf(DEBUG_USART, "%s = %.1f\r\n", display_name, new_value);
+
+        // 记录配置变更日志
+        if(is_ratio) {
+            log_write("ratio config");
+        } else {
+            log_write("limit config");
+        }
     }
 }
 
@@ -354,6 +361,9 @@ void config_save(uint8_t * cmd)
         
         // 输出保存成功信息
         my_printf(DEBUG_USART, "save parameters to flash\r\n");
+
+        // 记录配置保存日志
+        log_write("config saved");
     }
 }
 

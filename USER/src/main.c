@@ -34,6 +34,7 @@ int main(void)
     
     // 应用层初始化
     sd_fatfs_init();
+    log_init();      // 初始化日志系统
     app_btn_init();
     OLED_Init();
 
