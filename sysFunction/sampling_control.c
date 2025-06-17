@@ -75,7 +75,7 @@ void process_sampling(void)
     rtc_current_time_get(&rtc_initpara);
 
     // 在OLED上显示时间和调整后的电压
-    oled_printf(0, 0, "%02x:%02x:%02x", rtc_initpara.hour, rtc_initpara.minute, rtc_initpara.second);
+    oled_printf(0, 0, "%02x:%02x:%02x     ", rtc_initpara.hour, rtc_initpara.minute, rtc_initpara.second);
     oled_printf(0, 1, "%.2f V", adjusted_voltage);
     
     // 按照采样周期进行采样
@@ -100,7 +100,6 @@ void process_sampling(void)
 
         // 检查是否超限并保存超限数据（无论是否隐藏模式，都要保存未加密的超限数据）
         if(adjusted_voltage > g_limit_value) {
-            my_printf(DEBUG_USART, "OVERLIMIT: %.2fV > %.2fV\r\n", adjusted_voltage, g_limit_value);
             save_overlimit_data(adjusted_voltage, g_limit_value);
         }
     }

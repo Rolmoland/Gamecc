@@ -51,7 +51,6 @@ static uint8_t ensure_sd_ready(void)
             my_printf(DEBUG_USART, "Failed to initialize SD card, status: %d\r\n", disk_status);
             return 0;                        // SD卡初始化失败
         } else {
-            my_printf(DEBUG_USART, "SD card initialized successfully\r\n");
             g_sd_initialized = 1;            // 标记SD卡已初始化
         }
     }
@@ -63,7 +62,6 @@ static uint8_t ensure_sd_ready(void)
             my_printf(DEBUG_USART, "Failed to mount filesystem, error: %d\r\n", res);
             return 0;                        // 挂载失败
         } else {
-            my_printf(DEBUG_USART, "Filesystem mounted successfully\r\n");
             g_fs_mounted = 1;                // 标记文件系统已挂载
         }
     }
@@ -87,9 +85,7 @@ static uint32_t read_boot_count_from_flash(void)
         boot_count |= (uint32_t)read_buffer[5] << 8;
         boot_count |= (uint32_t)read_buffer[6] << 16;
         boot_count |= (uint32_t)read_buffer[7] << 24;
-        my_printf(DEBUG_USART, "Boot count read from flash: %lu\r\n", boot_count);
     } else {
-        my_printf(DEBUG_USART, "No boot count found in flash, starting from 0\r\n");
     }
 
     return boot_count;
@@ -115,8 +111,6 @@ static void save_boot_count_to_flash(uint32_t boot_count)
 
     // 写入数据
     spi_flash_buffer_write(write_buffer, LOG_BOOT_COUNT_FLASH_ADDR, 8);
-
-    my_printf(DEBUG_USART, "Boot count %lu saved to flash\r\n", boot_count);
 }
 
 // 创建sample目录 # 目录创建函数
@@ -135,11 +129,9 @@ static uint8_t create_sample_directory(void)
 
     // 检查创建结果
     if(res == FR_OK) {
-        my_printf(DEBUG_USART, "Sample directory created successfully\r\n");
         return 1;                            // 创建成功
     }
     else if(res == FR_EXIST) {
-        my_printf(DEBUG_USART, "Sample directory already exists\r\n");
         return 1;                            // 目录已存在，视为成功
     }
     else {
@@ -164,11 +156,9 @@ static uint8_t create_overlimit_directory(void)
 
     // 检查创建结果
     if(res == FR_OK) {
-        my_printf(DEBUG_USART, "Overlimit directory created successfully\r\n");
         return 1;                            // 创建成功
     }
     else if(res == FR_EXIST) {
-        my_printf(DEBUG_USART, "Overlimit directory already exists\r\n");
         return 1;                            // 目录已存在，视为成功
     }
     else {
@@ -193,11 +183,9 @@ static uint8_t create_log_directory(void)
 
     // 检查创建结果
     if(res == FR_OK) {
-        my_printf(DEBUG_USART, "Log directory created successfully\r\n");
         return 1;                            // 创建成功
     }
     else if(res == FR_EXIST) {
-        my_printf(DEBUG_USART, "Log directory already exists\r\n");
         return 1;                            // 目录已存在，视为成功
     }
     else {
@@ -281,7 +269,6 @@ static uint8_t create_new_sample_file(void)
 
     // 检查文件创建结果
     if(res == FR_OK) {
-        my_printf(DEBUG_USART, "Sample file created: %s\r\n", optimized_filename);
         return 1;                            // 创建成功
     }
     else {
@@ -313,7 +300,6 @@ static uint8_t create_new_overlimit_file(void)
 
     // 检查文件创建结果
     if(res == FR_OK) {
-        my_printf(DEBUG_USART, "Overlimit file created: %s\r\n", optimized_filename);
         return 1;                            // 创建成功
     }
     else {
@@ -337,7 +323,6 @@ static uint8_t create_new_log_file(uint32_t boot_id)
 
     // 检查文件创建结果
     if(res == FR_OK) {
-        my_printf(DEBUG_USART, "Log file created: %s\r\n", filename);
 
         // 立即同步到存储设备
         f_sync(&g_log_file);
@@ -591,23 +576,17 @@ static uint8_t write_log_data(const char* data)
 // 日志系统初始化 # 日志系统初始化函数
 void log_init(void)
 {
-    my_printf(DEBUG_USART, "Initializing log system...\r\n");
-
     // 读取上电次数
     g_boot_count = read_boot_count_from_flash();
-    my_printf(DEBUG_USART, "Current boot count: %lu\r\n", g_boot_count);
 
     // 创建log目录
     if(!create_log_directory()) {
-        my_printf(DEBUG_USART, "Failed to create log directory, will retry later\r\n");
-        // 不要return，让系统继续运行，稍后重试
         return;
     }
 
     // 创建日志文件
     if(create_new_log_file(g_boot_count)) {
         g_log_file_opened = 1;               // 标记日志文件已打开
-        my_printf(DEBUG_USART, "Log system initialized successfully\r\n");
 
         // 记录RTC配置日志
         log_write("rtc config");
@@ -616,7 +595,6 @@ void log_init(void)
         g_boot_count++;
         save_boot_count_to_flash(g_boot_count);
     } else {
-        my_printf(DEBUG_USART, "Failed to create log file, will retry later\r\n");
         // 不要return，让系统继续运行
     }
 }

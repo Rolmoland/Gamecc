@@ -40,8 +40,6 @@ int main(void)
 
     flash_device_id_set(); // 写入设备ID
     
-    test_spi_flash();
-    
     system_init();
     
     scheduler_init();

@@ -21,7 +21,6 @@ static task_t scheduler_task[] =
 {
      {led_task,  1,    0}
     ,{adc_task,  100,  0}
-    ,{oled_task, 10,   0}
     ,{btn_task,  5,    0}
     ,{uart_task, 5,    0}
     ,{rtc_task,  500,  0}

@@ -204,7 +204,7 @@ static void config_value_set(const char *cmd_name, uint8_t *cmd)
         char invalid_msg[32];        // 无效消息，如"ratio invalid"
         char success_msg[32];        // 成功消息，如"ratio modified success"
         char display_name[32];       // 显示名称，如"Ratio"
-        float max_value = is_ratio ? 100.0f : 500.0f;  // 根据命令类型设置最大值
+        float max_value = is_ratio ? 100.0f : 200.0f;  // 根据命令类型设置最大值
 
         // 设置显示名称（首字母大写）
         strcpy(display_name, cmd_name);

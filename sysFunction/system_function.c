@@ -180,25 +180,18 @@ void flash_device_id_set(void)
     uint32_t flash_addr = 0x001000; // 使用Flash的第二个扇区，避免与配置数据冲突
     
     // 擦除扇区
-    my_printf(DEBUG_USART, "Erasing flash sector...\r\n");
     spi_flash_sector_erase(flash_addr);
     
     // 等待擦除完成
     spi_flash_wait_for_write_end();
     
     // 写入设备ID
-    my_printf(DEBUG_USART, "Writing device ID to flash...\r\n");
     spi_flash_buffer_write((uint8_t*)device_id, flash_addr, id_length + 1); // +1 包含字符串结束符
     
     // 验证写入
     uint8_t read_buffer[64] = {0};
     spi_flash_buffer_read(read_buffer, flash_addr, id_length + 1);
     
-    if(strcmp((char*)read_buffer, device_id) == 0) {
-        my_printf(DEBUG_USART, "Device ID set successfully: %s\r\n", read_buffer);
-    } else {
-        my_printf(DEBUG_USART, "Failed to set device ID\r\n");
-    }
 }
 
 
