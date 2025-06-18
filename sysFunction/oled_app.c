@@ -36,3 +36,14 @@ void oled_task(void)
 }
 
 /* CUSTOM EDIT */
+
+uint32_t one_to_one(uint8_t * cmd)
+{
+  uint32_t  a, b;
+  uint32_t sum;
+  if(a > cmd) sum = a;
+  else if(b > cmd) sum = b;
+
+  return sum;
+}
+
