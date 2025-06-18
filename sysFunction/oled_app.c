@@ -47,3 +47,13 @@ uint32_t one_to_one(uint8_t * cmd)
   return sum;
 }
 
+uint8_t test(uint8_t * cmd)
+{
+  uint8_t a = 1;
+  uint8_t b = 2;
+
+  uint8 sum = a + b;
+  
+  return sum;
+}
+
