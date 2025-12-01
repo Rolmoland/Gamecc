@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GamePad Tuner</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- 头部 -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">G</div>
+                <h1>GamePad Tuner</h1>
+            </div>
+            <div class="header-actions">
+                <div class="theme-switcher">
+                    <button class="theme-btn active" data-theme="dark" title="黑夜">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                        </svg>
+                    </button>
+                    <button class="theme-btn" data-theme="light" title="白天">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                        </svg>
+                    </button>
+                    <button class="theme-btn" data-theme="eye-care" title="护眼">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+                        </svg>
+                    </button>
+                </div>
+                <div class="header-divider"></div>
+                <button id="btn-import" class="btn btn-secondary">导入</button>
+                <button id="btn-export" class="btn btn-secondary">导出</button>
+                <button id="btn-reset" class="btn btn-danger">重置</button>
+            </div>
+        </header>
+
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <!-- 左侧：核心可视化 -->
+            <section class="panel panel-left">
+                <!-- 连接状态条 -->
+                <div class="card" id="connection-card">
+                    <div class="card-header">
+                        <h2>设备</h2>
+                        <span class="status-indicator" id="status-indicator">未连接</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="device-info" id="device-info">
+                            <p class="hint">连接手柄后按任意键激活</p>
+                        </div>
+                        <div class="gamepad-selector" id="gamepad-selector" style="display:none;">
+                            <label>切换:</label>
+                            <select id="gamepad-select"></select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 核心区：摇杆 + 扳机 -->
+                <div class="card core-visual">
+                    <div class="card-body">
+                        <!-- 摇杆 -->
+                        <div class="sticks-container">
+                            <div class="stick-wrapper">
+                                <h3>左摇杆</h3>
+                                <div class="stick-visual" id="stick-left">
+                                    <div class="stick-zone"></div>
+                                    <div class="stick-deadzone" id="deadzone-left"></div>
+                                    <div class="stick-crosshair"></div>
+                                    <div class="stick-dot" id="dot-left"></div>
+                                </div>
+                                <div class="stick-values">
+                                    <span>X: <span id="left-x">0.00</span></span>
+                                    <span>Y: <span id="left-y">0.00</span></span>
+                                </div>
+                            </div>
+                            <div class="stick-wrapper">
+                                <h3>右摇杆</h3>
+                                <div class="stick-visual" id="stick-right">
+                                    <div class="stick-zone"></div>
+                                    <div class="stick-deadzone" id="deadzone-right"></div>
+                                    <div class="stick-crosshair"></div>
+                                    <div class="stick-dot" id="dot-right"></div>
+                                </div>
+                                <div class="stick-values">
+                                    <span>X: <span id="right-x">0.00</span></span>
+                                    <span>Y: <span id="right-y">0.00</span></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 扳机 -->
+                        <div class="triggers-container">
+                            <div class="trigger-wrapper">
+                                <h3>LT</h3>
+                                <div class="trigger-bar">
+                                    <div class="trigger-fill" id="trigger-lt"></div>
+                                    <div class="trigger-deadzone" id="trigger-deadzone-lt"></div>
+                                </div>
+                                <span class="trigger-value" id="lt-value">0%</span>
+                            </div>
+                            <div class="trigger-wrapper">
+                                <h3>RT</h3>
+                                <div class="trigger-bar">
+                                    <div class="trigger-fill" id="trigger-rt"></div>
+                                    <div class="trigger-deadzone" id="trigger-deadzone-rt"></div>
+                                </div>
+                                <span class="trigger-value" id="rt-value">0%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 按键测试 -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2>按键</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="buttons-grid" id="buttons-grid"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 右侧：设置面板 -->
+            <section class="panel panel-right">
+                <!-- 摇杆设置 -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2>摇杆设置</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="settings-group">
+                            <h3>左摇杆</h3>
+                            <div class="setting-item">
+                                <label>死区</label>
+                                <input type="range" id="left-deadzone" min="0" max="50" value="10">
+                                <div class="setting-value-wrap">
+                                    <input type="number" class="setting-value" id="left-deadzone-value" min="0" max="50" value="10">
+                                    <span class="setting-unit">%</span>
+                                </div>
+                            </div>
+                            <div class="setting-item">
+                                <label>灵敏度</label>
+                                <input type="range" id="left-sensitivity" min="50" max="200" value="100">
+                                <div class="setting-value-wrap">
+                                    <input type="number" class="setting-value" id="left-sensitivity-value" min="50" max="200" value="100">
+                                    <span class="setting-unit">%</span>
+                                </div>
+                            </div>
+                            <div class="setting-item">
+                                <label>曲线</label>
+                                <select id="left-curve">
+                                    <option value="linear">线性</option>
+                                    <option value="exponential">指数</option>
+                                    <option value="aggressive">激进</option>
+                                    <option value="relaxed">平缓</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="settings-group">
+                            <h3>右摇杆</h3>
+                            <div class="setting-item">
+                                <label>死区</label>
+                                <input type="range" id="right-deadzone" min="0" max="50" value="10">
+                                <div class="setting-value-wrap">
+                                    <input type="number" class="setting-value" id="right-deadzone-value" min="0" max="50" value="10">
+                                    <span class="setting-unit">%</span>
+                                </div>
+                            </div>
+                            <div class="setting-item">
+                                <label>灵敏度</label>
+                                <input type="range" id="right-sensitivity" min="50" max="200" value="100">
+                                <div class="setting-value-wrap">
+                                    <input type="number" class="setting-value" id="right-sensitivity-value" min="50" max="200" value="100">
+                                    <span class="setting-unit">%</span>
+                                </div>
+                            </div>
+                            <div class="setting-item">
+                                <label>曲线</label>
+                                <select id="right-curve">
+                                    <option value="linear">线性</option>
+                                    <option value="exponential">指数</option>
+                                    <option value="aggressive">激进</option>
+                                    <option value="relaxed">平缓</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="settings-group">
+                            <h3>漂移校准</h3>
+                            <div class="drift-calibration">
+                                <button id="btn-calibrate" class="btn btn-primary">校准</button>
+                                <p class="hint">保持摇杆居中后点击</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 扳机设置 -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2>扳机设置</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="settings-group">
+                            <h3>LT</h3>
+                            <div class="setting-item">
+                                <label>死区</label>
+                                <input type="range" id="lt-deadzone" min="0" max="30" value="5">
+                                <div class="setting-value-wrap">
+                                    <input type="number" class="setting-value" id="lt-deadzone-value" min="0" max="30" value="5">
+                                    <span class="setting-unit">%</span>
+                                </div>
+                            </div>
+                            <div class="setting-item">
+                                <label>灵敏度</label>
+                                <input type="range" id="lt-sensitivity" min="50" max="200" value="100">
+                                <div class="setting-value-wrap">
+                                    <input type="number" class="setting-value" id="lt-sensitivity-value" min="50" max="200" value="100">
+                                    <span class="setting-unit">%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="settings-group">
+                            <h3>RT</h3>
+                            <div class="setting-item">
+                                <label>死区</label>
+                                <input type="range" id="rt-deadzone" min="0" max="30" value="5">
+                                <div class="setting-value-wrap">
+                                    <input type="number" class="setting-value" id="rt-deadzone-value" min="0" max="30" value="5">
+                                    <span class="setting-unit">%</span>
+                                </div>
+                            </div>
+                            <div class="setting-item">
+                                <label>灵敏度</label>
+                                <input type="range" id="rt-sensitivity" min="50" max="200" value="100">
+                                <div class="setting-value-wrap">
+                                    <input type="number" class="setting-value" id="rt-sensitivity-value" min="50" max="200" value="100">
+                                    <span class="setting-unit">%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 振动 -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2>振动</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="setting-item">
+                            <label>低频</label>
+                            <input type="range" id="vibration-left" min="0" max="100" value="50">
+                            <div class="setting-value-wrap">
+                                <input type="number" class="setting-value" id="vibration-left-value" min="0" max="100" value="50">
+                                <span class="setting-unit">%</span>
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <label>高频</label>
+                            <input type="range" id="vibration-right" min="0" max="100" value="50">
+                            <div class="setting-value-wrap">
+                                <input type="number" class="setting-value" id="vibration-right-value" min="0" max="100" value="50">
+                                <span class="setting-unit">%</span>
+                            </div>
+                        </div>
+                        <div class="vibration-buttons">
+                            <button id="btn-vibrate" class="btn btn-primary">测试</button>
+                            <button id="btn-stop-vibrate" class="btn">停止</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 按键映射 -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2>按键映射</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="mapping-info">
+                            <p class="hint">点击按键进行重映射</p>
+                        </div>
+                        <div class="mapping-list" id="mapping-list"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- 底栏 -->
+        <footer class="footer">
+            <span id="poll-rate">-- Hz</span>
+            <span id="timestamp">--:--:--</span>
+        </footer>
+    </div>
+
+    <!-- 重映射弹窗 -->
+    <div class="modal" id="remap-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>重映射</h3>
+                <button class="modal-close" id="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>当前: <span id="current-button-name"></span></p>
+                <p>按下新按键...</p>
+                <div class="modal-actions">
+                    <button id="btn-cancel-remap" class="btn">取消</button>
+                    <button id="btn-reset-mapping" class="btn btn-danger">恢复</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input type="file" id="file-input" accept=".json" style="display:none;">
+    <script src="gamepad.js"></script>
+</body>
+</html>
