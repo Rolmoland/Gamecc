@@ -102,7 +102,69 @@ body {
     color: var(--text-primary);
     min-height: 100vh;
     line-height: 1.5;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+/* 编织纹理背景 - 黑夜主题（牛仔布风格） */
+[data-theme="dark"] body,
+body {
+    background:
+        repeating-linear-gradient(
+            45deg,
+            transparent,
+            transparent 2px,
+            rgba(255, 255, 255, 0.02) 2px,
+            rgba(255, 255, 255, 0.02) 4px
+        ),
+        repeating-linear-gradient(
+            -45deg,
+            transparent,
+            transparent 2px,
+            rgba(0, 0, 0, 0.15) 2px,
+            rgba(0, 0, 0, 0.15) 4px
+        ),
+        var(--bg-base);
+}
+
+/* 编织纹理背景 - 白天主题（亚麻布风格） */
+[data-theme="light"] body {
+    background:
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 3px,
+            rgba(0, 0, 0, 0.02) 3px,
+            rgba(0, 0, 0, 0.02) 4px
+        ),
+        repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 3px,
+            rgba(0, 0, 0, 0.02) 3px,
+            rgba(0, 0, 0, 0.02) 4px
+        ),
+        var(--bg-base);
+}
+
+/* 编织纹理背景 - 护眼主题（帆布风格） */
+[data-theme="eye-care"] body {
+    background:
+        repeating-linear-gradient(
+            45deg,
+            transparent,
+            transparent 4px,
+            rgba(163, 190, 140, 0.03) 4px,
+            rgba(163, 190, 140, 0.03) 8px
+        ),
+        repeating-linear-gradient(
+            -45deg,
+            transparent,
+            transparent 4px,
+            rgba(0, 0, 0, 0.08) 4px,
+            rgba(0, 0, 0, 0.08) 8px
+        ),
+        var(--bg-base);
 }
 
 /* ========================================
@@ -113,10 +175,9 @@ body {
     max-width: 1400px;
     margin: 0 auto;
     padding: 24px;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
 }
 
 /* ========================================
@@ -254,34 +315,18 @@ body {
     grid-template-columns: 1fr 380px;
     gap: 24px;
     flex: 1;
-    min-height: 0; /* 关键：允许flex子项收缩 */
-    overflow: hidden;
 }
 
 .panel-left {
     display: flex;
     flex-direction: column;
     gap: 24px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding-right: 8px;
 }
 
 .panel-right {
     display: flex;
     flex-direction: column;
     gap: 16px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    overscroll-behavior: contain;
-    padding-right: 4px;
-    min-height: 0;
-    height: 100%;
-}
-
-/* 确保右侧卡片不会撑开父容器 */
-.panel-right > .card {
-    flex-shrink: 0;
 }
 
 /* ========================================
@@ -385,6 +430,40 @@ body {
 .status-indicator.connected {
     background: rgba(34, 197, 94, 0.1);
     color: var(--success);
+}
+
+/* 连接状态卡片最小化样式 */
+#connection-card.minimized {
+    background: transparent;
+    border: none;
+    padding: 0;
+    position: relative;
+}
+
+#connection-card.minimized .card-header,
+#connection-card.minimized .card-body {
+    display: none;
+}
+
+#connection-card.minimized::after {
+    content: '';
+    display: block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--success);
+    box-shadow: 0 0 8px var(--success), 0 0 16px rgba(34, 197, 94, 0.4);
+    animation: pulse-glow 2s ease-in-out infinite;
+    cursor: pointer;
+}
+
+@keyframes pulse-glow {
+    0%, 100% {
+        box-shadow: 0 0 8px var(--success), 0 0 16px rgba(34, 197, 94, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 12px var(--success), 0 0 24px rgba(34, 197, 94, 0.6);
+    }
 }
 
 .device-info .hint {
@@ -1038,23 +1117,8 @@ body {
    ======================================== */
 
 @media (max-width: 1100px) {
-    body {
-        overflow: auto;
-    }
-
-    .app-container {
-        height: auto;
-        min-height: 100vh;
-    }
-
     .main-content {
         grid-template-columns: 1fr;
-        overflow: visible;
-    }
-
-    .panel-left,
-    .panel-right {
-        overflow: visible;
     }
 
     .panel-right {
@@ -1093,6 +1157,967 @@ body {
     .panel-right {
         grid-template-columns: 1fr;
     }
+}
+
+/* ========================================
+   手柄图形展示 - 真实手柄风格
+   ======================================== */
+
+.gamepad-visual-card {
+    background: var(--bg-elevated);
+    transition: all 0.3s ease;
+}
+
+.gamepad-card-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* 布局切换器 */
+.layout-switcher {
+    display: flex;
+    background: var(--bg-base);
+    border-radius: 6px;
+    padding: 2px;
+    gap: 2px;
+}
+
+.layout-btn {
+    padding: 4px 10px;
+    border: none;
+    border-radius: 4px;
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.layout-btn:hover {
+    color: var(--text-secondary);
+    background: var(--bg-interactive);
+}
+
+.layout-btn.active {
+    color: var(--accent);
+    background: var(--bg-interactive);
+}
+
+.btn-sm {
+    padding: 4px 12px;
+    font-size: 12px;
+}
+
+/* 手柄预览卡片收起状态 */
+.gamepad-visual-card.collapsed {
+    cursor: pointer;
+}
+
+.gamepad-visual-card.collapsed .card-body {
+    display: none;
+}
+
+.gamepad-visual-card.collapsed .card-header {
+    border-bottom: none;
+}
+
+.gamepad-visual-card.collapsed .card-header h2::after {
+    content: ' (点击展开)';
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+.gamepad-visual-card.collapsed .gamepad-card-actions {
+    display: none;
+}
+
+.gamepad-diagram {
+    display: flex;
+    justify-content: center;
+    padding: 30px 0 80px;
+}
+
+/* 手柄主体 - 真实造型 */
+.gamepad-body {
+    position: relative;
+    width: 420px;
+    height: 200px;
+    background: linear-gradient(165deg, #4a4a4a 0%, #2d2d2d 50%, #1a1a1a 100%);
+    border-radius: 90px 90px 40px 40px / 60px 60px 40px 40px;
+    box-shadow:
+        inset 0 3px 6px rgba(255,255,255,0.15),
+        inset 0 -3px 6px rgba(0,0,0,0.3),
+        0 15px 40px rgba(0,0,0,0.5),
+        0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* 手柄表面纹理 */
+.gamepad-body::before {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border-radius: 87px 87px 37px 37px / 57px 57px 37px 37px;
+    background:
+        radial-gradient(ellipse 100% 80% at 50% 0%, rgba(255,255,255,0.08) 0%, transparent 50%),
+        linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.15) 100%);
+    pointer-events: none;
+}
+
+/* 手柄中部凹槽 */
+.gamepad-body::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120px;
+    height: 60px;
+    background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.1) 100%);
+    border-radius: 30px;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+}
+
+[data-theme="light"] .gamepad-body {
+    background: linear-gradient(165deg, #f5f5f5 0%, #e0e0e0 50%, #c8c8c8 100%);
+    box-shadow:
+        inset 0 3px 6px rgba(255,255,255,0.8),
+        inset 0 -3px 6px rgba(0,0,0,0.1),
+        0 15px 40px rgba(0,0,0,0.2),
+        0 5px 15px rgba(0,0,0,0.1);
+}
+
+[data-theme="light"] .gamepad-body::after {
+    background: linear-gradient(180deg, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.04) 100%);
+}
+
+[data-theme="eye-care"] .gamepad-body {
+    background: linear-gradient(165deg, #3d4534 0%, #2a3024 50%, #1c211a 100%);
+}
+
+/* 肩键区域 */
+.shoulder-btn {
+    position: absolute;
+    top: -18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+}
+
+.shoulder-left { left: 45px; }
+.shoulder-right { right: 45px; }
+
+/* 扳机键 LT/RT */
+.shoulder-lt, .shoulder-rt {
+    width: 65px;
+    height: 28px;
+    background: linear-gradient(180deg, #3a3a3a 0%, #252525 100%);
+    border-radius: 8px 8px 4px 4px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+        inset 0 1px 2px rgba(255,255,255,0.1),
+        0 3px 6px rgba(0,0,0,0.3);
+    border: none;
+    transition: all 0.1s ease;
+}
+
+/* 缓冲键 LB/RB */
+.shoulder-lb, .shoulder-rb {
+    width: 55px;
+    height: 18px;
+    background: linear-gradient(180deg, #4a4a4a 0%, #3a3a3a 100%);
+    border-radius: 4px 4px 8px 8px;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow:
+        inset 0 -1px 2px rgba(0,0,0,0.2),
+        0 2px 4px rgba(0,0,0,0.2);
+    border: none;
+    margin-top: -2px;
+    transition: all 0.1s ease;
+}
+
+.shoulder-lb.active, .shoulder-rb.active,
+.shoulder-lt.active, .shoulder-rt.active {
+    background: linear-gradient(180deg, var(--accent-bright) 0%, var(--accent) 100%);
+    color: var(--bg-base);
+    box-shadow:
+        0 0 15px var(--accent-glow),
+        inset 0 1px 2px rgba(255,255,255,0.3);
+}
+
+[data-theme="light"] .shoulder-lt,
+[data-theme="light"] .shoulder-rt {
+    background: linear-gradient(180deg, #d8d8d8 0%, #c0c0c0 100%);
+}
+
+[data-theme="light"] .shoulder-lb,
+[data-theme="light"] .shoulder-rb {
+    background: linear-gradient(180deg, #e8e8e8 0%, #d8d8d8 100%);
+}
+
+/* 手柄正面布局 */
+.gamepad-face {
+    position: absolute;
+    top: 25px;
+    left: 25px;
+    right: 25px;
+    bottom: 20px;
+    display: grid;
+    grid-template-columns: 90px 1fr 1fr 90px;
+    grid-template-rows: 1fr 1fr;
+    gap: 4px;
+    z-index: 1;
+}
+
+/* 槽位基础样式 */
+.slot {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-width: 60px;
+    min-height: 60px;
+}
+
+.slot:hover {
+    transform: scale(1.05);
+}
+
+.slot:hover::after {
+    content: '点击配置 · 拖拽交换';
+    position: absolute;
+    bottom: -20px;
+    font-size: 9px;
+    color: var(--accent);
+    background: var(--bg-elevated);
+    padding: 2px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+/* 拖拽状态 */
+.slot.dragging {
+    opacity: 0.5;
+    transform: scale(0.95);
+    cursor: grabbing;
+}
+
+.slot.dragging *,
+.gamepad-face.dragging-active .slot > * {
+    pointer-events: none;
+}
+
+.slot.drag-over {
+    outline: 2px dashed var(--accent);
+    outline-offset: 4px;
+    background: var(--accent-dim);
+    border-radius: 12px;
+}
+
+.slot.drag-over::after {
+    content: '放置到这里';
+    background: var(--accent);
+    color: var(--bg-base);
+}
+
+/* 槽位位置 */
+.slot-top-left {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: center;
+    align-self: end;
+    padding-bottom: 5px;
+}
+
+.slot-bottom-left {
+    grid-column: 1;
+    grid-row: 2;
+    justify-self: center;
+    align-self: start;
+    padding-top: 5px;
+}
+
+.slot-top-right {
+    grid-column: 4;
+    grid-row: 1;
+    justify-self: center;
+    align-self: end;
+    padding-bottom: 5px;
+}
+
+.slot-bottom-right {
+    grid-column: 4;
+    grid-row: 2;
+    justify-self: center;
+    align-self: start;
+    padding-top: 5px;
+}
+
+/* ========================================
+   摇杆模块 - 真实凹陷效果
+   ======================================== */
+
+.stick-module {
+    position: relative;
+    width: 58px;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 摇杆底座 */
+.module-ring {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #1a1a1a 0%, #0a0a0a 100%);
+    box-shadow:
+        inset 0 4px 8px rgba(0,0,0,0.8),
+        inset 0 -2px 4px rgba(255,255,255,0.05),
+        0 2px 4px rgba(0,0,0,0.3);
+}
+
+/* 摇杆帽 - 凹陷纹理 */
+.module-stick {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle at 50% 40%, #5a5a5a 0%, #3a3a3a 40%, #2a2a2a 100%);
+    box-shadow:
+        inset 0 6px 12px rgba(0,0,0,0.5),
+        inset 0 -2px 4px rgba(255,255,255,0.1),
+        0 4px 8px rgba(0,0,0,0.4);
+    transition: transform 0.05s ease;
+}
+
+/* 摇杆凹陷纹理 */
+.module-stick::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    right: 6px;
+    bottom: 6px;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle at 50% 30%, rgba(80,80,80,0.8) 0%, rgba(40,40,40,0.9) 60%, rgba(30,30,30,1) 100%);
+    box-shadow: inset 0 3px 6px rgba(0,0,0,0.6);
+}
+
+/* 摇杆边缘防滑纹理 */
+.module-stick::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background:
+        repeating-conic-gradient(
+            from 0deg,
+            transparent 0deg 8deg,
+            rgba(0,0,0,0.15) 8deg 10deg
+        );
+    opacity: 0.6;
+}
+
+.module-stick.active {
+    background:
+        radial-gradient(circle at 50% 40%, var(--accent-bright) 0%, var(--accent) 40%, #b8860b 100%);
+    box-shadow:
+        inset 0 6px 12px rgba(0,0,0,0.3),
+        inset 0 -2px 4px rgba(255,255,255,0.2),
+        0 4px 12px var(--accent-glow),
+        0 0 20px var(--accent-dim);
+}
+
+.module-stick.active::before {
+    background:
+        radial-gradient(circle at 50% 30%, var(--accent-bright) 0%, var(--accent) 60%, #b8860b 100%);
+}
+
+.module-label {
+    position: absolute;
+    bottom: -16px;
+    font-size: 10px;
+    color: var(--text-muted);
+    font-weight: 600;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+
+[data-theme="light"] .module-ring {
+    background: linear-gradient(145deg, #c0c0c0 0%, #a0a0a0 100%);
+    box-shadow:
+        inset 0 4px 8px rgba(0,0,0,0.3),
+        inset 0 -2px 4px rgba(255,255,255,0.5),
+        0 2px 4px rgba(0,0,0,0.2);
+}
+
+[data-theme="light"] .module-stick {
+    background:
+        radial-gradient(circle at 50% 40%, #e8e8e8 0%, #d0d0d0 40%, #b8b8b8 100%);
+}
+
+[data-theme="light"] .module-stick::before {
+    background:
+        radial-gradient(circle at 50% 30%, rgba(220,220,220,0.9) 0%, rgba(180,180,180,0.9) 60%, rgba(160,160,160,1) 100%);
+}
+
+/* ========================================
+   十字键模块 - 立体效果
+   ======================================== */
+
+.dpad-module {
+    position: relative;
+    width: 58px;
+    height: 58px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dpad-module .dpad-up,
+.dpad-module .dpad-down,
+.dpad-module .dpad-left,
+.dpad-module .dpad-right {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    background: linear-gradient(180deg, #4a4a4a 0%, #353535 100%);
+    box-shadow:
+        inset 0 1px 1px rgba(255,255,255,0.1),
+        0 2px 4px rgba(0,0,0,0.3);
+    transition: all 0.1s ease;
+}
+
+.dpad-module .dpad-up {
+    top: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 4px 4px 0 0;
+    clip-path: polygon(20% 100%, 80% 100%, 100% 30%, 100% 0, 0 0, 0 30%);
+}
+
+.dpad-module .dpad-down {
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 0 0 4px 4px;
+    clip-path: polygon(0 70%, 0 100%, 100% 100%, 100% 70%, 80% 0, 20% 0);
+}
+
+.dpad-module .dpad-left {
+    left: 2px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 4px 0 0 4px;
+    clip-path: polygon(0 0, 30% 0, 100% 20%, 100% 80%, 30% 100%, 0 100%);
+}
+
+.dpad-module .dpad-right {
+    right: 2px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 0 4px 4px 0;
+    clip-path: polygon(70% 0, 100% 0, 100% 100%, 70% 100%, 0 80%, 0 20%);
+}
+
+.dpad-module .dpad-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    background: linear-gradient(145deg, #3a3a3a 0%, #252525 100%);
+    border-radius: 3px;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.4);
+}
+
+.dpad-module .dpad-up.active,
+.dpad-module .dpad-down.active,
+.dpad-module .dpad-left.active,
+.dpad-module .dpad-right.active {
+    background: linear-gradient(180deg, var(--accent-bright) 0%, var(--accent) 100%);
+    box-shadow:
+        0 0 10px var(--accent-glow),
+        inset 0 1px 1px rgba(255,255,255,0.3);
+}
+
+/* ========================================
+   按键模块 - 3D立体按键
+   ======================================== */
+
+.buttons-module {
+    position: relative;
+    width: 65px;
+    height: 65px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.face-btn {
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    border: none;
+    transition: all 0.1s ease;
+    box-shadow:
+        inset 0 -3px 6px rgba(0,0,0,0.3),
+        inset 0 2px 4px rgba(255,255,255,0.2),
+        0 3px 6px rgba(0,0,0,0.4);
+}
+
+.btn-y {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(180deg, #ffd54f 0%, #f5c542 50%, #e6b02c 100%);
+    color: #5d4600;
+}
+
+.btn-x {
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: linear-gradient(180deg, #64b5f6 0%, #4a9ce8 50%, #3a7cb8 100%);
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.btn-b {
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: linear-gradient(180deg, #ef5350 0%, #e84a4a 50%, #c83a3a 100%);
+    color: #fff;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.btn-a {
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(180deg, #81c784 0%, #4ae84a 50%, #3ac83a 100%);
+    color: #1a5c1a;
+}
+
+.face-btn.active {
+    transform: translateX(-50%) scale(0.88) translateY(2px);
+    box-shadow:
+        inset 0 2px 4px rgba(0,0,0,0.4),
+        0 1px 2px rgba(0,0,0,0.3),
+        0 0 15px currentColor;
+}
+
+.btn-x.active, .btn-b.active {
+    transform: translateY(-50%) scale(0.88) translateX(2px);
+}
+
+.btn-x.active {
+    transform: translateY(-50%) scale(0.88) translateX(-2px);
+}
+
+/* ========================================
+   中心功能键
+   ======================================== */
+
+.center-buttons {
+    grid-column: 2 / 4;
+    grid-row: 1 / 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    z-index: 2;
+}
+
+.center-btn {
+    padding: 5px 12px;
+    background: linear-gradient(180deg, #3a3a3a 0%, #252525 100%);
+    border-radius: 12px;
+    font-size: 9px;
+    font-weight: 600;
+    color: var(--text-muted);
+    border: none;
+    box-shadow:
+        inset 0 1px 1px rgba(255,255,255,0.1),
+        0 2px 4px rgba(0,0,0,0.3);
+    transition: all 0.1s ease;
+}
+
+.center-btn.home-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg, #4a4a4a 0%, #2a2a2a 100%);
+    box-shadow:
+        inset 0 2px 4px rgba(255,255,255,0.1),
+        inset 0 -2px 4px rgba(0,0,0,0.2),
+        0 4px 8px rgba(0,0,0,0.4);
+}
+
+.center-btn.home-btn svg {
+    filter: drop-shadow(0 1px 1px rgba(0,0,0,0.3));
+}
+
+.center-btn.active {
+    background: linear-gradient(180deg, var(--accent-bright) 0%, var(--accent) 100%);
+    color: var(--bg-base);
+    box-shadow:
+        0 0 12px var(--accent-glow),
+        inset 0 1px 2px rgba(255,255,255,0.3);
+}
+
+/* ========================================
+   手柄握把 - 人体工学造型
+   ======================================== */
+
+.gamepad-grip {
+    position: absolute;
+    bottom: -55px;
+    width: 70px;
+    height: 90px;
+    background: linear-gradient(180deg, #2d2d2d 0%, #1a1a1a 50%, #0f0f0f 100%);
+    border-radius: 0 0 35px 35px / 0 0 45px 45px;
+    box-shadow:
+        inset 2px 0 4px rgba(255,255,255,0.05),
+        inset -2px 0 4px rgba(0,0,0,0.3),
+        0 10px 20px rgba(0,0,0,0.5);
+}
+
+/* 握把纹理 */
+.gamepad-grip::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 20px;
+    background:
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 3px,
+            rgba(255,255,255,0.03) 3px,
+            rgba(255,255,255,0.03) 4px
+        );
+    border-radius: 8px;
+}
+
+.grip-left {
+    left: 30px;
+    transform: rotate(-8deg);
+    transform-origin: top center;
+}
+
+.grip-right {
+    right: 30px;
+    transform: rotate(8deg);
+    transform-origin: top center;
+}
+
+[data-theme="light"] .gamepad-grip {
+    background: linear-gradient(180deg, #d8d8d8 0%, #c0c0c0 50%, #a8a8a8 100%);
+    box-shadow:
+        inset 2px 0 4px rgba(255,255,255,0.5),
+        inset -2px 0 4px rgba(0,0,0,0.1),
+        0 10px 20px rgba(0,0,0,0.2);
+}
+
+[data-theme="light"] .gamepad-grip::before {
+    background:
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 3px,
+            rgba(0,0,0,0.03) 3px,
+            rgba(0,0,0,0.03) 4px
+        );
+}
+
+[data-theme="eye-care"] .gamepad-grip {
+    background: linear-gradient(180deg, #2a3024 0%, #1c211a 50%, #12150f 100%);
+}
+
+/* 按键样式变体 - PlayStation */
+.buttons-module[data-style="ps"] .face-btn {
+    font-size: 0;
+    color: #fff;
+}
+
+.buttons-module[data-style="ps"] .face-btn::before {
+    font-size: 13px;
+    font-weight: 400;
+}
+
+.buttons-module[data-style="ps"] .btn-y::before { content: '△'; }
+.buttons-module[data-style="ps"] .btn-x::before { content: '□'; }
+.buttons-module[data-style="ps"] .btn-b::before { content: '○'; }
+.buttons-module[data-style="ps"] .btn-a::before { content: '✕'; }
+
+.buttons-module[data-style="ps"] .btn-y {
+    background: linear-gradient(180deg, #5dbf8a 0%, #3d9970 50%, #2d7950 100%);
+    color: #fff;
+}
+
+.buttons-module[data-style="ps"] .btn-x {
+    background: linear-gradient(180deg, #e9c9d9 0%, #d9a9c9 50%, #b989a9 100%);
+    color: #6a4a5a;
+}
+
+.buttons-module[data-style="ps"] .btn-b {
+    background: linear-gradient(180deg, #f87a7a 0%, #e84a4a 50%, #c83a3a 100%);
+    color: #fff;
+}
+
+.buttons-module[data-style="ps"] .btn-a {
+    background: linear-gradient(180deg, #8abfe4 0%, #6a9fd4 50%, #4a7fb4 100%);
+    color: #fff;
+}
+
+/* 按键样式变体 - Nintendo */
+.buttons-module[data-style="nintendo"] .btn-y {
+    background: linear-gradient(180deg, #81c784 0%, #4ae84a 50%, #3ac83a 100%);
+    color: #1a5c1a;
+}
+
+.buttons-module[data-style="nintendo"] .btn-x {
+    background: linear-gradient(180deg, #64b5f6 0%, #4a9ce8 50%, #3a7cb8 100%);
+    color: #fff;
+}
+
+.buttons-module[data-style="nintendo"] .btn-b {
+    background: linear-gradient(180deg, #ef5350 0%, #e84a4a 50%, #c83a3a 100%);
+    color: #fff;
+}
+
+.buttons-module[data-style="nintendo"] .btn-a {
+    background: linear-gradient(180deg, #ffd54f 0%, #f5c542 50%, #d4a833 100%);
+    color: #5d4600;
+}
+
+/* 摇杆样式变体 - 紧凑 */
+.stick-module[data-style="compact"] {
+    width: 48px;
+    height: 48px;
+}
+
+.stick-module[data-style="compact"] .module-stick {
+    width: 32px;
+    height: 32px;
+}
+
+.stick-module[data-style="compact"] .module-stick::before {
+    top: 5px;
+    left: 5px;
+    right: 5px;
+    bottom: 5px;
+}
+
+/* 摇杆样式变体 - Pro */
+.stick-module[data-style="pro"] {
+    width: 62px;
+    height: 62px;
+}
+
+.stick-module[data-style="pro"] .module-ring {
+    box-shadow:
+        inset 0 4px 8px rgba(0,0,0,0.8),
+        inset 0 -2px 4px rgba(255,255,255,0.05),
+        0 0 0 3px var(--accent-dim),
+        0 2px 4px rgba(0,0,0,0.3);
+}
+
+.stick-module[data-style="pro"] .module-stick {
+    width: 44px;
+    height: 44px;
+    background:
+        radial-gradient(circle at 50% 40%, #6a6a6a 0%, #4a4a4a 40%, #3a3a3a 100%);
+    box-shadow:
+        inset 0 6px 12px rgba(0,0,0,0.4),
+        inset 0 -2px 4px rgba(255,255,255,0.15),
+        0 0 0 2px var(--accent),
+        0 4px 8px rgba(0,0,0,0.4);
+}
+
+/* 十字键样式变体 - 圆盘 (NS风格) */
+.dpad-module[data-style="disc"] {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #2a2a2a 0%, #1a1a1a 100%);
+    box-shadow:
+        inset 0 3px 6px rgba(0,0,0,0.6),
+        inset 0 -2px 4px rgba(255,255,255,0.05),
+        0 3px 6px rgba(0,0,0,0.4);
+}
+
+.dpad-module[data-style="disc"] .dpad-up,
+.dpad-module[data-style="disc"] .dpad-down,
+.dpad-module[data-style="disc"] .dpad-left,
+.dpad-module[data-style="disc"] .dpad-right {
+    border-radius: 50%;
+    width: 12px;
+    height: 12px;
+    background: linear-gradient(180deg, #5a5a5a 0%, #3a3a3a 100%);
+    clip-path: none;
+    box-shadow:
+        inset 0 1px 2px rgba(255,255,255,0.1),
+        0 2px 3px rgba(0,0,0,0.3);
+}
+
+.dpad-module[data-style="disc"] .dpad-up { top: 6px; }
+.dpad-module[data-style="disc"] .dpad-down { bottom: 6px; }
+.dpad-module[data-style="disc"] .dpad-left { left: 6px; }
+.dpad-module[data-style="disc"] .dpad-right { right: 6px; }
+
+.dpad-module[data-style="disc"] .dpad-center {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #3a3a3a 0%, #252525 100%);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.dpad-module[data-style="disc"] .dpad-up.active,
+.dpad-module[data-style="disc"] .dpad-down.active,
+.dpad-module[data-style="disc"] .dpad-left.active,
+.dpad-module[data-style="disc"] .dpad-right.active {
+    background: linear-gradient(180deg, var(--accent-bright) 0%, var(--accent) 100%);
+}
+
+/* 槽位配置弹窗 */
+.modal-slot-config {
+    max-width: 360px;
+}
+
+.slot-position-label {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+}
+
+.slot-position-label span {
+    color: var(--accent);
+    font-weight: 500;
+}
+
+.config-section {
+    margin-bottom: 16px;
+}
+
+.config-section:last-child {
+    margin-bottom: 0;
+}
+
+.config-section label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+}
+
+/* 模块类型选择 */
+.module-type-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.type-option {
+    padding: 12px 8px;
+    background: var(--bg-surface);
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s ease;
+}
+
+.type-option:hover {
+    border-color: var(--accent-dim);
+}
+
+.type-option.selected {
+    border-color: var(--accent);
+    background: var(--accent-dim);
+}
+
+.type-option .type-icon {
+    font-size: 20px;
+    margin-bottom: 4px;
+}
+
+.type-option .type-name {
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+
+.type-option.selected .type-name {
+    color: var(--accent);
+}
+
+/* 样式选择 */
+.module-style-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.style-option {
+    padding: 8px 14px;
+    background: var(--bg-surface);
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    color: var(--text-secondary);
+    transition: all 0.15s ease;
+}
+
+.style-option:hover {
+    border-color: var(--accent-dim);
+}
+
+.style-option.selected {
+    border-color: var(--accent);
+    background: var(--accent-dim);
+    color: var(--accent);
+    margin: 0;
 }
 
 /* ========================================

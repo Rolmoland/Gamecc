@@ -331,6 +331,7 @@ const GamepadManager = {
         y = Math.max(-1, Math.min(1, y * sensitivity));
 
         UIManager.updateStickVisual(side, x, y);
+        GamepadVisual.updateStick(side, x, y);
     },
 
     // 应用响应曲线
@@ -375,6 +376,7 @@ const GamepadManager = {
             // 应用重映射
             const mappedIndex = mapping[index] !== undefined ? mapping[index] : index;
             UIManager.updateButtonState(index, button.pressed, mappedIndex);
+            GamepadVisual.updateButton(index, button.pressed);
         });
     },
 
@@ -564,6 +566,21 @@ const UIManager = {
 
     // 绑定事件
     bindEvents() {
+        // 连接状态卡片点击切换展开/最小化
+        const connectionCard = document.getElementById('connection-card');
+        connectionCard.addEventListener('click', (e) => {
+            // 只有在最小化状态下点击才展开
+            if (connectionCard.classList.contains('minimized')) {
+                connectionCard.classList.remove('minimized');
+                // 3秒后如果还是连接状态，自动最小化
+                setTimeout(() => {
+                    if (GamepadManager.activeGamepad !== null) {
+                        connectionCard.classList.add('minimized');
+                    }
+                }, 3000);
+            }
+        });
+
         // 手柄选择
         this.elements.gamepadSelect.addEventListener('change', (e) => {
             GamepadManager.setActiveGamepad(parseInt(e.target.value));
@@ -801,6 +818,7 @@ const UIManager = {
     updateConnectionStatus(connected, gamepad) {
         const indicator = this.elements.statusIndicator;
         const info = this.elements.deviceInfo;
+        const card = document.getElementById('connection-card');
 
         if (connected && gamepad) {
             indicator.textContent = '已连接';
@@ -811,12 +829,18 @@ const UIManager = {
                 <p class="device-name">${gamepad.id}</p>
                 <p class="device-vendor">按键数: ${gamepad.buttons.length} | 轴数: ${gamepad.axes.length}</p>
             `;
+
+            // 连接后最小化卡片
+            card.classList.add('minimized');
         } else {
             indicator.textContent = '未连接';
             indicator.classList.remove('connected');
 
             info.classList.remove('active');
             info.innerHTML = '<p class="hint">请连接手柄并按下任意按键激活</p>';
+
+            // 断开后恢复卡片
+            card.classList.remove('minimized');
         }
     },
 
@@ -1008,6 +1032,481 @@ const UIManager = {
 };
 
 // ========================================
+// 模块样式管理
+// ========================================
+
+const ModuleManager = {
+    // 模块类型定义
+    moduleTypes: {
+        stick: { name: '摇杆', icon: '🎮' },
+        dpad: { name: '十字键', icon: '✚' },
+        buttons: { name: '按键', icon: '🔘' }
+    },
+
+    // 各类型可用样式
+    moduleStyles: {
+        stick: [
+            { id: 'standard', name: '标准' },
+            { id: 'compact', name: '紧凑' },
+            { id: 'pro', name: 'Pro' }
+        ],
+        dpad: [
+            { id: 'standard', name: '十字' },
+            { id: 'disc', name: '圆盘' }
+        ],
+        buttons: [
+            { id: 'standard', name: 'Xbox' },
+            { id: 'ps', name: 'PS' },
+            { id: 'nintendo', name: 'NS' }
+        ]
+    },
+
+    // 槽位名称
+    slotNames: {
+        'top-left': '左上',
+        'bottom-left': '左下',
+        'top-right': '右上',
+        'bottom-right': '右下'
+    },
+
+    // 预设布局
+    presets: {
+        xbox: {
+            'top-left': { type: 'stick', style: 'standard', label: 'L' },
+            'bottom-left': { type: 'dpad', style: 'standard' },
+            'top-right': { type: 'buttons', style: 'standard' },
+            'bottom-right': { type: 'stick', style: 'standard', label: 'R' }
+        },
+        ps: {
+            'top-left': { type: 'dpad', style: 'standard' },
+            'bottom-left': { type: 'stick', style: 'standard', label: 'L' },
+            'top-right': { type: 'buttons', style: 'ps' },
+            'bottom-right': { type: 'stick', style: 'standard', label: 'R' }
+        },
+        ns: {
+            'top-left': { type: 'stick', style: 'standard', label: 'L' },
+            'bottom-left': { type: 'dpad', style: 'disc' },
+            'top-right': { type: 'buttons', style: 'nintendo' },
+            'bottom-right': { type: 'stick', style: 'standard', label: 'R' }
+        }
+    },
+
+    currentSlot: null,
+    currentConfig: {},
+    currentLayout: 'xbox',
+    isCollapsed: false,
+    dragSourceSlot: null, // 拖拽源槽位
+
+    init() {
+        // 从 localStorage 加载配置
+        const saved = localStorage.getItem('gamepadModules');
+        if (saved) {
+            try {
+                this.currentConfig = JSON.parse(saved);
+            } catch (e) {
+                this.currentConfig = {};
+            }
+        }
+
+        // 如果没有配置，使用默认 Xbox 布局
+        if (Object.keys(this.currentConfig).length === 0) {
+            this.currentConfig = JSON.parse(JSON.stringify(this.presets.xbox));
+            this.saveConfig();
+        }
+
+        // 加载布局配置
+        this.currentLayout = localStorage.getItem('gamepadLayout') || 'xbox';
+
+        // 加载收起状态
+        this.isCollapsed = localStorage.getItem('gamepadVisualCollapsed') === 'true';
+        const card = document.getElementById('gamepad-visual-card');
+        if (this.isCollapsed) {
+            card.classList.add('collapsed');
+        }
+
+        // 渲染所有槽位
+        this.renderAllSlots();
+
+        // 更新布局按钮状态
+        this.updateLayoutButtons();
+
+        // 绑定布局切换按钮（改为应用预设，需确认）
+        document.querySelectorAll('.layout-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                this.applyPreset(btn.dataset.layout);
+            });
+        });
+
+        // 绑定槽位事件（点击 + 拖拽）
+        this.bindSlotEvents();
+
+        // 绑定确认按钮 - 收起卡片
+        document.getElementById('btn-confirm-module').addEventListener('click', () => {
+            this.collapseCard();
+        });
+
+        // 绑定卡片点击展开
+        card.addEventListener('click', (e) => {
+            if (this.isCollapsed && e.target.closest('.card-header')) {
+                this.expandCard();
+            }
+        });
+
+        // 绑定模态框关闭
+        document.getElementById('module-modal-close').addEventListener('click', () => {
+            this.closeModal();
+        });
+
+        document.getElementById('module-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'module-modal') {
+                this.closeModal();
+            }
+        });
+
+        // 绑定模态框内的事件（事件委托）
+        this.bindModalEvents();
+    },
+
+    // 绑定槽位事件（使用事件委托优化性能）
+    bindSlotEvents() {
+        const gamepadFace = document.querySelector('.gamepad-face');
+        if (!gamepadFace) return;
+
+        // 设置所有槽位可拖拽
+        gamepadFace.querySelectorAll('.slot').forEach(slot => {
+            slot.setAttribute('draggable', 'true');
+        });
+
+        // 点击事件委托
+        gamepadFace.addEventListener('click', (e) => {
+            if (this.dragSourceSlot) return;
+            const slot = e.target.closest('.slot');
+            if (slot) {
+                e.stopPropagation();
+                this.openSlotModal(slot.dataset.slot);
+            }
+        });
+
+        // 拖拽开始
+        gamepadFace.addEventListener('dragstart', (e) => {
+            const slot = e.target.closest('.slot');
+            if (!slot) return;
+            this.dragSourceSlot = slot.dataset.slot;
+            slot.classList.add('dragging');
+            gamepadFace.classList.add('dragging-active');
+            e.dataTransfer.effectAllowed = 'move';
+        });
+
+        // 拖拽结束
+        gamepadFace.addEventListener('dragend', (e) => {
+            const slot = e.target.closest('.slot');
+            if (slot) slot.classList.remove('dragging');
+            gamepadFace.querySelectorAll('.slot').forEach(s => s.classList.remove('drag-over'));
+            gamepadFace.classList.remove('dragging-active');
+            this.dragSourceSlot = null;
+        });
+
+        // 拖拽经过
+        gamepadFace.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            const slot = e.target.closest('.slot');
+            if (slot && slot.dataset.slot !== this.dragSourceSlot) {
+                e.dataTransfer.dropEffect = 'move';
+                slot.classList.add('drag-over');
+            }
+        });
+
+        // 拖拽离开
+        gamepadFace.addEventListener('dragleave', (e) => {
+            const slot = e.target.closest('.slot');
+            if (slot) slot.classList.remove('drag-over');
+        });
+
+        // 放置
+        gamepadFace.addEventListener('drop', (e) => {
+            e.preventDefault();
+            const slot = e.target.closest('.slot');
+            if (slot) {
+                slot.classList.remove('drag-over');
+                const targetSlot = slot.dataset.slot;
+                if (this.dragSourceSlot && targetSlot !== this.dragSourceSlot) {
+                    this.swapSlots(this.dragSourceSlot, targetSlot);
+                }
+            }
+        });
+    },
+
+    // 交换两个槽位的内容
+    swapSlots(slot1, slot2) {
+        const config1 = this.currentConfig[slot1];
+        const config2 = this.currentConfig[slot2];
+
+        // 交换配置
+        this.currentConfig[slot1] = config2;
+        this.currentConfig[slot2] = config1;
+
+        // 重新渲染
+        this.renderSlot(slot1);
+        this.renderSlot(slot2);
+
+        // 保存
+        this.saveConfig();
+    },
+
+    // 应用预设布局（带确认）
+    applyPreset(layout) {
+        // 检查当前配置是否与预设相同
+        const preset = this.presets[layout];
+        const isSame = JSON.stringify(this.currentConfig) === JSON.stringify(preset);
+
+        if (isSame) {
+            // 已经是该预设，只更新按钮状态
+            this.currentLayout = layout;
+            localStorage.setItem('gamepadLayout', layout);
+            this.updateLayoutButtons();
+            return;
+        }
+
+        // 应用预设
+        if (confirm(`应用 ${layout.toUpperCase()} 预设布局？\n当前自定义配置将被覆盖。`)) {
+            this.currentLayout = layout;
+            localStorage.setItem('gamepadLayout', layout);
+            this.currentConfig = JSON.parse(JSON.stringify(preset));
+            this.saveConfig();
+            this.renderAllSlots();
+            this.updateLayoutButtons();
+        }
+    },
+
+    // 更新布局按钮状态
+    updateLayoutButtons() {
+        document.querySelectorAll('.layout-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.layout === this.currentLayout);
+        });
+    },
+
+    // 渲染所有槽位
+    renderAllSlots() {
+        Object.keys(this.slotNames).forEach(slotId => {
+            this.renderSlot(slotId);
+        });
+    },
+
+    // 渲染单个槽位
+    renderSlot(slotId) {
+        const slotEl = document.querySelector(`[data-slot="${slotId}"]`);
+        if (!slotEl) return;
+
+        const config = this.currentConfig[slotId];
+        if (!config) return;
+
+        let html = '';
+        const style = config.style || 'standard';
+
+        switch (config.type) {
+            case 'stick':
+                const stickId = slotId.includes('left') ? 'visual-stick-left' :
+                               (slotId.includes('right') && slotId.includes('bottom')) ? 'visual-stick-right' :
+                               `visual-stick-${slotId}`;
+                html = `
+                    <div class="stick-module" data-style="${style}">
+                        <div class="module-ring"></div>
+                        <div class="module-stick" id="${stickId}"></div>
+                        ${config.label ? `<span class="module-label">${config.label}</span>` : ''}
+                    </div>
+                `;
+                break;
+
+            case 'dpad':
+                html = `
+                    <div class="dpad-module" data-style="${style}">
+                        <div class="dpad-up" id="dpad-up-${slotId}"></div>
+                        <div class="dpad-right" id="dpad-right-${slotId}"></div>
+                        <div class="dpad-down" id="dpad-down-${slotId}"></div>
+                        <div class="dpad-left" id="dpad-left-${slotId}"></div>
+                        <div class="dpad-center"></div>
+                    </div>
+                `;
+                break;
+
+            case 'buttons':
+                html = `
+                    <div class="buttons-module" data-style="${style}">
+                        <div class="face-btn btn-y" id="face-y-${slotId}">Y</div>
+                        <div class="face-btn btn-x" id="face-x-${slotId}">X</div>
+                        <div class="face-btn btn-b" id="face-b-${slotId}">B</div>
+                        <div class="face-btn btn-a" id="face-a-${slotId}">A</div>
+                    </div>
+                `;
+                break;
+        }
+
+        slotEl.innerHTML = html;
+    },
+
+    // 打开槽位配置弹窗
+    openSlotModal(slotId) {
+        this.currentSlot = slotId;
+        const modal = document.getElementById('module-modal');
+        const nameEl = document.getElementById('current-slot-name');
+        const typeGrid = document.getElementById('module-type-grid');
+
+        nameEl.textContent = this.slotNames[slotId];
+
+        const config = this.currentConfig[slotId] || { type: 'stick', style: 'standard' };
+
+        // 生成模块类型选项
+        typeGrid.innerHTML = Object.keys(this.moduleTypes).map(type => {
+            const info = this.moduleTypes[type];
+            return `
+                <div class="type-option ${config.type === type ? 'selected' : ''}" data-type="${type}">
+                    <div class="type-icon">${info.icon}</div>
+                    <div class="type-name">${info.name}</div>
+                </div>
+            `;
+        }).join('');
+
+        // 生成样式选项
+        this.renderStyleOptions(config.type, config.style);
+
+        modal.classList.add('active');
+    },
+
+    // 渲染样式选项
+    renderStyleOptions(type, currentStyle) {
+        const styleGrid = document.getElementById('module-style-grid');
+        const styles = this.moduleStyles[type] || [];
+
+        styleGrid.innerHTML = styles.map(s => `
+            <div class="style-option ${s.id === currentStyle ? 'selected' : ''}" data-style="${s.id}">
+                ${s.name}
+            </div>
+        `).join('');
+    },
+
+    // 绑定模态框内事件（使用事件委托，只绑定一次）
+    bindModalEvents() {
+        const typeGrid = document.getElementById('module-type-grid');
+        const styleGrid = document.getElementById('module-style-grid');
+
+        // 类型选择 - 事件委托
+        typeGrid.addEventListener('click', (e) => {
+            const opt = e.target.closest('.type-option');
+            if (!opt || !this.currentSlot) return;
+
+            const type = opt.dataset.type;
+            // 更新类型选中状态
+            typeGrid.querySelectorAll('.type-option').forEach(o => {
+                o.classList.toggle('selected', o.dataset.type === type);
+            });
+            // 更新配置
+            this.currentConfig[this.currentSlot].type = type;
+            this.currentConfig[this.currentSlot].style = 'standard';
+            // 重新渲染样式选项
+            this.renderStyleOptions(type, 'standard');
+            // 重新渲染槽位
+            this.renderSlot(this.currentSlot);
+            this.saveConfig();
+        });
+
+        // 样式选择 - 事件委托
+        styleGrid.addEventListener('click', (e) => {
+            const opt = e.target.closest('.style-option');
+            if (!opt || !this.currentSlot) return;
+
+            const style = opt.dataset.style;
+            // 更新选中状态
+            styleGrid.querySelectorAll('.style-option').forEach(o => {
+                o.classList.toggle('selected', o.dataset.style === style);
+            });
+            // 更新配置
+            this.currentConfig[this.currentSlot].style = style;
+            // 重新渲染槽位
+            this.renderSlot(this.currentSlot);
+            this.saveConfig();
+        });
+    },
+
+    // 保存配置
+    saveConfig() {
+        localStorage.setItem('gamepadModules', JSON.stringify(this.currentConfig));
+    },
+
+    collapseCard() {
+        const card = document.getElementById('gamepad-visual-card');
+        card.classList.add('collapsed');
+        this.isCollapsed = true;
+        localStorage.setItem('gamepadVisualCollapsed', 'true');
+    },
+
+    expandCard() {
+        const card = document.getElementById('gamepad-visual-card');
+        card.classList.remove('collapsed');
+        this.isCollapsed = false;
+        localStorage.setItem('gamepadVisualCollapsed', 'false');
+    },
+
+    closeModal() {
+        document.getElementById('module-modal').classList.remove('active');
+        this.currentSlot = null;
+    }
+};
+
+// ========================================
+// 手柄图形更新
+// ========================================
+
+const GamepadVisual = {
+    init() {
+        // 动态元素，不需要缓存
+    },
+
+    // 更新摇杆位置（动态查找元素）
+    updateStick(side, x, y) {
+        const stick = document.getElementById(`visual-stick-${side}`);
+        if (!stick) return;
+
+        // 映射到像素偏移 (最大约8px)
+        const offsetX = x * 8;
+        const offsetY = y * 8;
+        stick.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
+
+        // 活动状态
+        const isActive = Math.abs(x) > 0.1 || Math.abs(y) > 0.1;
+        stick.classList.toggle('active', isActive);
+    },
+
+    // 更新按键状态
+    updateButton(buttonIndex, pressed) {
+        // 动态查找元素
+        const selectors = {
+            0: '.btn-a',           // A
+            1: '.btn-b',           // B
+            2: '.btn-x',           // X
+            3: '.btn-y',           // Y
+            4: '.shoulder-lb',     // LB
+            5: '.shoulder-rb',     // RB
+            6: '.shoulder-lt',     // LT
+            7: '.shoulder-rt',     // RT
+            8: '#btn-back',        // Back
+            9: '#btn-start',       // Start
+            12: '[id^="dpad-up"]', // Up
+            13: '[id^="dpad-down"]', // Down
+            14: '[id^="dpad-left"]', // Left
+            15: '[id^="dpad-right"]', // Right
+            16: '#btn-home'        // Home
+        };
+
+        const selector = selectors[buttonIndex];
+        if (selector) {
+            const elements = document.querySelectorAll(selector);
+            elements.forEach(el => el.classList.toggle('active', pressed));
+        }
+    }
+};
+
+// ========================================
 // 应用初始化
 // ========================================
 
@@ -1016,6 +1515,8 @@ document.addEventListener('DOMContentLoaded', () => {
     ConfigManager.init();
     UIManager.init();
     GamepadManager.init();
+    ModuleManager.init();
+    GamepadVisual.init();
 
     console.log('GamePad Tuner 已启动');
 });

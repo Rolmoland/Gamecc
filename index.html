@@ -62,6 +62,69 @@
                     </div>
                 </div>
 
+                <!-- 手柄图形展示 -->
+                <div class="card gamepad-visual-card" id="gamepad-visual-card">
+                    <div class="card-header">
+                        <h2>手柄预览</h2>
+                        <div class="gamepad-card-actions">
+                            <div class="layout-switcher">
+                                <button class="layout-btn active" data-layout="xbox" title="Xbox 布局">Xbox</button>
+                                <button class="layout-btn" data-layout="ps" title="PlayStation 布局">PS</button>
+                                <button class="layout-btn" data-layout="ns" title="Nintendo Switch Pro 布局">NS</button>
+                            </div>
+                            <span class="hint">点击模块可更换样式或交换位置</span>
+                            <button class="btn btn-primary btn-sm" id="btn-confirm-module">确认</button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="gamepad-diagram">
+                            <!-- 手柄主体轮廓 -->
+                            <div class="gamepad-body">
+                                <!-- 左肩键区 -->
+                                <div class="shoulder-btn shoulder-left">
+                                    <div class="shoulder-lb">LB</div>
+                                    <div class="shoulder-lt">LT</div>
+                                </div>
+                                <!-- 右肩键区 -->
+                                <div class="shoulder-btn shoulder-right">
+                                    <div class="shoulder-rb">RB</div>
+                                    <div class="shoulder-rt">RT</div>
+                                </div>
+
+                                <!-- 正面四个槽位 -->
+                                <div class="gamepad-face">
+                                    <!-- 左上槽位 -->
+                                    <div class="slot slot-top-left" data-slot="top-left"></div>
+
+                                    <!-- 左下槽位 -->
+                                    <div class="slot slot-bottom-left" data-slot="bottom-left"></div>
+
+                                    <!-- 右上槽位 -->
+                                    <div class="slot slot-top-right" data-slot="top-right"></div>
+
+                                    <!-- 右下槽位 -->
+                                    <div class="slot slot-bottom-right" data-slot="bottom-right"></div>
+
+                                    <!-- 中心功能键 -->
+                                    <div class="center-buttons">
+                                        <div class="center-btn" id="btn-back">Back</div>
+                                        <div class="center-btn home-btn" id="btn-home">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                                <circle cx="12" cy="12" r="10"/>
+                                            </svg>
+                                        </div>
+                                        <div class="center-btn" id="btn-start">Start</div>
+                                    </div>
+                                </div>
+
+                                <!-- 手柄握把 -->
+                                <div class="gamepad-grip grip-left"></div>
+                                <div class="gamepad-grip grip-right"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- 核心区：摇杆 + 扳机 -->
                 <div class="card core-visual">
                     <div class="card-body">
@@ -319,6 +382,36 @@
     </div>
 
     <input type="file" id="file-input" accept=".json" style="display:none;">
+
+    <!-- 槽位配置弹窗 -->
+    <div class="modal" id="module-modal">
+        <div class="modal-content modal-slot-config">
+            <div class="modal-header">
+                <h3>配置槽位</h3>
+                <button class="modal-close" id="module-modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="slot-position-label">位置: <span id="current-slot-name"></span></p>
+
+                <!-- 模块类型选择 -->
+                <div class="config-section">
+                    <label>模块类型</label>
+                    <div class="module-type-grid" id="module-type-grid">
+                        <!-- 动态生成 -->
+                    </div>
+                </div>
+
+                <!-- 样式选择 -->
+                <div class="config-section">
+                    <label>样式</label>
+                    <div class="module-style-grid" id="module-style-grid">
+                        <!-- 动态生成 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="gamepad.js"></script>
 </body>
 </html>
